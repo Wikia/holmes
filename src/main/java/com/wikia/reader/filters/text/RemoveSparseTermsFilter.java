@@ -33,7 +33,7 @@ public class RemoveSparseTermsFilter extends FilterBase<Matrix, Matrix> {
         double cutoff = threshold*rows.size();
         for(String colName: cols) {
             Vector vector = matrix.getColVector(colName);
-            double sum = vector.sumNonZeroValues();
+            double sum = vector.getNonZeroValues().size();
             if( sum>cutoff ) {
                 keepCols.add(colName);
             }

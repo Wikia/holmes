@@ -12,24 +12,21 @@ import com.wikia.reader.text.Tokenizer;
 import com.wikia.reader.text.TokenizerImpl;
 import com.wikia.reader.text.TokenizerStopwordsFilter;
 import com.wikia.reader.text.matrix.SparseMatrix;
+import com.wikia.reader.util.StopWordsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import weka.core.Stopwords;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.List;
 
 public class ExtractPlainTextWordsFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
     private static Logger logger = LoggerFactory.getLogger(ExtractPlainTextWordsFilter.class);
-    private final List<String> DefaultStopWords = defaultStopWords();
     private String delimiters = " \r\n\t.,;:'\"()?!<>[]{}|";
-    private List<String> stopWords = DefaultStopWords;
+    private List<String> stopWords = StopWordsHelper.defaultStopWords();;
     private int minLength = 3;
     private int minOccurrence = 1;
 
-    protected ExtractPlainTextWordsFilter() {
+    public ExtractPlainTextWordsFilter() {
         super(WikiPageStructure.class, SparseMatrix.class);
     }
 
@@ -82,13 +79,4 @@ public class ExtractPlainTextWordsFilter extends CollectionFilterBase<WikiPageSt
         this.minOccurrence = minOccurrence;
     }
 
-    private static List<String> defaultStopWords() {
-        Stopwords stopwords = new Stopwords();
-        List<String> words = new ArrayList<>(100);
-        Enumeration elements = stopwords.elements();
-        while ( elements.hasMoreElements() ) {
-            words.add( (String) elements.nextElement() );
-        }
-        return words;
-    }
 }

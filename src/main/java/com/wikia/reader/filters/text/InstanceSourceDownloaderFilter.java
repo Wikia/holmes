@@ -16,7 +16,7 @@ import java.io.IOException;
 public class InstanceSourceDownloaderFilter extends FilterBase<InstanceSource, TextChunk> {
     private static Logger logger = LoggerFactory.getLogger(InstanceSourceDownloaderFilter.class);
 
-    protected InstanceSourceDownloaderFilter() {
+    public InstanceSourceDownloaderFilter() {
         super(InstanceSource.class, TextChunk.class);
     }
 

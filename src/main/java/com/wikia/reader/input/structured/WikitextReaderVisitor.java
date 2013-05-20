@@ -2,6 +2,7 @@ package com.wikia.reader.input.structured;
 
 import de.fau.cs.osr.ptk.common.AstVisitor;
 import de.fau.cs.osr.ptk.common.ast.AstNode;
+import de.fau.cs.osr.ptk.common.ast.ContentNode;
 import de.fau.cs.osr.ptk.common.ast.NodeList;
 import de.fau.cs.osr.ptk.common.ast.Text;
 import org.slf4j.Logger;
@@ -49,19 +50,27 @@ public class WikitextReaderVisitor extends AstVisitor {
     /// VISITORS
 
     public void visit(AstNode node) {
-        logger.info("Node: " + node.getNodeName());
+        //logger.info("Node: " + node.getNodeName());
     }
 
     public void visit(Section section) {
-        logger.info("Section: " + section.getTitle());
+        //logger.info("Section: " + section.getTitle());
+
+        wikiPageStructure.getSections().add(new WikiPageSection(asPlain(section.getTitle())));
+        iterate(section.getTitle());
+        /*
         for(AstNode node: section.getTitle()) {
             if(node instanceof Text) {
                 Text textNode = (Text) node;
                 emmitPlain(textNode.getContent());
+            } else if( node instanceof Bold ) {
+            } else if( node instanceof Italics ) {
+            } else if( node instanceof InternalLink ) {
+
             } else {
                 logger.info("Unexpected element in Section title: " + node.getNodeName());
             }
-        }
+        }*/
         emmitPlain("\n");
 
         iterate(section.getBody());
@@ -82,12 +91,13 @@ public class WikitextReaderVisitor extends AstVisitor {
 
     public void visit(HorizontalRule hr)
     {
-        logger.info("HorizontalRule: " + hr.getNodeTypeName());
+        //logger.info("HorizontalRule: " + hr.getNodeTypeName());
     }
 
     public void visit(XmlElement e)
     {
-        logger.info("XmlElement: " + e.getNodeTypeName());
+        logger.debug("XmlElement: " + e.getNodeTypeName());
+        iterate(e.getBody());
     }
 
     public void visit(NodeList n)
@@ -114,7 +124,8 @@ public class WikitextReaderVisitor extends AstVisitor {
 
     public void visit(Template template)
     {
-        logger.info("Template" + template.getName() + " " + template.getChildNames());
+        logger.debug("Template" + template.getName() + " " + template.getChildNames());
+        wikiPageStructure.getTemplates().add(new WikiPageTemplate(asPlain(template.getName()), template.getChildNames()));
         iterate(template.getArgs());
     }
 
@@ -123,7 +134,7 @@ public class WikitextReaderVisitor extends AstVisitor {
         String name = asPlain(templateArgument.getName());
         String value = asPlain(templateArgument.getValue());
         wikiPageStructure.getTemplateArguments().add(new WikiPageTemplateArgument(name, value));
-        logger.info("Template argument" + templateArgument.getName() + " = " + templateArgument.getValue());
+        logger.debug("Template argument" + templateArgument.getName() + " = " + templateArgument.getValue());
         iterate(templateArgument.getName());
         emmitPlain(":\n");
         iterate(templateArgument.getValue());
@@ -164,8 +175,8 @@ public class WikitextReaderVisitor extends AstVisitor {
     }
 
     public void visit(ExternalLink link) {
-        logger.info("External Link: " + link.getTitle().getNodeName() + " " + link.getTarget());
-        logger.info("             : " + link.getTitle());
+        logger.debug("External Link: " + link.getTitle().getNodeName() + " " + link.getTarget());
+        logger.debug("             : " + link.getTitle());
         iterate(link.getTitle());
     }
 
@@ -192,6 +203,10 @@ public class WikitextReaderVisitor extends AstVisitor {
                 sb.append(((Text) node).getContent());
             } else if(node instanceof Whitespace) {
                 sb.append(" ");
+            } else if(node instanceof InternalLink) {
+                sb.append(asPlain(((InternalLink) node).getTitle().getContent()));
+            } else if(node instanceof ContentNode) {
+                sb.append(asPlain(((ContentNode) node).getContent()));
             }
         }
         return sb.toString();

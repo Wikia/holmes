@@ -15,20 +15,23 @@ import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.SparseInstance;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
 
 public class AnnotatedMatrixToWekaInstancesFilter extends FilterBase<Matrix, Instances> {
     private static Logger logger = LoggerFactory.getLogger(AnnotatedMatrixToWekaInstancesFilter.class);
     private String classAttributeName;
     private List<String> classes;
+    private List<String> attributeNames;
 
-    protected AnnotatedMatrixToWekaInstancesFilter(String classAttributeName, List<String> classes) {
+    public AnnotatedMatrixToWekaInstancesFilter(String classAttributeName, List<String> classes) {
+        this(classAttributeName, classes, null);
+    }
+
+    public AnnotatedMatrixToWekaInstancesFilter(String classAttributeName, List<String> classes, List<String> attributeNames) {
         super(Matrix.class, Instances.class);
         this.classAttributeName = classAttributeName;
         this.classes = classes;
+        this.attributeNames = attributeNames;
     }
 
     @Override
@@ -57,12 +60,14 @@ public class AnnotatedMatrixToWekaInstancesFilter extends FilterBase<Matrix, Ins
         int indices[] = new int[row.size()];
         int i=0;
         for(Map.Entry<String, Double> stringDoubleEntry: row.entrySet()) {
-            values[i] = stringDoubleEntry.getValue();
-            indices[i] = attributeIndices.get(stringDoubleEntry.getKey());
-            i++;
+            if(attributeIndices.containsKey(stringDoubleEntry.getKey())) {
+                values[i] = stringDoubleEntry.getValue();
+                indices[i] = attributeIndices.get(stringDoubleEntry.getKey());
+                i++;
+            }
         }
         ArrayUtils.sortBoth(indices, values);
-        return new SparseInstance(1, values, indices, row.size());
+        return new SparseInstance(1, values, indices, i);
     }
 
     private Map<String, Integer> getAttributeMap(ArrayList<Attribute> attributes) {
@@ -83,7 +88,15 @@ public class AnnotatedMatrixToWekaInstancesFilter extends FilterBase<Matrix, Ins
 
     private ArrayList<Attribute> getAttributes(Matrix matrix) {
         ArrayList<Attribute> attributes = new ArrayList<>();
-        for(String name: matrix.getColumnNames()) {
+        List<String> columnNames;
+        if(attributeNames == null) {
+            columnNames = new ArrayList<>(matrix.getColumnNames());
+            Collections.sort(columnNames);
+        } else {
+            columnNames = attributeNames;
+        }
+
+        for(String name: columnNames) {
             attributes.add(new Attribute(name));
         }
         attributes.add(new Attribute(classAttributeName, classes));

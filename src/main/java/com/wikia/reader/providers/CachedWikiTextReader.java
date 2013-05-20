@@ -6,6 +6,7 @@ package com.wikia.reader.providers;
  */
 
 import com.wikia.reader.util.ThreadPools;
+import com.wikia.reader.util.TmpDirHelper;
 import org.apache.http.concurrent.FutureCallback;
 import org.mapdb.BTreeMap;
 import org.mapdb.DB;
@@ -15,18 +16,28 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 public class CachedWikiTextReader implements WikiTextReader {
     private static Logger logger = LoggerFactory.getLogger(CachedWikiTextReader.class);
-    DB db = DBMaker.newFileDB(new File("/tmp/__wikia_reader_cache"))
-            .closeOnJvmShutdown()
-            .make();
+    static DB db;
     private static ExecutorService executorService = ThreadPools.get();
 
     private final WikiTextReader wikiTextReader;
-    private BTreeMap<String, String> cache;
+    private Map<String, String> cache;
+    private static Map<String, String> memcache = new HashMap<String, String>();
+
+    static {
+        try {
+            db = DBMaker.newFileDB(new File(String.valueOf(TmpDirHelper.getTempPath("__wikia_reader_cache"))))
+                    .closeOnJvmShutdown()
+                    .make();
+        } catch (IOException e) {
+            logger.error("Error while creating cache db.", e);
+        }
+    }
 
     public CachedWikiTextReader(WikiTextReader wikiTextReader, String domainName) {
         this.wikiTextReader = wikiTextReader;
@@ -35,9 +46,19 @@ public class CachedWikiTextReader implements WikiTextReader {
 
     @Override
     public void getWikiText(final String title, final FutureCallback<String> callback) throws IOException {
-        if(cache.containsKey(title)) {
+        if(memcache.containsKey(title)) {
+            final String val = memcache.get(title);
+            logger.debug("take " + title + " from memcache.");
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    callback.completed(val);
+                }
+            });
+        } else if(cache.containsKey(title)) {
             final String val = cache.get(title);
-            logger.info("take " + title + " from cache.");
+            memcache.put(title, val);
+            logger.debug("take " + title + " from cache.");
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
@@ -62,6 +83,7 @@ public class CachedWikiTextReader implements WikiTextReader {
         @Override
         public void completed(String s) {
             cache.put(title, s);
+            memcache.put(title, s);
             db.commit();
             callback.completed(s);
         }

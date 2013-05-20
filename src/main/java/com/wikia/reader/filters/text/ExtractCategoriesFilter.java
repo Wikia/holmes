@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
-public class ExtractCategoriesFilter  extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+public class ExtractCategoriesFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
     private static Logger logger = LoggerFactory.getLogger(ExtractCategoriesFilter.class);
 
     public ExtractCategoriesFilter() {
@@ -27,7 +27,9 @@ public class ExtractCategoriesFilter  extends CollectionFilterBase<WikiPageStruc
         SparseMatrix matrix = new SparseMatrix();
         for(WikiPageStructure wikiPageStructure: params) {
             for(WikiPageCategory category: wikiPageStructure.getCategories()) {
-                matrix.put(wikiPageStructure.getTitle(), "cat:"+category.getTitle(), 1);
+                String name = category.getTitle();
+                name = name.trim().toLowerCase();
+                matrix.put(wikiPageStructure.getTitle(), "cat:"+name, 1);
             }
         }
         return matrix;

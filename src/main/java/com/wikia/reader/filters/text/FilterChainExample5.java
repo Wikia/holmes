@@ -24,7 +24,6 @@ import java.util.Collection;
 public class FilterChainExample5 {
     private static Logger logger = LoggerFactory.getLogger(FilterChainExample5.class);
 
-
     public static Filter<Collection<InstanceSource>, Matrix> extractPredicateFeatures() {
         FilterChain chain = new FilterChain();
         chain.getChain().add(new CollectionFilter<>(new InstanceSourceDownloaderFilter()));
@@ -32,6 +31,8 @@ public class FilterChainExample5 {
         chain.getChain().add(new CompositeExtractorFilter(
                 new ExtractCategoriesFilter(),
                 new ExtractTemplatePropertiesFilter(),
+                new ExtractSectionsFilter(),
+                new CharacteristicCategoryPartExtractorFilter(),
                 extractPlainText()));
         return chain;
     }

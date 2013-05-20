@@ -21,7 +21,7 @@ public class AnnotateMatrixFilter extends CollectionFilterBase<InstanceSource, M
     private String className;
     private List<String> features;
 
-    protected AnnotateMatrixFilter(Filter<Collection<InstanceSource>, Matrix> filter, String className, List<String> features) {
+    public AnnotateMatrixFilter(Filter<Collection<InstanceSource>, Matrix> filter, String className, List<String> features) {
         super(InstanceSource.class, Matrix.class);
         this.filter = filter;
         this.className = className;

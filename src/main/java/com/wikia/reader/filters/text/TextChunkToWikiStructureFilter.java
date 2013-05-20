@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public class TextChunkToWikiStructureFilter extends FilterBase<TextChunk, WikiPageStructure> {
     private static Logger logger = LoggerFactory.getLogger(TextChunkToWikiStructureFilter.class);
 
-    protected TextChunkToWikiStructureFilter() {
+    public TextChunkToWikiStructureFilter() {
         super(TextChunk.class, WikiPageStructure.class);
     }
 

@@ -96,7 +96,85 @@ public class PredefinedGeneralSet {
         // addSource("http://simpsons.wikia.com/", "Days_of_Wine_and_D%27oh%27ses", Lists.newArrayList("tv_episode"));
         addSource("http://simpsons.wikia.com/", "Saddlesore_Galactica", Lists.newArrayList("tv_episode"));
 
+        addSource("http://once.wikia.com/", "Emma_Swan", Lists.newArrayList("character"));
+        addSource("http://once.wikia.com/", "1x01_Pilot", Lists.newArrayList("tv_episode"));
+        addSource("http://once.wikia.com/", "2x01_Broken", Lists.newArrayList("tv_episode"));
+        addSource("http://once.wikia.com/", "Season_two", Lists.newArrayList("tv_season"));
+        addSource("http://once.wikia.com/", "2x08_Into_the_Deep", Lists.newArrayList("tv_episode"));
+        addSource("http://once.wikia.com/", "2x07_Child_of_the_Moon", Lists.newArrayList("tv_episode"));
+
+        addSource("http://fallout.wikia.com/", "Find_the_excavator_chip", Lists.newArrayList("quest"));
+        addSource("http://fallout.wikia.com/", "Clear_Wanamingo_Mine", Lists.newArrayList("quest"));
+        addSource("http://fallout.wikia.com/", "Motion_sensor", Lists.newArrayList("item"));
+        addSource("http://fallout.wikia.com/", "Redding", Lists.newArrayList("location"));
+        addSource("http://fallout.wikia.com/", "Mordino", Lists.newArrayList("organization"));
+        addSource("http://fallout.wikia.com/", "Bobblehead_-_Energy_Weapons", Lists.newArrayList("item","bobblehead"));
+        addSource("http://fallout.wikia.com/", "Picking_up_the_Trail", Lists.newArrayList("achievement"));
+        addSource("http://fallout.wikia.com/", "Take_it_Back!", Lists.newArrayList("achievement"));
+        addSource("http://fallout.wikia.com/", "Fallout_3", Lists.newArrayList("game"));
+
+
+        addSource("http://laststory.wikia.com/", "The_Last_Story", Lists.newArrayList("game", "genre:rpg"));
+        addSource("http://laststory.wikia.com/", "Lazulis_City", Lists.newArrayList("location", "genre:rpg"));
+        addSource("http://laststory.wikia.com/", "Lightning_Axe", Lists.newArrayList("weapon", "genre:rpg"));
+        addSource("http://laststory.wikia.com/", "Vono_Islands", Lists.newArrayList("location", "genre:rpg"));
+
+        addSource("http://medalofhonor.wikia.com/", "DD_M4V1", Lists.newArrayList("weapon"));
+        addSource("http://medalofhonor.wikia.com/", "AK-103", Lists.newArrayList("weapon"));
+        addSource("http://medalofhonor.wikia.com/", "AH-64_Apache", Lists.newArrayList("vehicle", "aircraft"));
+        addSource("http://medalofhonor.wikia.com/", "A-10_Thunderbolt_II", Lists.newArrayList("vehicle", "aircraft"));
+        addSource("http://medalofhonor.wikia.com/", "MH-47_Chinook", Lists.newArrayList("vehicle", "aircraft"));
+
+        addSource("http://thief.wikia.com/", "Broadhead_Arrow", Lists.newArrayList("ammo", "arrow"));
+        addSource("http://thief.wikia.com/", "Flash_Bomb", Lists.newArrayList("weapon","explosive"));
+        addSource("http://thief.wikia.com/", "Noisemaker_Arrow", Lists.newArrayList("ammo", "arrow"));
+        addSource("http://thief.wikia.com/", "Sword", Lists.newArrayList("weapon"));
+        addSource("http://thief.wikia.com/", "Bow", Lists.newArrayList("weapon"));
+
+        addSource("http://stalker.wikia.com/", "Dead_City", Lists.newArrayList("location"));
+        addSource("http://stalker.wikia.com/", "Mercenaries", Lists.newArrayList("organization"));
+
+        addSource("http://rage.wikia.com/", "Jackal_Canyon", Lists.newArrayList("location"));
+        addSource("http://rage.wikia.com/", "Capital_Prime", Lists.newArrayList("location"));
+        addSource("http://rage.wikia.com/", "Debunked", Lists.newArrayList("achievement"));
+        addSource("http://rage.wikia.com/", "Combat_Shotgun", Lists.newArrayList("weapon"));
+        addSource("http://rage.wikia.com/", "Sniper_Rifle", Lists.newArrayList("weapon"));
+
+        addSource("http://rainbowsix.wikia.com/", "Scout_Tactical", Lists.newArrayList("weapon"));
+        addSource("http://rainbowsix.wikia.com/", "P99", Lists.newArrayList("weapon"));
+        addSource("http://rainbowsix.wikia.com/", "FNC", Lists.newArrayList("weapon"));
+
+        addSource("http://weeds.wikia.com/", "Season_4", Lists.newArrayList("tv_season"));
+        addSource("http://weeds.wikia.com/", "Season_6", Lists.newArrayList("tv_season"));
+        addSource("http://weeds.wikia.com/", "Celia_Hodes", Lists.newArrayList("characters"));
+
+        addSource("http://thefollowing.wikia.com/", "Season_1", Lists.newArrayList("tv_season"));
+        addSource("http://thefollowing.wikia.com/", "Jeananne_Goossen", Lists.newArrayList("person"));
+        addSource("http://thefollowing.wikia.com/", "Jennifer_Mason", Lists.newArrayList("character"));
+
+        addSource("http://movies.wikia.com/", "Oscar", Lists.newArrayList("real:reward"));
+        addSource("http://fallout.wikia.com/", "Swampfolk", Lists.newArrayList("creature","unit"));
+        addSource("http://fallout.wikia.com/", "Coyote", Lists.newArrayList("creature","unit"));
+        addSource("http://fallout.wikia.com/", "Radscorpion", Lists.newArrayList("creature","unit"));
+
+        addSource("http://simcity.wikia.com/", "SimCity_3000", Lists.newArrayList("game"));
+        addSource("http://civilization.wikia.com/", "Missionary_(Civ5)", Lists.newArrayList("unit"));
+        addSource("http://civilization.wikia.com/", "Cathedral_(Civ5)", Lists.newArrayList("building"));
+        addSource("http://civilization.wikia.com/", "Stock_exchange_(Civ5)", Lists.newArrayList("building"));
+        addSource("http://civilization.wikia.com/", "Civilization_V", Lists.newArrayList("game"));
+        addSource("http://starcraft.wikia.com/", "StarCraft:_Brood_War", Lists.newArrayList("game"));
+        addSource("http://starcraft.wikia.com/", "Guardian", Lists.newArrayList("unit", "creature"));
+        addSource("http://callofduty.wikia.com/", "Call_of_Duty:_Modern_Warfare:_Reflex_Edition", Lists.newArrayList("game"));
+        addSource("http://callofduty.wikia.com/", "Invasion_Map_Pack", Lists.newArrayList("dlc"));
+        addSource("http://fallout.wikia.com/", "The_Pitt_(add-on)", Lists.newArrayList("dlc"));
+
+        addSource("http://fallout.wikia.com/", "Brotherhood_of_Steel", Lists.newArrayList("organization"));
+
+        addSource("http://movies.wikia.com/", "American_Film_Institute", Lists.newArrayList("organization"));
+
+
         set.addAll(PredefinedCodSet.getSet());
+        set.addAll(PredefinedErrorSet.getSet());
     }
 
     private static void addSource(String url, String title, Collection<String> features) {

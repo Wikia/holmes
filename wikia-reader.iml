@@ -79,6 +79,7 @@
     <orderEntry type="library" name="Maven: de.jollyday:jollyday:0.4.7" level="project" />
     <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.2.7" level="project" />
     <orderEntry type="library" name="Maven: edu.stanford.nlp:stanford-parser:2.0.4" level="project" />
+    <orderEntry type="library" name="Maven: edu.stanford.nlp:stanford-classifier:2.1.8" level="project" />
     <orderEntry type="library" name="Maven: nz.ac.waikato.cms.weka:weka-dev:3.7.9" level="project" />
     <orderEntry type="library" name="Maven: net.sf.squirrel-sql.thirdparty-non-maven:java-cup:0.11a" level="project" />
     <orderEntry type="library" name="Maven: org.pentaho.pentaho-commons:pentaho-package-manager:1.0.6" level="project" />
@@ -87,6 +88,30 @@
     <orderEntry type="library" name="Maven: com.beust:jcommander:1.30" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:14.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.mapdb:mapdb:0.9.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code:morphia:0.91" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:1.2.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.ws.rs:jsr311-api:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-server:1.8" level="project" />
+    <orderEntry type="library" name="Maven: asm:asm:3.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-core:1.8" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-grizzly2:1.8" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http:2.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-framework:2.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.gmbal:gmbal-api-only:3.0.0-b023" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.external:management-api:3.0.0-b012" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http-server:2.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-rcm:2.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http-servlet:2.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-framework:tests:2.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish:javax.servlet:3.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-json:1.8" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jettison:jettison:1.1" level="project" />
+    <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-impl:2.2.3-1" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-asl:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-jaxrs:1.9.12" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-xc:1.7.1" level="project" />
   </component>
 </module>
 

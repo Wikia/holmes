@@ -28,9 +28,9 @@ public class PredefinedCodSet {
         addSource("http://callofduty.wikia.com/", "Simian Justice", Lists.newArrayList("achievement"));
         addSource("http://callofduty.wikia.com/", "Trenches (World at War DS)", Lists.newArrayList("map"));
         addSource("http://callofduty.wikia.com/", "Tiger Camouflage", Lists.newArrayList("camouflage"));
-        addSource("http://callofduty.wikia.com/", "Dispatch", Lists.newArrayList("map","mission"));
+        addSource("http://callofduty.wikia.com/", "Dispatch", Lists.newArrayList("map","level"));
         addSource("http://callofduty.wikia.com/", "Recon Drone", Lists.newArrayList("support","aircraft"));
-        addSource("http://callofduty.wikia.com/", "Air Traffic Control", Lists.newArrayList("mission","map"));
+        addSource("http://callofduty.wikia.com/", "Air Traffic Control", Lists.newArrayList("level","map"));
         addSource("http://callofduty.wikia.com/", "Lewis (Call of Duty)", Lists.newArrayList("character"));
         addSource("http://callofduty.wikia.com/", "Juggernaut Recon", Lists.newArrayList("support"));
         addSource("http://callofduty.wikia.com/", "Elena Siegman", Lists.newArrayList("character"));
@@ -85,6 +85,8 @@ public class PredefinedCodSet {
         addSource("http://callofduty.wikia.com/", "M4A1", Lists.newArrayList("weapon"));
         addSource("http://callofduty.wikia.com/", "AW-50", Lists.newArrayList("weapon"));
         addSource("http://callofduty.wikia.com/", "Smoke_Grenade", Lists.newArrayList("weapon"));
+        addSource("http://callofduty.wikia.com/", "M1_Carbine", Lists.newArrayList("weapon"));
+        addSource("http://callofduty.wikia.com/", "SMAW", Lists.newArrayList("weapon"));
     }
 
     private static void addSource(String url, String title, Collection<String> features) {

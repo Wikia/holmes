@@ -26,7 +26,8 @@ public class Main {
         //readWikiSubsetExample("http://callofduty.wikia.com", Arrays.asList("Prologue (Modern Warfare 3)"));
         //readWikiSubsetExample("http://callofduty.wikia.com", Arrays.asList("Call_of_Duty:_Modern_Warfare_3"));
         //readAllWikiExample();
-        App.main(new String[]{"-v", "Model", "-d", "./wiki/cod/", "-i", "./wiki/cod.index"});
+        //App.main(new String[]{"-v", "crawlAndClassify", "http://callofduty.wikia.com/"});
+        App.main(new String[]{"-v", "Server"});
     }
 
     private static void annotateTextExample(String root, Iterable<String> index) throws IOException {

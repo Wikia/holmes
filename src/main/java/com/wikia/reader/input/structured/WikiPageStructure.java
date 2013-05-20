@@ -18,6 +18,8 @@ public class WikiPageStructure {
     private final List<WikiPageCategory> categories = new ArrayList<>();
     private final List<WikiPageInternalLink> internalLinks = new ArrayList<>();
     private final List<WikiPageTemplateArgument> templateArguments = new ArrayList<>();
+    private final List<WikiPageSection> sections = new ArrayList<>();
+    private final List<WikiPageTemplate> templates = new ArrayList<>();
 
     public WikiPageStructure(String title) {
         this.title = title;
@@ -49,5 +51,13 @@ public class WikiPageStructure {
 
     public List<WikiPageTemplateArgument> getTemplateArguments() {
         return templateArguments;
+    }
+
+    public List<WikiPageSection> getSections() {
+        return sections;
+    }
+
+    public List<WikiPageTemplate> getTemplates() {
+        return templates;
     }
 }

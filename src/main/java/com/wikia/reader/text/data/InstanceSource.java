@@ -23,6 +23,7 @@ public class InstanceSource {
     }
 
     public InstanceSource(URL wikiRoot, String title, Set<String> features) {
+        if(features == null) features = new HashSet<>();
         this.wikiRoot = wikiRoot;
         this.title = title;
         this.features = features;
