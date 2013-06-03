@@ -16,7 +16,6 @@ public class App {
     private static Command[] commands = new Command[] {
             new FetchCommand(),
             new RandomSelectCommand(),
-            new ModelCommand(),
             new CrawlAndClassifyCommand(),
             new ServerCommand(),
     };
