@@ -1,43 +1,14 @@
-package com.wikia.api.service;/**
- * Author: Artur Dwornik
- * Date: 08.06.13
- * Time: 16:14
- */
-
-import com.wikia.api.client.Client;
-import com.wikia.api.response.RevisionsQueryPage;
-import com.wikia.api.response.RevisionsQueryResponseWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.wikia.api.service;
 
 import java.io.IOException;
 
-public class PageService {
-    private static Logger logger = LoggerFactory.getLogger(PageService.class);
-    private Client client;
+/**
+ * Author: Artur Dwornik
+ * Date: 11.06.13
+ * Time: 15:22
+ */
+public interface PageService {
+    Page getPage(long pageId) throws IOException;
 
-    public PageService(Client client) {
-        this.client = client;
-    }
-
-    public Page getPage(long pageId) throws IOException {
-        RevisionsQueryResponseWrapper revisionsQueryResponseWrapper = client.getRevisions(pageId);
-
-        RevisionsQueryPage responsePage = revisionsQueryResponseWrapper.getQueryResponse().getPages().get(pageId);
-        if (   responsePage != null
-                && responsePage.getRevisions() != null
-                && responsePage.getRevisions().size() > 0) {
-            Page page = new Page();
-            page.setId( pageId );
-            page.setNamespace(responsePage.getNamespace());
-            page.setTitle( responsePage.getTitle() );
-            page.setWikiText(responsePage.getRevisions().get(0).getContent());
-            return page;
-        }
-        return null;
-    }
-
-    public Iterable<Page> getPages() {
-        return new PageIterable(client);
-    }
+    Iterable<Page> getPages();
 }

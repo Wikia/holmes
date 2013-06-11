@@ -15,8 +15,14 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ExecutionException;
 
-public class PrefetchingIteratorImpl<T> implements Iterator<T> {
-    private static Logger logger = LoggerFactory.getLogger(PrefetchingIteratorImpl.class);
+/**
+ * Tool for fetching executing concurrent fetch operations.
+ * Every task can result in some number of results and some number of new tasks to execute.
+ * Iterator will end when there will be no new tasks to execute
+ * @param <T>
+ */
+public class PrefetchingIterator<T> implements Iterator<T> {
+    private static Logger logger = LoggerFactory.getLogger(PrefetchingIterator.class);
     private final ListeningExecutorService executorService;
     private final Queue<T> resultsQueue = new ArrayDeque<>();
     private final Queue<PrefetchQueueTask<T>> taskQueue = new ArrayDeque<>();
@@ -24,18 +30,20 @@ public class PrefetchingIteratorImpl<T> implements Iterator<T> {
     private long expectedPrefetchLimit = 16;
     private boolean interrupted = false;
 
-    public PrefetchingIteratorImpl(ListeningExecutorService executorService, PrefetchQueueTask<T> initialTask) {
+    public PrefetchingIterator(ListeningExecutorService executorService, PrefetchQueueTask<T> initialTask) {
         this.executorService = executorService;
         addTask(initialTask);
     }
 
     protected synchronized void addTask(PrefetchQueueTask<T> prefetchQueueTask) {
         taskQueue.add(prefetchQueueTask);
+        relax();
     }
 
     protected synchronized void relax() {
-        if( resultsQueue.size() < expectedPrefetchLimit ) {
-            PrefetchQueueTask<T> task = taskQueue.peek();
+        // try estimate results and submittedTasks
+        if( resultsQueue.size() + submittedTasks < expectedPrefetchLimit ) {
+            PrefetchQueueTask<T> task = taskQueue.poll();
             if( task != null ) {
                 sendTaskToExecutor( task );
             }
@@ -52,7 +60,7 @@ public class PrefetchingIteratorImpl<T> implements Iterator<T> {
             public void run() {
                 try {
                     PrefetchQueueTaskResponse<T> prefetchQueueTaskResponse = response.get();
-                    for( PrefetchQueueTask<T> task: prefetchQueueTaskResponse.getMoreTasks()) {
+                    for( PrefetchQueueTask<T> task: prefetchQueueTaskResponse.getNewTasks() ) {
                         addTask(task);
                     }
                     addResults(prefetchQueueTaskResponse);
@@ -61,6 +69,10 @@ public class PrefetchingIteratorImpl<T> implements Iterator<T> {
                     logger.warn("Execution was interrupted.", e);
                 } catch (ExecutionException e) {
                     logger.warn("Task execution error.", e);
+                } catch (Throwable e) {
+                    interrupted = true;
+                    logger.error("Unexpected error.", e);
+                    throw new IllegalStateException("Unexpected error.", e);
                 } finally {
                     synchronized (monitor) {
                         submittedTasks--;
@@ -79,8 +91,7 @@ public class PrefetchingIteratorImpl<T> implements Iterator<T> {
     @Override
     public synchronized boolean hasNext() {
         if( interrupted ) { return false; }
-        while( (!resultsQueue.isEmpty())
-                || (resultsQueue.isEmpty() && (submittedTasks != 0 || !taskQueue.isEmpty())) ) {
+        while( (resultsQueue.isEmpty() && (submittedTasks != 0 || !taskQueue.isEmpty())) ) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -95,7 +106,9 @@ public class PrefetchingIteratorImpl<T> implements Iterator<T> {
     @Override
     public synchronized T next() {
         if( hasNext() ) {
-            return resultsQueue.poll();
+            T element = resultsQueue.poll();
+            relax();
+            return element;
         } else {
             throw new IllegalStateException("hasNext is false, next was executed.");
         }

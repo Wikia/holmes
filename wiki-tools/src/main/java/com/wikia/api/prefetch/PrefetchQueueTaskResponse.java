@@ -9,16 +9,21 @@ import java.util.List;
  * Time: 22:00
  */
 
+/**
+ * Represents PrefetchingIterator task result.
+ * Every task can return any number of new tasks to execute and any number of results.
+ * @param <T>
+ */
 public class PrefetchQueueTaskResponse<T> {
-    private List<PrefetchQueueTask> moreTasks = new ArrayList<>();
+    private List<PrefetchQueueTask> newTasks = new ArrayList<>();
     private List<T> results = new ArrayList<>();
 
-    public List<PrefetchQueueTask> getMoreTasks() {
-        return moreTasks;
+    public List<PrefetchQueueTask> getNewTasks() {
+        return newTasks;
     }
 
-    public void setMoreTasks(List<PrefetchQueueTask> moreTasks) {
-        this.moreTasks = moreTasks;
+    public void setNewTasks(List<PrefetchQueueTask> newTasks) {
+        this.newTasks = newTasks;
     }
 
     public List<T> getResults() {

@@ -4,45 +4,33 @@ package com.wikia.api.client;/**
  * Time: 10:00
  */
 
+import com.google.common.collect.Lists;
 import com.wikia.api.json.JsonClientImpl;
 import com.wikia.api.service.Page;
-import com.wikia.api.service.PageService;
-import com.wikia.api.util.ThreadPoolUtil;
+import com.wikia.api.service.PageServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.testng.Assert;
+
+import java.net.URI;
 import java.net.URL;
-import java.util.concurrent.Callable;
+import java.util.List;
 
 public class PagesClientIntegrationTests {
     private static Logger logger = LoggerFactory.getLogger(PagesClientIntegrationTests.class);
 
     @org.testng.annotations.Test
     public void testGetPageContent() throws Exception {
-        PageService pageService = new PageService( new ClientImpl(new JsonClientImpl(), new URL("http", "en.wikipedia.org", "/w/api.php")) );
+        PageServiceImpl pageService = new PageServiceImpl( new ClientImpl(new JsonClientImpl(), new URL("http", "en.wikipedia.org", "/w/api.php")) );
         Page pageContent = pageService.getPage(736);
         Assert.assertNotNull(pageContent);
         System.out.println( pageContent.getWikiText().substring(0, 50) + " ...");
     }
 
-    @org.testng.annotations.Test
-    public void testGetPageContentAsync() throws Exception {
-        final PageService pageService = new PageService( new ClientImpl(new JsonClientImpl(), new URL("http", "en.wikipedia.org", "/w/api.php")) );
-        Page pageContent = ThreadPoolUtil.getExecutorService().submit(new Callable<Page>() {
-            @Override
-            public Page call() throws Exception {
-                System.out.println("Start execution");
-                return pageService.getPage(736);
-            }
-        }).get();
-        Assert.assertNotNull(pageContent);
-        System.out.println( pageContent.getWikiText().substring(0, 50) + " ...");
-    }
-
-    @org.testng.annotations.Test
+    @org.testng.annotations.Test(timeOut = 30 * 1000 /* 30 seconds */)
     public void testGetPagesContent() throws Exception {
-        PageService pageService = new PageService( new ClientImpl(new JsonClientImpl(), new URL("http", "en.wikipedia.org", "/w/api.php")) );
+        PageServiceImpl pageService = new PageServiceImpl( new ClientImpl(new JsonClientImpl(), new URL("http", "en.wikipedia.org", "/w/api.php")) );
         int countDown = 60;
         for(Page pageContent: pageService.getPages()) {
             if( countDown -- <= 0 ) break;
@@ -55,5 +43,16 @@ public class PagesClientIntegrationTests {
             //logger.info( pageContent.getWikiText().substring(0, 50) + " ...");
         }
         Assert.assertEquals( countDown, -1 );
+    }
+
+    @org.testng.annotations.Test(timeOut = 5 * 1000 /* 5 seconds */)
+    public void testFullFetch() throws Exception {
+        String wikiApi = "http://4-pages-3-redirects.wikia.com/api.php";
+        PageServiceImpl pageService = new PageServiceImpl( new ClientImpl(new JsonClientImpl(), URI.create(wikiApi).toURL()) );
+
+        List<Page> pageList =  Lists.newArrayList(pageService.getPages());
+
+
+        Assert.assertEquals( pageList.size(), 4, "Expected number of fetched pages is 4");
     }
 }
