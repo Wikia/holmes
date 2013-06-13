@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 public class PageIterable implements Iterable<Page> {
+    @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(PageIterable.class);
     private final long pageSize = 50;
     public PageIterable(Client client) {

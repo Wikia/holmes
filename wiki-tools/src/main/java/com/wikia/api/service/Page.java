@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Page {
+    @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(Page.class);
     private Long id;
     private Long namespace;
