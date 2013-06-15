@@ -1,7 +1,7 @@
 package com.wikia.reader.input.structured;
 
-import com.wikia.reader.input.TextChunk;
-import com.wikia.reader.providers.WikiaHelper;
+import com.wikia.api.service.Page;
+import com.wikia.api.service.PageServiceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sweble.wikitext.engine.*;
@@ -12,6 +12,7 @@ import org.sweble.wikitext.lazy.LinkTargetException;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Author: Artur Dwornik
@@ -21,7 +22,7 @@ import java.io.IOException;
 public class WikiStructureHelper {
     private static Logger logger = LoggerFactory.getLogger(WikiStructureHelper.class.toString());
 
-    public static WikiPageStructure parse(TextChunk textChunk) throws FileNotFoundException, JAXBException, LinkTargetException, CompilerException {
+    public static WikiPageStructure parse(Page textChunk) throws FileNotFoundException, JAXBException, LinkTargetException, CompilerException {
         return parse(textChunk.getTitle(), textChunk.getWikiText());
     }
 
@@ -54,7 +55,7 @@ public class WikiStructureHelper {
     }
 
     public static void main(String[] args) throws IOException, LinkTargetException, JAXBException, CompilerException {
-        TextChunk chunk = WikiaHelper.fetch("http://callofduty.wikia.com", "John_Price");
+        Page chunk = new PageServiceFactory().get(new URL("http://callofduty.wikia.com")).getPage("John_Price");
 
         WikiPageStructure structure = parse(chunk);
         System.out.print(structure.getPlain());

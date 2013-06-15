@@ -23,10 +23,8 @@ import java.io.*;
 import java.net.*;
 import java.util.logging.Logger;
 
-import com.wikia.reader.input.TextChunk;
+import com.wikia.api.service.Page;
 import gate.*;
-import gate.corpora.DocumentContentImpl;
-import gate.corpora.DocumentImpl;
 import gate.creole.*;
 import gate.util.*;
 import gate.corpora.RepositioningInfo;
@@ -40,6 +38,7 @@ import gate.corpora.RepositioningInfo;
  * For simplicity's sake, we don't do any exception handling.
  */
 public class AnnieHelper {
+    @SuppressWarnings("unused")
     private static Logger logger = Logger.getLogger(AnnieHelper.class.toString());
     /** The Corpus Pipeline application to contain ANNIE */
     private SerialAnalyserController annieController;
@@ -85,8 +84,8 @@ public class AnnieHelper {
     } // execute()
 
 
-    public static SortedAnnotationList run(TextChunk textChunk) throws IOException, GateException {
-        GateDocument gateDocument = new GateDocument("title", textChunk.getSgml(), "");
+    public static SortedAnnotationList run(Page textChunk) throws IOException, GateException {
+        GateDocument gateDocument = new GateDocument("title", textChunk.getWikiText(), "");
         return main(new GateDocument[]{gateDocument});
     }
 

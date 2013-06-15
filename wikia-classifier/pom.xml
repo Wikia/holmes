@@ -5,10 +5,12 @@
     <parent>
         <artifactId>wikia-reader</artifactId>
         <groupId>com.wikia</groupId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>${pom.parent.groupId}</groupId>
+    <version>${pom.parent.version}</version>
     <artifactId>wikia-classifier</artifactId>
 
     <repositories>
@@ -133,6 +135,11 @@
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
             <version>1.8</version>
+        </dependency>
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>wiki-tools</artifactId>
+            <version>${pom.parent.version}</version>
         </dependency>
         <!--
         <dependency>

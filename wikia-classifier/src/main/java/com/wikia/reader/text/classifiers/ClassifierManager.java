@@ -5,8 +5,8 @@ package com.wikia.reader.text.classifiers;/**
  */
 
 import com.beust.jcommander.internal.Lists;
-import com.wikia.reader.input.TextChunk;
-import com.wikia.reader.providers.WikiaHelper;
+import com.wikia.api.service.Page;
+import com.wikia.api.service.PageServiceFactory;
 import com.wikia.reader.text.data.InstanceSource;
 import com.wikia.reader.text.data.PredefinedGeneralSet;
 import com.wikia.reader.text.service.model.Classification;
@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.*;
 
 public class ClassifierManager {
@@ -71,7 +72,7 @@ public class ClassifierManager {
         List<InstanceSource> filteredSources = new ArrayList<>();
         for( InstanceSource instanceSource: instanceSources ) {
             try {
-                TextChunk textChunk = WikiaHelper.fetch(instanceSource.getWikiRoot().toString(), instanceSource.getTitle());
+                Page textChunk = new PageServiceFactory().get(new URL(instanceSource.getWikiRoot().toString())).getPage(instanceSource.getTitle());
                 if( textChunk.getWikiText().length() > 1000 ) {
                     filteredSources.add(instanceSource);
                 }

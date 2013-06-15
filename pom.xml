@@ -21,6 +21,6 @@
 
     <groupId>com.wikia</groupId>
     <artifactId>wikia-reader</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
 
 </project>

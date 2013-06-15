@@ -23,23 +23,35 @@ public class PageServiceImpl implements PageService {
     @Override
     public Page getPage(long pageId) throws IOException {
         RevisionsQueryResponseWrapper revisionsQueryResponseWrapper = client.getRevisions(pageId);
-
         RevisionsQueryPage responsePage = revisionsQueryResponseWrapper.getQueryResponse().getPages().get(pageId);
+
+        return processSingleRevisionResponse( responsePage );
+    }
+
+    @Override
+    public Page getPage(String title) throws IOException {
+        RevisionsQueryResponseWrapper revisionsQueryResponseWrapper = client.getRevisions(title);
+        RevisionsQueryPage responsePage = revisionsQueryResponseWrapper.getQueryResponse().getPages().values().iterator().next();
+
+        return processSingleRevisionResponse( responsePage );
+    }
+
+    @Override
+    public Iterable<Page> getPages() {
+        return new PageIterable(client);
+    }
+
+    private Page processSingleRevisionResponse( RevisionsQueryPage responsePage ) {
         if (   responsePage != null
                 && responsePage.getRevisions() != null
                 && responsePage.getRevisions().size() > 0) {
             Page page = new Page();
-            page.setId( pageId );
+            page.setId( responsePage.getPageId() );
             page.setNamespace(responsePage.getNamespace());
             page.setTitle( responsePage.getTitle() );
             page.setWikiText(responsePage.getRevisions().get(0).getContent());
             return page;
         }
         return null;
-    }
-
-    @Override
-    public Iterable<Page> getPages() {
-        return new PageIterable(client);
     }
 }

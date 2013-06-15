@@ -9,6 +9,7 @@ import java.io.IOException;
  */
 public interface PageService {
     Page getPage(long pageId) throws IOException;
+    Page getPage(String title) throws IOException;
 
     Iterable<Page> getPages();
 }

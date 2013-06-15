@@ -6,14 +6,11 @@ package com.wikia.reader.commands;/**
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import com.wikia.reader.input.TextChunk;
-import com.wikia.reader.providers.Provider;
-import com.wikia.reader.providers.api.WikiApiProviderFactory;
+import com.wikia.api.service.Page;
+import com.wikia.api.service.PageServiceFactory;
 import com.wikia.reader.text.classifiers.ClassifierManager;
 import com.wikia.reader.text.data.InstanceSource;
 import com.wikia.reader.text.service.model.ClassificationCollection;
-import com.wikia.reader.util.AsyncQueue;
-import com.wikia.reader.util.AsyncQueues;
 
 import java.net.URL;
 import java.util.HashSet;
@@ -38,11 +35,9 @@ public class CrawlAndClassifyCommand implements Command {
         try {
             ClassifierManager classifierManager = new ClassifierManager();
             for(String url: urls) {
-                Provider provider = new WikiApiProviderFactory(url).get();
-                AsyncQueue<TextChunk> queue = provider.provide();
-                Iterator<TextChunk> iterator = AsyncQueues.synchronize(queue);
+                Iterator<Page> iterator = new PageServiceFactory().get(new URL(url)).getPages().iterator();
                 while( iterator.hasNext() ) {
-                    TextChunk textChunk = iterator.next();
+                    Page textChunk = iterator.next();
                     ClassificationCollection classification = classifierManager.classify(
                             new InstanceSource(new URL(url), textChunk.getTitle(), new HashSet())
                     );

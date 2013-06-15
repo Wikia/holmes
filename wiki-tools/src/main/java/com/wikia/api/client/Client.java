@@ -17,6 +17,8 @@ import java.io.IOException;
  */
 public interface Client {
     RevisionsQueryResponseWrapper getRevisions(long pageId) throws IOException;
+    RevisionsQueryResponseWrapper getRevisions(String title) throws IOException;
 
     AllPagesQueryResponseWrapper getAllPages(long count, String apFrom) throws IOException;
+
 }

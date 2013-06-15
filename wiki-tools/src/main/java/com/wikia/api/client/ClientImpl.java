@@ -30,14 +30,31 @@ public class ClientImpl implements Client {
     public RevisionsQueryResponseWrapper getRevisions(long pageId) throws IOException {
         URI query = URI.create(wikiApiRoot.toString() + "?action=query&prop=revisions&format=json&rvprop=content&rvlimit=1&pageids=" + pageId );
         RevisionsQueryResponseWrapper revisionsQueryResponseWrapper = jsonClient.get(query, RevisionsQueryResponseWrapper.class);
+        verifyRevisionsQueryResponseWrapper(revisionsQueryResponseWrapper);
+        return revisionsQueryResponseWrapper;
+    }
+
+    @Override
+    public RevisionsQueryResponseWrapper getRevisions(String title) throws IOException {
+        title = URLEncoder.encode(title, "UTF8");
+        URI query = URI.create(wikiApiRoot.toString() + "?action=query&prop=revisions&format=json&rvprop=content&rvlimit=1&titles=" + title );
+        RevisionsQueryResponseWrapper revisionsQueryResponseWrapper = jsonClient.get(query, RevisionsQueryResponseWrapper.class);
+        verifyRevisionsQueryResponseWrapper(revisionsQueryResponseWrapper);
+        return revisionsQueryResponseWrapper;
+    }
+
+    /**
+     * Verify if response is correct. Throw otherwise.
+     * @param revisionsQueryResponseWrapper model to verify
+     * @throws IOException
+     */
+    private void verifyRevisionsQueryResponseWrapper(RevisionsQueryResponseWrapper revisionsQueryResponseWrapper) throws IOException {
         if( revisionsQueryResponseWrapper == null
                 || revisionsQueryResponseWrapper.getQueryResponse() == null
                 || revisionsQueryResponseWrapper.getQueryResponse().getPages() == null ) {
             throw new IOException("Bad response format.");
         }
-        return revisionsQueryResponseWrapper;
     }
-
 
 
     @Override

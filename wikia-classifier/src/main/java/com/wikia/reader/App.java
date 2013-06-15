@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 public class App {
     private static Logger logger = Logger.getLogger(App.class.toString());
     private static Command[] commands = new Command[] {
-            new FetchCommand(),
-            new RandomSelectCommand(),
             new CrawlAndClassifyCommand(),
             new ServerCommand(),
     };
@@ -37,7 +35,7 @@ public class App {
 
         Command parsedCommand = null;
         for(Command command: commands) {
-            if(jc.getParsedCommand() == command.getName()) {
+            if( command.getName().equals(jc.getParsedCommand()) ) {
                 parsedCommand = command;
             }
         }
