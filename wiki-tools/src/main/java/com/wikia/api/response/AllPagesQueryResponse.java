@@ -2,6 +2,7 @@ package com.wikia.api.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * Time: 22:04
  */
 
-public class AllPagesQueryResponse {
+public class AllPagesQueryResponse  implements Serializable {
     @SerializedName("allpages")
     private List<AllPagesPage> pages;
 

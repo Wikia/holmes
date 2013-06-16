@@ -6,7 +6,9 @@ package com.wikia.api.response;/**
 
 import com.google.gson.annotations.SerializedName;
 
-public class ResponseWrapper<T> {
+import java.io.Serializable;
+
+public class ResponseWrapper<T>  implements Serializable {
     @SerializedName("query")
     private T queryResponse;
 

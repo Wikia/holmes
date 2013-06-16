@@ -24,12 +24,14 @@ public class InstanceSourceDownloaderFilter extends FilterBase<InstanceSource, P
     @Override
     protected Page doFilter(InstanceSource params) {
         try {
-            return new PageServiceFactory().get(new URL(params.getWikiRoot().toString())).getPage(params.getTitle());
+            Page page = new PageServiceFactory().get(new URL(params.getWikiRoot().toString())).getPage(params.getTitle());
+            params.setTitle( page.getTitle() ); // TODO: refactor this dirty fix
+            return page;
         } catch (IOException e) {
-            logger.error(String.format("Cannot fetch instance %d %d"
+            logger.error(String.format("Cannot fetch instance %s %s"
                             ,params.getWikiRoot().toString()
                             , params.getTitle()), e);
+            throw new IllegalStateException("Cannot continue after error.", e);
         }
-        return null;
     }
 }

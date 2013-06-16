@@ -8,10 +8,11 @@ import com.google.gson.annotations.SerializedName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class RevisionsQueryResponse {
+public class RevisionsQueryResponse  implements Serializable {
     private static Logger logger = LoggerFactory.getLogger(RevisionsQueryResponse.class);
 
     @SerializedName("query")

@@ -2,13 +2,15 @@ package com.wikia.api.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Author: Artur Dwornik
  * Date: 06.06.13
  * Time: 22:17
  */
 
-public class AllPagesPage {
+public class AllPagesPage  implements Serializable {
     @SerializedName("pageid")
     private Long id;
     private String title;

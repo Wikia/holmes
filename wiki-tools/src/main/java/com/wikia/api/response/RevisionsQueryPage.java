@@ -6,9 +6,10 @@ package com.wikia.api.response;/**
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RevisionsQueryPage {
+public class RevisionsQueryPage  implements Serializable {
 
     @SerializedName("pageid")
     private Long pageId;

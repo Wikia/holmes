@@ -6,7 +6,9 @@ package com.wikia.api.response;/**
 
 import com.google.gson.annotations.SerializedName;
 
-public class Revision {
+import java.io.Serializable;
+
+public class Revision  implements Serializable {
 
     @SerializedName("*")
     private String content;

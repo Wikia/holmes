@@ -1,10 +1,14 @@
-package com.wikia.api.response;/**
+package com.wikia.api.response;
+
+import java.io.Serializable;
+
+/**
  * Author: Artur Dwornik
  * Date: 04.06.13
  * Time: 21:14
  */
 
-public class Redirect {
+public class Redirect  implements Serializable {
     private String from;
     private String to;
 

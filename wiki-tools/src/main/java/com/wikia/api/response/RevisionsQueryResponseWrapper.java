@@ -4,9 +4,7 @@ package com.wikia.api.response;/**
  * Time: 09:40
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.Serializable;
 
-public class RevisionsQueryResponseWrapper extends ResponseWrapper<RevisionsQueryResponse> {
-    private static Logger logger = LoggerFactory.getLogger(RevisionsQueryResponseWrapper.class);
+public class RevisionsQueryResponseWrapper extends ResponseWrapper<RevisionsQueryResponse> implements Serializable {
 }
