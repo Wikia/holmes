@@ -12,20 +12,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URL;
 
-public class CachedClient implements Client {
-    private static Logger logger = LoggerFactory.getLogger(CachedClient.class);
-    private Client client;
-    private CacheService cacheService;
+public class CachingClientWrapper implements Client {
+    @SuppressWarnings("unused")
+    private static Logger logger = LoggerFactory.getLogger(CachingClientWrapper.class);
+    private static final String cachePrefix = "CachingClientWrapper:";
+    private final Client client;
+    private final CacheService cacheService;
+    private final URL wikiDomain;
 
-    public CachedClient(Client client, CacheService cacheService) {
+    public CachingClientWrapper(Client client, CacheService cacheService, URL wikiDomain) {
         this.client = client;
         this.cacheService = cacheService;
+        this.wikiDomain = wikiDomain;
     }
 
     @Override
     public RevisionsQueryResponseWrapper getRevisions(final long pageId) throws IOException {
-        return cacheService.get("getRevisions:" + pageId, new CacheFallbackFetcher<RevisionsQueryResponseWrapper>() {
+        return cacheService.get(buildKeyPrefix("getRevisions:") + pageId, new CacheFallbackFetcher<RevisionsQueryResponseWrapper>() {
             @Override
             public RevisionsQueryResponseWrapper call() throws IOException {
                 return client.getRevisions(pageId);
@@ -35,7 +40,7 @@ public class CachedClient implements Client {
 
     @Override
     public RevisionsQueryResponseWrapper getRevisions(final String title) throws IOException {
-        return cacheService.get("getRevisions:title:" + title, new CacheFallbackFetcher<RevisionsQueryResponseWrapper>() {
+        return cacheService.get(buildKeyPrefix("getRevisions:title:") + title, new CacheFallbackFetcher<RevisionsQueryResponseWrapper>() {
             @Override
             public RevisionsQueryResponseWrapper call() throws IOException {
                 return client.getRevisions(title);
@@ -45,11 +50,15 @@ public class CachedClient implements Client {
 
     @Override
     public AllPagesQueryResponseWrapper getAllPages(final long count, final String apFrom) throws IOException {
-        return cacheService.get("getAllPages:" + count + ":" + apFrom, new CacheFallbackFetcher<AllPagesQueryResponseWrapper>() {
+        return cacheService.get(buildKeyPrefix("getAllPages:") + count + ":" + apFrom, new CacheFallbackFetcher<AllPagesQueryResponseWrapper>() {
             @Override
             public AllPagesQueryResponseWrapper call() throws IOException {
                 return client.getAllPages(count, apFrom);
             }
         });
+    }
+
+    protected String buildKeyPrefix(String methodName) {
+        return cachePrefix + wikiDomain.getHost() + ":" + wikiDomain.getPort() + ":" + methodName;
     }
 }

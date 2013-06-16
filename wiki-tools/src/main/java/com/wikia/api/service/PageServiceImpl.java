@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class PageServiceImpl implements PageService {
+    @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(PageServiceImpl.class);
     private Client client;
 
@@ -23,7 +24,11 @@ public class PageServiceImpl implements PageService {
     @Override
     public Page getPage(long pageId) throws IOException {
         RevisionsQueryResponseWrapper revisionsQueryResponseWrapper = client.getRevisions(pageId);
-        RevisionsQueryPage responsePage = revisionsQueryResponseWrapper.getQueryResponse().getPages().get(pageId);
+        if( revisionsQueryResponseWrapper == null ) return null;
+        verifyRevisionsQueryResponseWrapper(revisionsQueryResponseWrapper);
+        if( revisionsQueryResponseWrapper.getQueryResponse().getPages().isEmpty() ) return null;
+        RevisionsQueryPage responsePage
+                = revisionsQueryResponseWrapper.getQueryResponse().getPages().get(pageId);
 
         return processSingleRevisionResponse( responsePage );
     }
@@ -31,9 +36,24 @@ public class PageServiceImpl implements PageService {
     @Override
     public Page getPage(String title) throws IOException {
         RevisionsQueryResponseWrapper revisionsQueryResponseWrapper = client.getRevisions(title);
-        RevisionsQueryPage responsePage = revisionsQueryResponseWrapper.getQueryResponse().getPages().values().iterator().next();
+        if( revisionsQueryResponseWrapper == null ) return null;
+        verifyRevisionsQueryResponseWrapper(revisionsQueryResponseWrapper);
+        if( revisionsQueryResponseWrapper.getQueryResponse().getPages().isEmpty() ) return null;
+        RevisionsQueryPage responsePage
+                = revisionsQueryResponseWrapper.getQueryResponse().getPages().values().iterator().next();
 
         return processSingleRevisionResponse( responsePage );
+    }
+
+    private void verifyRevisionsQueryResponseWrapper(RevisionsQueryResponseWrapper revisionsQueryResponseWrapper) throws IOException {
+        if( revisionsQueryResponseWrapper.getQueryResponse() == null ) {
+            //  This should be enforced by client
+            throw new IOException("Format error: revisionsQueryResponseWrapper.getQueryResponse() == null");
+        }
+        if( revisionsQueryResponseWrapper.getQueryResponse().getPages() == null ) {
+            //  This should be enforced by client
+            throw new IOException("Format error: revisionsQueryResponseWrapper.getQueryResponse().getPages() == null");
+        }
     }
 
     @Override
