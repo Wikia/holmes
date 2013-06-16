@@ -7,4 +7,5 @@ package com.wikia.api.response;/**
 import java.io.Serializable;
 
 public class RevisionsQueryResponseWrapper extends ResponseWrapper<RevisionsQueryResponse> implements Serializable {
+    private static final long serialVersionUID = -8908048824030547211L;
 }

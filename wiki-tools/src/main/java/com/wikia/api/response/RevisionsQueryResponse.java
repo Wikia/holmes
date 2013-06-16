@@ -5,16 +5,14 @@ package com.wikia.api.response;/**
  */
 
 import com.google.gson.annotations.SerializedName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 public class RevisionsQueryResponse  implements Serializable {
-    private static Logger logger = LoggerFactory.getLogger(RevisionsQueryResponse.class);
 
+    private static final long serialVersionUID = 8359512122886975310L;
     @SerializedName("query")
     private List<Redirect> redirects;
     private Map<Long, RevisionsQueryPage> pages;

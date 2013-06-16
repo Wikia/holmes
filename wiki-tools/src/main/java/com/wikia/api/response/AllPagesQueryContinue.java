@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 
 public class AllPagesQueryContinue  implements Serializable {
+    private static final long serialVersionUID = -2806964316608787972L;
     @SerializedName("allpages")
     private AllPagesAPContinue allPages;
 

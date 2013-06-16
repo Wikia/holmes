@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class ResponseWrapper<T>  implements Serializable {
+abstract public class ResponseWrapper<T> {
     @SerializedName("query")
     private T queryResponse;
 

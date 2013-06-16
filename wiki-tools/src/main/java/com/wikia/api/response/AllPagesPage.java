@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 
 public class AllPagesPage  implements Serializable {
+    private static final long serialVersionUID = -3138162125622564487L;
     @SerializedName("pageid")
     private Long id;
     private String title;

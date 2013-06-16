@@ -11,6 +11,7 @@ import java.util.List;
 
 public class RevisionsQueryPage  implements Serializable {
 
+    private static final long serialVersionUID = 6782678269755919271L;
     @SerializedName("pageid")
     private Long pageId;
     @SerializedName("ns")
