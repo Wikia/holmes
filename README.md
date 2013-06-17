@@ -3,8 +3,12 @@ wiki-graph
 
 Tool for identifying and mapping wiki content
 
-Example usage 
+Example usage
 ---
+build
+```bash
+mvn package
+```
 
 ```bash
 java -jar wiki-classifier.jar Server
