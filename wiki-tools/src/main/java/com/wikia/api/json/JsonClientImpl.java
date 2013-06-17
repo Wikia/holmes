@@ -7,6 +7,7 @@ package com.wikia.api.json;/**
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.sun.istack.internal.NotNull;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -20,17 +21,16 @@ import java.net.URI;
 public class JsonClientImpl implements JsonClient {
     private static Logger logger = LoggerFactory.getLogger(JsonClientImpl.class);
 
-    public JsonClientImpl() {
-    }
-
     public JsonElement getJsonElement(URI url) throws IOException {
         logger.info("GET: " + url);
         HttpClient httpClient = getHttpClient();
-        return parseJson(
-                httpClient.execute(new HttpGet(url), new BasicResponseHandler()));
+        HttpGet httpGet = new HttpGet(url);
+        httpGet.setHeader("Accept", "application/json");
+        String response = httpClient.execute(httpGet, new BasicResponseHandler());
+        return parseJson(response);
     }
 
-    private HttpClient getHttpClient() {
+    protected HttpClient getHttpClient() {
         return new DefaultHttpClient();
     }
 
@@ -42,7 +42,10 @@ public class JsonClientImpl implements JsonClient {
         );
     }
 
-    protected JsonElement parseJson(String json) {
+    protected JsonElement parseJson(@NotNull String json) {
+        if( json == null ) {
+            throw new IllegalArgumentException("json parameter cannot be null.");
+        }
         return new JsonParser().parse(json);
     }
 }
