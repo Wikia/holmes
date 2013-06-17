@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.Map;
 
 public class RemoveSparseTermsFilter extends FilterBase<Matrix, Matrix> {
-    private static Logger logger = LoggerFactory.getLogger(RemoveSparseTermsFilter.class);
+    private static final long serialVersionUID = -9181355870778350163L;
     private double threshold;
 
     public RemoveSparseTermsFilter(double threshold) {

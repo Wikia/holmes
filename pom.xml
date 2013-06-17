@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>wiki-tools</module>
-        <module>wikia-classifier</module>
+        <module>wiki-classifier</module>
     </modules>
 
 
@@ -20,7 +20,7 @@
     </repositories>
 
     <groupId>com.wikia</groupId>
-    <artifactId>wikia-reader</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <artifactId>wiki-graph</artifactId>
+    <version>0.3.1-SNAPSHOT</version>
 
 </project>

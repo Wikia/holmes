@@ -7,8 +7,6 @@ package com.wikia.reader.filters.text;/**
 import com.wikia.reader.filters.FilterBase;
 import com.wikia.reader.text.matrix.Matrix;
 import com.wikia.reader.util.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.SparseInstance;
@@ -19,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class MatrixToWekaInstancesFilter extends FilterBase<Matrix, Instances> {
-    private static Logger logger = LoggerFactory.getLogger(MatrixToWekaInstancesFilter.class);
+    private static final long serialVersionUID = -1266925240964370102L;
     private String classAttributeName;
 
     protected MatrixToWekaInstancesFilter(String classAttributeName) {

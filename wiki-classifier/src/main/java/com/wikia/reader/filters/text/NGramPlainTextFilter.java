@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class NGramPlainTextFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
-    private static Logger logger = LoggerFactory.getLogger(NGramPlainTextFilter.class);
     private Tokenizer sentenceTokenizer;
     private Tokenizer wordTokenizer;
     private String gramSeparator = "+";
