@@ -1,7 +1,7 @@
 package com.wikia.api.client;
 
-import com.wikia.api.response.AllPagesQueryResponseWrapper;
-import com.wikia.api.response.RevisionsQueryResponseWrapper;
+import com.wikia.api.client.response.AllPagesQueryResponseWrapper;
+import com.wikia.api.client.response.RevisionsQueryResponseWrapper;
 
 import java.io.IOException;
 

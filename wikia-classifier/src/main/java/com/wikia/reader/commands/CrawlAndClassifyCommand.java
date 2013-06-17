@@ -6,7 +6,7 @@ package com.wikia.reader.commands;/**
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import com.wikia.api.service.Page;
+import com.wikia.api.model.Page;
 import com.wikia.api.service.PageServiceFactory;
 import com.wikia.reader.text.classifiers.ClassifierManager;
 import com.wikia.reader.text.data.InstanceSource;

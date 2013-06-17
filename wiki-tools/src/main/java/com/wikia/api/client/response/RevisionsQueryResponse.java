@@ -1,4 +1,4 @@
-package com.wikia.api.response;/**
+package com.wikia.api.client.response;/**
  * Author: Artur Dwornik
  * Date: 04.06.13
  * Time: 21:13

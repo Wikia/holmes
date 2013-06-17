@@ -1,4 +1,4 @@
-package com.wikia.api.prefetch;/**
+package com.wikia.api.util.prefetch;/**
  * Author: Artur Dwornik
  * Date: 09.06.13
  * Time: 22:31

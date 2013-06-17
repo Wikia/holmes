@@ -1,11 +1,9 @@
-package com.wikia.api.response;/**
+package com.wikia.api.client.response;/**
  * Author: Artur Dwornik
  * Date: 16.06.13
  * Time: 14:26
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

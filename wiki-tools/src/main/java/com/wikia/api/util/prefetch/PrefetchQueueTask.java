@@ -1,4 +1,4 @@
-package com.wikia.api.prefetch;
+package com.wikia.api.util.prefetch;
 
 import java.util.concurrent.Callable;
 

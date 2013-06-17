@@ -5,7 +5,8 @@ package com.wikia.api.client;/**
  */
 
 import com.google.common.collect.Lists;
-import com.wikia.api.service.Page;
+import com.wikia.api.model.Page;
+import com.wikia.api.model.PageInfo;
 import com.wikia.api.service.PageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ abstract public class PagesServiceIntegrationTestsBase {
     public void testGetPagesContent() throws Exception {
         PageService pageService = createPageService("http://en.wikipedia.org/w/api.php");
         int countDown = 60;
-        for(Page pageContent: pageService.getPages()) {
+        for(PageInfo pageContent: pageService.getPages()) {
             if( countDown -- <= 0 ) break;
             Assert.assertNotNull(pageContent);
             Assert.assertNotNull(pageContent.getId());
@@ -43,12 +44,12 @@ abstract public class PagesServiceIntegrationTestsBase {
         Assert.assertEquals( countDown, -1 );
     }
 
-    @org.testng.annotations.Test(timeOut = 5 * 1000 /* 5 seconds */)
+    @org.testng.annotations.Test(timeOut = 15 * 1000 /* 5 seconds */)
     public void testFullFetch() throws Exception {
         String wikiApi = "http://4-pages-3-redirects.wikia.com/api.php";
         PageService pageService = createPageService(wikiApi);
 
-        List<Page> pageList =  Lists.newArrayList(pageService.getPages());
+        List<PageInfo> pageList =  Lists.newArrayList(pageService.getPages());
 
         Assert.assertEquals( pageList.size(), 4, "Expected number of fetched pages is 4");
     }

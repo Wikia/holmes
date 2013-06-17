@@ -23,7 +23,7 @@ import java.io.*;
 import java.net.*;
 import java.util.logging.Logger;
 
-import com.wikia.api.service.Page;
+import com.wikia.api.model.Page;
 import gate.*;
 import gate.creole.*;
 import gate.util.*;

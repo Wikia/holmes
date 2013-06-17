@@ -5,8 +5,10 @@ package com.wikia.api.service;/**
  */
 
 import com.wikia.api.client.Client;
-import com.wikia.api.response.RevisionsQueryPage;
-import com.wikia.api.response.RevisionsQueryResponseWrapper;
+import com.wikia.api.client.response.RevisionsQueryPage;
+import com.wikia.api.client.response.RevisionsQueryResponseWrapper;
+import com.wikia.api.model.Page;
+import com.wikia.api.model.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +59,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public Iterable<Page> getPages() {
+    public Iterable<PageInfo> getPages() {
         return new PageIterable(client);
     }
 

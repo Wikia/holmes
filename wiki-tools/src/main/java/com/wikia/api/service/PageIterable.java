@@ -6,13 +6,15 @@ package com.wikia.api.service;/**
 
 import com.google.common.util.concurrent.MoreExecutors;
 import com.wikia.api.client.Client;
-import com.wikia.api.prefetch.PrefetchQueueTask;
-import com.wikia.api.prefetch.PrefetchQueueTaskResponse;
-import com.wikia.api.prefetch.PrefetchingIterator;
-import com.wikia.api.response.AllPagesPage;
-import com.wikia.api.response.AllPagesQueryResponseWrapper;
-import com.wikia.api.response.RevisionsQueryPage;
-import com.wikia.api.response.RevisionsQueryResponseWrapper;
+import com.wikia.api.client.response.AllPagesPage;
+import com.wikia.api.client.response.AllPagesQueryResponseWrapper;
+import com.wikia.api.client.response.RevisionsQueryPage;
+import com.wikia.api.client.response.RevisionsQueryResponseWrapper;
+import com.wikia.api.model.LazyPage;
+import com.wikia.api.model.PageInfo;
+import com.wikia.api.util.prefetch.PrefetchQueueTask;
+import com.wikia.api.util.prefetch.PrefetchQueueTaskResponse;
+import com.wikia.api.util.prefetch.PrefetchingIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-public class PageIterable implements Iterable<Page> {
+public class PageIterable implements Iterable<PageInfo> {
     @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(PageIterable.class);
     private final long pageSize = 50;
@@ -31,17 +33,17 @@ public class PageIterable implements Iterable<Page> {
     private Client client;
 
     @Override
-    public Iterator<Page> iterator() {
+    public Iterator<PageInfo> iterator() {
         return new PrefetchingIterator<>(
                 MoreExecutors.listeningDecorator(
                         Executors.newFixedThreadPool(8)), fetchPageGroup(null));
     }
 
-    protected PrefetchQueueTask<Page> fetchPageGroup(final String from) {
-        return new PrefetchQueueTask<Page>() {
+    protected PrefetchQueueTask<PageInfo> fetchPageGroup(final String from) {
+        return new PrefetchQueueTask<PageInfo>() {
             @Override
-            public PrefetchQueueTaskResponse<Page> call() throws Exception {
-                PrefetchQueueTaskResponse<Page> response = new PrefetchQueueTaskResponse<>();
+            public PrefetchQueueTaskResponse<PageInfo> call() throws Exception {
+                PrefetchQueueTaskResponse<PageInfo> response = new PrefetchQueueTaskResponse<>();
                 final AllPagesQueryResponseWrapper allPages = client.getAllPages(pageSize, from);
 
                 List<AllPagesPage> responsePageList = allPages.getQueryResponse().getPages();
@@ -66,17 +68,17 @@ public class PageIterable implements Iterable<Page> {
         };
     }
 
-    protected PrefetchQueueTask<Page> fetchPage(final long id) {
-        return new PrefetchQueueTask<Page>() {
+    protected PrefetchQueueTask<PageInfo> fetchPage(final long id) {
+        return new PrefetchQueueTask<PageInfo>() {
             @Override
-            public PrefetchQueueTaskResponse<Page> call() throws Exception {
-                PrefetchQueueTaskResponse<Page> response = new PrefetchQueueTaskResponse<>();
+            public PrefetchQueueTaskResponse<PageInfo> call() throws Exception {
+                PrefetchQueueTaskResponse<PageInfo> response = new PrefetchQueueTaskResponse<>();
                 RevisionsQueryResponseWrapper revisions = client.getRevisions(id);
                 RevisionsQueryPage responsePage = revisions.getQueryResponse().getPages().get(id);
                 if (   responsePage != null
                         && responsePage.getRevisions() != null
                         && responsePage.getRevisions().size() > 0) {
-                    Page page = new Page();
+                    LazyPage page = new LazyPage();
                     page.setId( id );
                     page.setNamespace(responsePage.getNamespace());
                     page.setTitle( responsePage.getTitle() );

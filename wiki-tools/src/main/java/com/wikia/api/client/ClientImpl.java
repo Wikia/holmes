@@ -5,8 +5,8 @@ package com.wikia.api.client;/**
  */
 
 import com.wikia.api.json.JsonClient;
-import com.wikia.api.response.AllPagesQueryResponseWrapper;
-import com.wikia.api.response.RevisionsQueryResponseWrapper;
+import com.wikia.api.client.response.AllPagesQueryResponseWrapper;
+import com.wikia.api.client.response.RevisionsQueryResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

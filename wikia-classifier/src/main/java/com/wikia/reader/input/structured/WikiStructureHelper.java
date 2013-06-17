@@ -1,6 +1,6 @@
 package com.wikia.reader.input.structured;
 
-import com.wikia.api.service.Page;
+import com.wikia.api.model.Page;
 import com.wikia.api.service.PageServiceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

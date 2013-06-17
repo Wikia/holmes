@@ -4,7 +4,7 @@ package com.wikia.reader.filters.text;/**
  * Time: 20:49
  */
 
-import com.wikia.api.service.Page;
+import com.wikia.api.model.Page;
 import com.wikia.api.service.PageServiceFactory;
 import com.wikia.reader.filters.FilterBase;
 import com.wikia.reader.text.data.InstanceSource;

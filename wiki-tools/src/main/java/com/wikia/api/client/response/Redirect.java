@@ -1,4 +1,4 @@
-package com.wikia.api.response;
+package com.wikia.api.client.response;
 
 import java.io.Serializable;
 

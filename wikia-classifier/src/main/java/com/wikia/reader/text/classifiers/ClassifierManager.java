@@ -5,7 +5,7 @@ package com.wikia.reader.text.classifiers;/**
  */
 
 import com.beust.jcommander.internal.Lists;
-import com.wikia.api.service.Page;
+import com.wikia.api.model.Page;
 import com.wikia.api.service.PageServiceFactory;
 import com.wikia.reader.text.data.InstanceSource;
 import com.wikia.reader.text.data.PredefinedGeneralSet;

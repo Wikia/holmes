@@ -7,8 +7,8 @@ package com.wikia.api.client;
 
 import com.wikia.api.cache.CacheFallbackFetcher;
 import com.wikia.api.cache.CacheService;
-import com.wikia.api.response.AllPagesQueryResponseWrapper;
-import com.wikia.api.response.RevisionsQueryResponseWrapper;
+import com.wikia.api.client.response.AllPagesQueryResponseWrapper;
+import com.wikia.api.client.response.RevisionsQueryResponseWrapper;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.testng.Assert;
@@ -21,6 +21,7 @@ import java.util.Random;
 
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("unchecked")
 public class CachingClientWrapperTest {
     private Client client;
     private CacheService successfulCacheService;

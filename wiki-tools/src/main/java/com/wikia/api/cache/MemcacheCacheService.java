@@ -11,9 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.concurrent.ExecutionException;
 
 public class MemcacheCacheService implements CacheService {
     private static Logger logger = LoggerFactory.getLogger(MemcacheCacheService.class);
@@ -26,7 +23,8 @@ public class MemcacheCacheService implements CacheService {
     }
 
     @Override
-    public synchronized <T> T get(String key) {
+    @SuppressWarnings("Unchecked")
+    public <T> T get(String key) {
         try {
             return (T) memcachedClient.get( sanitizeKey(key) );
         } catch (net.spy.memcached.OperationTimeoutException ex) {
@@ -36,7 +34,7 @@ public class MemcacheCacheService implements CacheService {
     }
 
     @Override
-    public synchronized <T> T get(String key, CacheFallbackFetcher<T> fallback) throws IOException {
+    public <T> T get(String key, CacheFallbackFetcher<T> fallback) throws IOException {
         T val = get( key );
         if( val == null ) {
             val = fallback.call();
@@ -48,15 +46,8 @@ public class MemcacheCacheService implements CacheService {
     }
 
     @Override
-    public synchronized <T> void set(String key, T value) {
+    public <T> void set(String key, T value) {
         OperationFuture<Boolean> set = memcachedClient.set(sanitizeKey(key), seconds, value);
-        try {
-            set.get();
-        } catch (InterruptedException e) {
-            logger.warn("Error during update of cache.", e);
-        } catch (ExecutionException e) {
-            logger.warn("Error during update of cache.", e);
-        }
     }
 
     @Override
