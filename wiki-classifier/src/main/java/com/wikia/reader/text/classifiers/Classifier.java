@@ -1,6 +1,7 @@
 package com.wikia.reader.text.classifiers;
 
-import com.wikia.reader.text.data.InstanceSource;
+import com.wikia.api.model.PageInfo;
+import com.wikia.reader.text.classifiers.exceptions.ClassifyException;
 import com.wikia.reader.text.service.model.Classification;
 
 /**
@@ -9,5 +10,5 @@ import com.wikia.reader.text.service.model.Classification;
  * Time: 11:12
  */
 public interface Classifier {
-    public Classification classify(InstanceSource source);
+    public Classification classify(PageInfo source) throws ClassifyException;
 }

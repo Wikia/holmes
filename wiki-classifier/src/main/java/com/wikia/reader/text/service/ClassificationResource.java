@@ -4,14 +4,9 @@ package com.wikia.reader.text.service;/**
  * Time: 11:05
  */
 
-import com.beust.jcommander.internal.Lists;
 import com.google.common.base.Strings;
-import com.wikia.reader.text.classifiers.Classifier;
 import com.wikia.reader.text.classifiers.ClassifierManager;
-import com.wikia.reader.text.classifiers.IBkKnnClassifier;
 import com.wikia.reader.text.data.InstanceSource;
-import com.wikia.reader.text.data.PredefinedGeneralSet;
-import com.wikia.reader.text.service.model.Classification;
 import com.wikia.reader.text.service.model.ClassificationCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +22,6 @@ import java.net.URL;
 @Path("/classifications")
 public class ClassificationResource {
     private static Logger logger = LoggerFactory.getLogger(ClassificationResource.class);
-    static Classifier classifier = new IBkKnnClassifier(PredefinedGeneralSet.getSet());
     private static ClassifierManager classifierManager;
     static {
         setClassifierManager(new ClassifierManager());

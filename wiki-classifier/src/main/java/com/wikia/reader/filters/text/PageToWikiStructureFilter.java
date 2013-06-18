@@ -9,10 +9,10 @@ import com.wikia.reader.filters.FilterBase;
 import com.wikia.reader.input.structured.WikiPageStructure;
 import com.wikia.reader.input.structured.WikiStructureHelper;
 
-public class TextChunkToWikiStructureFilter extends FilterBase<PageInfo, WikiPageStructure> {
+public class PageToWikiStructureFilter extends FilterBase<PageInfo, WikiPageStructure> {
     private static final long serialVersionUID = 1478170222554444665L;
 
-    public TextChunkToWikiStructureFilter() {
+    public PageToWikiStructureFilter() {
         super(PageInfo.class, WikiPageStructure.class);
     }
 

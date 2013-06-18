@@ -4,43 +4,43 @@ package com.wikia.reader.filters.text;/**
  * Time: 10:10
  */
 
-import com.wikia.reader.filters.CollectionFilterBase;
-import com.wikia.reader.filters.Filter;
-import com.wikia.reader.text.data.InstanceSource;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
+import com.wikia.reader.filters.FilterBase;
 import com.wikia.reader.text.matrix.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-public class AnnotateMatrixFilter extends CollectionFilterBase<InstanceSource, Matrix> {
+public class AnnotateMatrixFilter extends FilterBase<Matrix, Matrix> {
+    private static final long serialVersionUID = -1444279996817070989L;
+    @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(AnnotateMatrixFilter.class);
-    private Filter<Collection<InstanceSource>, Matrix> filter;
-    private String className;
     private List<String> features;
+    private Multimap<String, String> classMap;
 
-    public AnnotateMatrixFilter(Filter<Collection<InstanceSource>, Matrix> filter, String className, List<String> features) {
-        super(InstanceSource.class, Matrix.class);
-        this.filter = filter;
-        this.className = className;
+    public AnnotateMatrixFilter( List<String> features, Multimap<String, String> classMap) {
+        super(Matrix.class, Matrix.class);
         this.features = features;
+        this.classMap = classMap;
     }
 
     @Override
-    protected Matrix doFilter(Collection<InstanceSource> params) {
-        Matrix matrix = filter.filter(params);
-        for(InstanceSource instanceSource: params) {
-            matrix.getRow(instanceSource.getTitle()).getAnnotations().add(getClassId(instanceSource));
+    protected Matrix doFilter(Matrix matrix) {
+        for(Map.Entry<String, Collection<String>> entry: classMap.asMap().entrySet()) {
+            matrix.getRow(entry.getKey()).getAnnotations().add(getClassId(entry.getValue()));
         }
         return matrix;
     }
 
-    private String getClassId(InstanceSource instanceSource) {
-        Set<String> set = instanceSource.getFeatures();
-        for(int i=0; i<features.size(); i++) {
-            if(set.contains(features.get(i))) return features.get(i);
+    private String getClassId(Collection<String> classes) {
+        Set<String> set = Sets.newHashSet( classes );
+        for (String feature : features) {
+            if (set.contains(feature)) return feature;
         }
         return "other";
     }

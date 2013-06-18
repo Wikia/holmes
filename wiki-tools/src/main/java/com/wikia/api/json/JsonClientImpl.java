@@ -7,7 +7,6 @@ package com.wikia.api.json;/**
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.sun.istack.internal.NotNull;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -42,7 +41,7 @@ public class JsonClientImpl implements JsonClient {
         );
     }
 
-    protected JsonElement parseJson(@NotNull String json) {
+    protected JsonElement parseJson( String json ) {
         if( json == null ) {
             throw new IllegalArgumentException("json parameter cannot be null.");
         }

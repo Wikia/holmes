@@ -17,14 +17,12 @@ import weka.core.SparseInstance;
 import java.util.*;
 
 public class AnnotatedMatrixToWekaInstancesFilter extends FilterBase<Matrix, Instances> {
+    private static final long serialVersionUID = 5906815478415450072L;
+    @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(AnnotatedMatrixToWekaInstancesFilter.class);
     private String classAttributeName;
     private List<String> classes;
     private List<String> attributeNames;
-
-    public AnnotatedMatrixToWekaInstancesFilter(String classAttributeName, List<String> classes) {
-        this(classAttributeName, classes, null);
-    }
 
     public AnnotatedMatrixToWekaInstancesFilter(String classAttributeName, List<String> classes, List<String> attributeNames) {
         super(Matrix.class, Instances.class);
@@ -47,7 +45,10 @@ public class AnnotatedMatrixToWekaInstancesFilter extends FilterBase<Matrix, Ins
             Vector row=  matrix.getRow(rowName);
             SparseInstance instance = getSparseInstance(matrix, attributeIndices, rowName);
             instance.setDataset(instances);
-            instance.setClassValue(row.getAnnotations().iterator().next());
+            Iterator<String> iterator = row.getAnnotations().iterator();
+            if( iterator.hasNext() ) {
+                instance.setClassValue(iterator.next());
+            }
             instances.add(instance);
         }
         return instances;
@@ -69,7 +70,7 @@ public class AnnotatedMatrixToWekaInstancesFilter extends FilterBase<Matrix, Ins
         return new SparseInstance(1, values, indices, i);
     }
 
-    private Map<String, Integer> getAttributeMap(ArrayList<Attribute> attributes) {
+    private Map<String, Integer> getAttributeMap(Iterable<Attribute> attributes) {
         Map<String, Integer> map = new HashMap<>();
         int i=0;
         for(Attribute attribute: attributes) {
@@ -78,9 +79,9 @@ public class AnnotatedMatrixToWekaInstancesFilter extends FilterBase<Matrix, Ins
         return map;
     }
 
-    private Attribute getClassAttribute(ArrayList<Attribute> attributes) {
+    private Attribute getClassAttribute(Iterable<Attribute> attributes) {
         for(Attribute attribute: attributes) {
-            if(attribute.name() == classAttributeName) return attribute;
+            if(attribute.name().equals(classAttributeName)) return attribute;
         }
         throw new IllegalStateException("No class attribute (name=" + classAttributeName +").");
     }

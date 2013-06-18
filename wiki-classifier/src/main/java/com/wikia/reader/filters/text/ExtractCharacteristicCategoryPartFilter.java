@@ -15,11 +15,13 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.Set;
 
-public class CharacteristicCategoryPartExtractorFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
-    private static Logger logger = LoggerFactory.getLogger(CharacteristicCategoryPartExtractorFilter.class);
+public class ExtractCharacteristicCategoryPartFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+    private static final long serialVersionUID = 8466868566417222816L;
+    @SuppressWarnings("unused")
+    private static Logger logger = LoggerFactory.getLogger(ExtractCharacteristicCategoryPartFilter.class);
     private Set<String> characteristicParts;
 
-    public CharacteristicCategoryPartExtractorFilter() {
+    public ExtractCharacteristicCategoryPartFilter() {
         this(Sets.newHashSet("season"
                 , "character"
                 , "characters"
@@ -53,7 +55,7 @@ public class CharacteristicCategoryPartExtractorFilter extends CollectionFilterB
                 , "rifles"));
     }
 
-    public CharacteristicCategoryPartExtractorFilter(Set<String> characteristicParts) {
+    public ExtractCharacteristicCategoryPartFilter(Set<String> characteristicParts) {
         super(WikiPageStructure.class, SparseMatrix.class);
         this.characteristicParts = characteristicParts;
     }
