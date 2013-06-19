@@ -122,6 +122,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:6.7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.beanshell:bsh:2.0b4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.yaml:snakeyaml:1.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.4" level="project" />
   </component>
 </module>
 

@@ -8,12 +8,10 @@ import com.wikia.reader.filters.FilterBase;
 import com.wikia.reader.text.matrix.Matrix;
 import com.wikia.reader.text.matrix.SparseMatrix;
 import com.wikia.reader.text.matrix.Vector;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Map;
+import java.util.Set;
 
 public class RemoveSparseTermsFilter extends FilterBase<Matrix, Matrix> {
     private static final long serialVersionUID = -9181355870778350163L;
@@ -30,7 +28,7 @@ public class RemoveSparseTermsFilter extends FilterBase<Matrix, Matrix> {
         Set<String> keepCols = new HashSet<>();
         Set<String> cols = matrix.getColumnNames();
         Set<String> rows = matrix.getRowNames();
-        double cutoff = threshold*rows.size();
+        long cutoff = Math.round(threshold*rows.size());
         for(String colName: cols) {
             Vector vector = matrix.getColVector(colName);
             double sum = vector.getNonZeroValues().size();

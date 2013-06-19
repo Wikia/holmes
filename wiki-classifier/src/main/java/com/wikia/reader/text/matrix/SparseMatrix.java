@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class SparseMatrix implements Matrix, Serializable {
+    private static final long serialVersionUID = 4458562335464545378L;
     private Table<String, String, Double> table = HashBasedTable.create();
     private Multimap<String, String> rowAnnotations = HashMultimap.create();
     private Multimap<String, String> colAnnotations = HashMultimap.create();

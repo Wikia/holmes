@@ -1,17 +1,23 @@
-package com.wikia.reader.filters;/**
+package com.wikia.reader.filters;
+/**
  * Author: Artur Dwornik
  * Date: 07.04.13
  * Time: 15:17
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+/**
+ * Base class for filters. Handles type checking.
+ * @see Filter
+ * @param <TIn> argument type
+ * @param <TOut> returned type
+ */
 public abstract class FilterBase<TIn, TOut> implements Filter<TIn, TOut> {
-    private final Class<TIn> inType;
-    private final Class<TOut> outType;
+    private static final long serialVersionUID = -544455464982564434L;
+    private final Class<? super TIn> inType;
+    private final Class<? super TOut> outType;
+    private boolean acceptingNullArguments = false;
 
-    protected FilterBase(Class<TIn> inType, Class<TOut> outType) {
+    protected FilterBase(Class<? super TIn> inType, Class<? super TOut> outType) {
         this.inType = inType;
         this.outType = outType;
     }
@@ -22,18 +28,29 @@ public abstract class FilterBase<TIn, TOut> implements Filter<TIn, TOut> {
     }
 
     @Override
-    public TOut filter(TIn params) {
-        if( !inType.isInstance(params) ) {
+    public TOut filter(TIn argument) {
+        if( !isAcceptingNullArguments() && argument == null ) {
+            throw new IllegalArgumentException("Passed null argument to filter that does not support null arguments.");
+        }
+        if( argument != null && !inType.isInstance(argument) ) {
             throw new IllegalArgumentException("Argument has wrong type. Was "
-                    + params.getClass() + " expected " + inType);
+                    + argument.getClass() + " expected " + inType);
         }
-        TOut ret = doFilter(params);
-        if( !outType.isInstance(ret) ) {
-            throw new IllegalArgumentException("Returnet value has wrong type. Was"
-                + ret.getClass() + " expected" + outType);
+        TOut returnedValue = doFilter(argument);
+        if( returnedValue != null && !outType.isInstance(returnedValue) ) {
+            throw new IllegalStateException("Returned value had wrong type. Was"
+                + returnedValue.getClass() + " expected" + outType);
         }
-        return ret;
+        return returnedValue;
     }
 
     protected abstract TOut doFilter(TIn params);
+
+    public boolean isAcceptingNullArguments() {
+        return acceptingNullArguments;
+    }
+
+    public void setAcceptingNullArguments(boolean acceptingNullArguments) {
+        this.acceptingNullArguments = acceptingNullArguments;
+    }
 }

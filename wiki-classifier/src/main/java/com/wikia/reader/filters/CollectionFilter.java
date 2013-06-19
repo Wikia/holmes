@@ -4,19 +4,18 @@ package com.wikia.reader.filters;/**
  * Time: 19:43
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class CollectionFilter<TInElement, TOutElement> extends FilterBase<Collection<TInElement>, Collection<TOutElement>> {
-    private static Logger logger = LoggerFactory.getLogger(CollectionFilter.class);
+    private static final long serialVersionUID = 5952824510014559036L;
     private final Filter<TInElement, TOutElement> innerFilter;
 
     public CollectionFilter( Filter<TInElement, TOutElement> innerFilter) {
-        super((Class<Collection<TInElement>>) (Class) Collection.class, (Class<Collection<TOutElement>>) (Class) Collection.class);
+        super(new  TypeToken <Collection<TInElement>>() {}.getRawType() , new  TypeToken <Collection<TOutElement>>() {}.getRawType());
         this.innerFilter = innerFilter;
     }
 
