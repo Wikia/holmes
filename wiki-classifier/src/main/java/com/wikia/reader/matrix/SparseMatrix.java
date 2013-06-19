@@ -1,4 +1,4 @@
-package com.wikia.reader.text.matrix;
+package com.wikia.reader.matrix;
 /**
  * Author: Artur Dwornik
  * Date: 07.04.13
@@ -8,22 +8,26 @@ package com.wikia.reader.text.matrix;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Table;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class SparseMatrix implements Matrix, Serializable {
     private static final long serialVersionUID = 4458562335464545378L;
-    private Table<String, String, Double> table = HashBasedTable.create();
+    private HashBasedTable<String, String, Double> table = HashBasedTable.create();
     private Multimap<String, String> rowAnnotations = HashMultimap.create();
     private Multimap<String, String> colAnnotations = HashMultimap.create();
 
     @Override
-    public double get(String row, String col) {
-        return table.get(row,col);
+    public double get(String rowName, String columnName) {
+        Double doubleObject = table.get(rowName, columnName);
+        if ( doubleObject == null ) {
+            if ( !table.containsRow(rowName) ) { throw new NoSuchElementException(String.format("Row '%s' does not exist.", rowName)); }
+            if ( !table.containsColumn(columnName) ) { throw new NoSuchElementException(String.format("Column '%s does not exist.", columnName)); }
+            return 0;
+        } else {
+            return doubleObject;
+        }
     }
 
     @Override
@@ -32,12 +36,12 @@ public class SparseMatrix implements Matrix, Serializable {
     }
 
     @Override
-    public VectorBase getRow(String name) {
+    public Vector getRowVector(String name) {
         return new RowVector(this, name);
     }
 
     @Override
-    public VectorBase getColVector(String name) {
+    public Vector getColumnVector(String name) {
         return new ColumnVector(this, name);
     }
 
@@ -54,13 +58,15 @@ public class SparseMatrix implements Matrix, Serializable {
     @Override
     public void merge(Matrix matrix) {
         for(String rowName: matrix.getRowNames()) {
-            for(Map.Entry<String, Double> entry: matrix.getRow(rowName).getNonZeroValues().entrySet()){
+            for(Map.Entry<String, Double> entry: matrix.getRowVector(rowName).getNonZeroValues().entrySet()){
                 table.put(rowName, entry.getKey(), entry.getValue());
             }
         }
     }
 
-    public abstract class VectorBase implements Vector {
+    private abstract class VectorBase implements Vector {
+
+        protected abstract Map<String, Double> getMap();
 
         @Override
         public double sumNonZeroValues() {
@@ -84,6 +90,11 @@ public class SparseMatrix implements Matrix, Serializable {
             } else {
                 getNonZeroValues().put(name, value);
             }
+        }
+
+        @Override
+        public int size() {
+            return getMap().size();
         }
     }
 
@@ -115,6 +126,11 @@ public class SparseMatrix implements Matrix, Serializable {
         @Override
         public Map<String, Double> getNonZeroValues() {
             return sparseMatrix.table.row(rowName);
+        }
+
+        @Override
+        protected Map<String, Double> getMap() {
+            return table.row(rowName);
         }
     }
     public class ColumnVector extends VectorBase {
@@ -148,6 +164,11 @@ public class SparseMatrix implements Matrix, Serializable {
         @Override
         public Map<String, Double> getNonZeroValues() {
             return sparseMatrix.table.column(colName);
+        }
+
+        @Override
+        protected Map<String, Double> getMap() {
+            return table.row(colName);
         }
     }
 }

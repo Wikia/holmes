@@ -5,9 +5,9 @@ package com.wikia.reader.filters.text;/**
  */
 
 import com.wikia.reader.filters.FilterBase;
-import com.wikia.reader.text.matrix.Matrix;
-import com.wikia.reader.text.matrix.SparseMatrix;
-import com.wikia.reader.text.matrix.Vector;
+import com.wikia.reader.matrix.Matrix;
+import com.wikia.reader.matrix.SparseMatrix;
+import com.wikia.reader.matrix.Vector;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -30,14 +30,14 @@ public class RemoveSparseTermsFilter extends FilterBase<Matrix, Matrix> {
         Set<String> rows = matrix.getRowNames();
         long cutoff = Math.round(threshold*rows.size());
         for(String colName: cols) {
-            Vector vector = matrix.getColVector(colName);
+            Vector vector = matrix.getColumnVector(colName);
             double sum = vector.getNonZeroValues().size();
             if( sum>cutoff ) {
                 keepCols.add(colName);
             }
         }
         for(String row: rows) {
-            Vector vector = matrix.getRow(row);
+            Vector vector = matrix.getRowVector(row);
             for(Map.Entry<String, Double> entry: vector.getNonZeroValues().entrySet()) {
                 if(keepCols.contains(entry.getKey())) {
                     sparseMatrix.put(row, entry.getKey(), entry.getValue());

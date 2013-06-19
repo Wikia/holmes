@@ -8,8 +8,7 @@ import com.beust.jcommander.internal.Lists;
 import com.wikia.reader.filters.CollectionFilterBase;
 import com.wikia.reader.filters.Filter;
 import com.wikia.reader.input.structured.WikiPageStructure;
-import com.wikia.reader.text.matrix.Matrix;
-import com.wikia.reader.text.matrix.SparseMatrix;
+import com.wikia.reader.matrix.SparseMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +16,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class CompositeExtractorFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+    private static final long serialVersionUID = -4216220958359075039L;
+    @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(CompositeExtractorFilter.class);
     private final List<Filter<Collection<WikiPageStructure>, SparseMatrix>> filters;
 

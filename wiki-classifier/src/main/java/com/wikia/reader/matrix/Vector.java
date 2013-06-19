@@ -1,4 +1,4 @@
-package com.wikia.reader.text.matrix;
+package com.wikia.reader.matrix;
 /**
  * Author: Artur Dwornik
  * Date: 07.04.13
@@ -20,4 +20,6 @@ public interface Vector {
     double get(String name);
 
     void put(String name, double value);
+
+    int size();
 }

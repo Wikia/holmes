@@ -10,14 +10,13 @@ import com.wikia.reader.filters.CollectionFilterBase;
 import com.wikia.reader.input.structured.WikiPageStructure;
 import com.wikia.reader.text.Tokenizer;
 import com.wikia.reader.text.TokenizerImpl;
-import com.wikia.reader.text.matrix.SparseMatrix;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.wikia.reader.matrix.SparseMatrix;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@SuppressWarnings("unused") // TODO: use me
 public class NGramPlainTextFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
     private Tokenizer sentenceTokenizer;
     private Tokenizer wordTokenizer;

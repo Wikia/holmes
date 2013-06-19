@@ -8,7 +8,7 @@ import com.google.common.collect.Sets;
 import com.wikia.reader.filters.CollectionFilterBase;
 import com.wikia.reader.input.structured.WikiPageCategory;
 import com.wikia.reader.input.structured.WikiPageStructure;
-import com.wikia.reader.text.matrix.SparseMatrix;
+import com.wikia.reader.matrix.SparseMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

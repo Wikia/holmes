@@ -11,7 +11,7 @@ import com.wikia.reader.input.structured.WikiPageStructure;
 import com.wikia.reader.text.Tokenizer;
 import com.wikia.reader.text.TokenizerImpl;
 import com.wikia.reader.text.TokenizerStopwordsFilter;
-import com.wikia.reader.text.matrix.SparseMatrix;
+import com.wikia.reader.matrix.SparseMatrix;
 import com.wikia.reader.util.StopWordsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class ExtractPlainTextWordsFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+    private static final long serialVersionUID = 3540949511501759679L;
+    @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(ExtractPlainTextWordsFilter.class);
     private String delimiters = " \r\n\t.,;:'\"()?!<>[]{}|";
     private List<String> stopWords = StopWordsHelper.defaultStopWords();;

@@ -5,16 +5,16 @@ package com.wikia.reader.filters.text;/**
  */
 
 import com.wikia.reader.filters.CollectionFilterBase;
-import com.wikia.reader.filters.FilterBase;
 import com.wikia.reader.input.structured.WikiPageSection;
 import com.wikia.reader.input.structured.WikiPageStructure;
-import com.wikia.reader.text.matrix.SparseMatrix;
+import com.wikia.reader.matrix.SparseMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
 public class ExtractSectionsFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+    private static final long serialVersionUID = 7179107473450821264L;
     private static Logger logger = LoggerFactory.getLogger(ExtractSectionsFilter.class);
 
     public ExtractSectionsFilter() {
@@ -28,7 +28,9 @@ public class ExtractSectionsFilter extends CollectionFilterBase<WikiPageStructur
             for(WikiPageSection section: structure.getSections()) {
                 String name = section.getTitle();
                 name = name.trim().toLowerCase();
-                matrix.put(structure.getTitle(), "sec:"+name, 1);
+                String key = "sec:"+name;
+                logger.debug(key);
+                matrix.put(structure.getTitle(), key, 1);
             }
         }
         return matrix;

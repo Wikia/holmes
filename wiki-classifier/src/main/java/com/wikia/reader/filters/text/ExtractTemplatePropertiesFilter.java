@@ -4,7 +4,6 @@ package com.wikia.reader.filters.text;/**
  * Time: 22:52
  */
 
-import com.google.common.base.Strings;
 import com.wikia.reader.filters.CollectionFilterBase;
 import com.wikia.reader.input.structured.WikiPageStructure;
 import com.wikia.reader.input.structured.WikiPageTemplate;
@@ -12,7 +11,7 @@ import com.wikia.reader.input.structured.WikiPageTemplateArgument;
 import com.wikia.reader.text.Tokenizer;
 import com.wikia.reader.text.TokenizerImpl;
 import com.wikia.reader.text.TokenizerStopwordsFilter;
-import com.wikia.reader.text.matrix.SparseMatrix;
+import com.wikia.reader.matrix.SparseMatrix;
 import com.wikia.reader.util.StopWordsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class ExtractTemplatePropertiesFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+    @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(ExtractTemplatePropertiesFilter.class);
     private boolean extractTemplateName = true;
     private boolean extractArgval = false;

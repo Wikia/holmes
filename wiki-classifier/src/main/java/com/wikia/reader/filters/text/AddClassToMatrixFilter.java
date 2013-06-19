@@ -7,7 +7,7 @@ package com.wikia.reader.filters.text;/**
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.wikia.reader.filters.FilterBase;
-import com.wikia.reader.text.matrix.Matrix;
+import com.wikia.reader.matrix.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +32,7 @@ public class AddClassToMatrixFilter extends FilterBase<Matrix, Matrix> {
     @Override
     protected Matrix doFilter(Matrix matrix) {
         for(Map.Entry<String, Collection<String>> entry: classMap.asMap().entrySet()) {
-            matrix.getRow(entry.getKey()).getAnnotations().add(getClassId(entry.getValue()));
+            matrix.getRowVector(entry.getKey()).getAnnotations().add(getClassId(entry.getValue()));
         }
         return matrix;
     }

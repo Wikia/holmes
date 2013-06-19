@@ -6,8 +6,8 @@ package com.wikia.reader.filters.text;
  */
 
 import com.wikia.reader.filters.FilterBase;
-import com.wikia.reader.text.matrix.Matrix;
-import com.wikia.reader.text.matrix.Vector;
+import com.wikia.reader.matrix.Matrix;
+import com.wikia.reader.matrix.Vector;
 import com.wikia.reader.util.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class MatrixToWekaInstancesFilter extends FilterBase<Matrix, Instances> {
         }
 
         for(String rowName: matrix.getRowNames()) {
-            Vector row=  matrix.getRow(rowName);
+            Vector row=  matrix.getRowVector(rowName);
             SparseInstance instance = getSparseInstance(matrix, attributeIndices, rowName);
             instance.setDataset(instances);
             Iterator<String> iterator = row.getAnnotations().iterator();
@@ -56,7 +56,7 @@ public class MatrixToWekaInstancesFilter extends FilterBase<Matrix, Instances> {
     }
 
     private SparseInstance getSparseInstance(Matrix matrix, Map<String, Integer> attributeIndices, String rowName) {
-        Map<String, Double> row = matrix.getRow(rowName).getNonZeroValues();
+        Map<String, Double> row = matrix.getRowVector(rowName).getNonZeroValues();
         double values[] = new double[row.size()];
         int indices[] = new int[row.size()];
         int i=0;

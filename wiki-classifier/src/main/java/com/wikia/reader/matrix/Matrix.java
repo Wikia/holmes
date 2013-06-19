@@ -1,4 +1,4 @@
-package com.wikia.reader.text.matrix;
+package com.wikia.reader.matrix;
 
 import java.util.Set;
 
@@ -8,14 +8,13 @@ import java.util.Set;
  * Time: 13:48
  */
 public interface Matrix {
-
     double get(String row, String col);
 
     void put(String row, String col, double val);
 
-    SparseMatrix.VectorBase getRow(String name);
+    Vector getRowVector(String name);
 
-    SparseMatrix.VectorBase getColVector(String name);
+    Vector getColumnVector(String name);
 
     Set<String> getRowNames();
 
