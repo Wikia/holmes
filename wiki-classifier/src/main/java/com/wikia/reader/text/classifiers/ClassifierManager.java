@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
+
+// TODO: unhardcode me
 public class ClassifierManager {
     private static Logger logger = LoggerFactory.getLogger(ClassifierManager.class);
     //private Map<String, Classifier> map = new HashMap<>();

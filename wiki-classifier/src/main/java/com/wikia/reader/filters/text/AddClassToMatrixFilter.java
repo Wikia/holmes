@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class AnnotateMatrixFilter extends FilterBase<Matrix, Matrix> {
+public class AddClassToMatrixFilter extends FilterBase<Matrix, Matrix> {
     private static final long serialVersionUID = -1444279996817070989L;
     @SuppressWarnings("unused")
-    private static Logger logger = LoggerFactory.getLogger(AnnotateMatrixFilter.class);
+    private static Logger logger = LoggerFactory.getLogger(AddClassToMatrixFilter.class);
     private List<String> features;
     private Multimap<String, String> classMap;
 
-    public AnnotateMatrixFilter( List<String> features, Multimap<String, String> classMap) {
+    public AddClassToMatrixFilter(List<String> features, Multimap<String, String> classMap) {
         super(Matrix.class, Matrix.class);
         this.features = features;
         this.classMap = classMap;

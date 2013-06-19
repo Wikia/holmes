@@ -46,7 +46,7 @@ public class ClassifierBuilder {
                 buildExtractor( true )
         );
         Matrix matrix = f.filter(pages);
-        matrix = new AnnotateMatrixFilter(classes, pageFeatureMap).filter(matrix);
+        matrix = new AddClassToMatrixFilter(classes, pageFeatureMap).filter(matrix);
         Filter<Matrix, Instances> matrixInstancesFilter = matrixToInstancesFilter(matrix, classes);
         classifier.buildClassifier(matrixInstancesFilter.filter(matrix));
         Filter<Collection<PageInfo>, Instances> f2 = combine(
@@ -102,7 +102,7 @@ public class ClassifierBuilder {
         FilterChain chain = new FilterChain();
         List<String> cls = new ArrayList<>(classes);
         cls.add("other");
-        chain.getChain().add(new AnnotatedMatrixToWekaInstancesFilter("__CLASS__", cls, cols));
+        chain.getChain().add(new MatrixToWekaInstancesFilter("__CLASS__", cls, cols));
 
         return chain;
     }
