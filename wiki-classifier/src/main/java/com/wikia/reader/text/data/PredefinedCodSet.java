@@ -4,7 +4,7 @@ package com.wikia.reader.text.data;/**
  * Time: 18:59
  */
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

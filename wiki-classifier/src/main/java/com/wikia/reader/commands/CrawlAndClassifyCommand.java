@@ -6,12 +6,11 @@ package com.wikia.reader.commands;/**
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import com.wikia.api.model.Page;
 import com.wikia.api.model.PageInfo;
 import com.wikia.api.service.PageServiceFactory;
-import com.wikia.reader.text.classifiers.ClassifierManager;
+import com.wikia.reader.text.classifiers.CompositeClassifier;
+import com.wikia.reader.text.classifiers.model.ClassificationResult;
 import com.wikia.reader.text.data.InstanceSource;
-import com.wikia.reader.text.service.model.ClassificationCollection;
 
 import java.net.URL;
 import java.util.HashSet;
@@ -34,16 +33,16 @@ public class CrawlAndClassifyCommand implements Command {
     @Override
     public void execute(AppParams params) {
         try {
-            ClassifierManager classifierManager = new ClassifierManager();
+            CompositeClassifier classifierManager = new CompositeClassifier();
             for(String url: urls) {
                 Iterator<PageInfo> iterator = new PageServiceFactory().get(new URL(url)).getPages().iterator();
                 while( iterator.hasNext() ) {
                     PageInfo textChunk = iterator.next();
-                    ClassificationCollection classification = classifierManager.classify(
+                    ClassificationResult classification = classifierManager.classify(
                             new InstanceSource(new URL(url), textChunk.getTitle(), new HashSet())
                     );
                     System.out.print(
-                            String.format("\"%s\", \"%s\"\n", textChunk.getTitle(), classification.getAggregatedResult())
+                            String.format("\"%s\", \"%s\"\n", textChunk.getTitle(), classification.getSingleClass())
                     );
                 }
             }

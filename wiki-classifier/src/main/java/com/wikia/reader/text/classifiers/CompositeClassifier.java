@@ -4,18 +4,18 @@ package com.wikia.reader.text.classifiers;/**
  * Time: 16:05
  */
 
-import com.beust.jcommander.internal.Lists;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.wikia.api.model.Page;
 import com.wikia.api.model.PageInfo;
 import com.wikia.api.service.PageService;
 import com.wikia.api.service.PageServiceFactory;
 import com.wikia.reader.text.classifiers.exceptions.ClassifyException;
+import com.wikia.reader.text.classifiers.model.ClassRelevance;
+import com.wikia.reader.text.classifiers.model.ClassificationResult;
 import com.wikia.reader.text.data.InstanceSource;
 import com.wikia.reader.text.data.PredefinedGeneralSet;
-import com.wikia.reader.text.service.model.Classification;
-import com.wikia.reader.text.service.model.ClassificationCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import weka.classifiers.bayes.BayesNet;
@@ -31,12 +31,12 @@ import java.util.*;
 
 
 // TODO: unhardcode me
-public class ClassifierManager {
-    private static Logger logger = LoggerFactory.getLogger(ClassifierManager.class);
+public class CompositeClassifier {
+    private static Logger logger = LoggerFactory.getLogger(CompositeClassifier.class);
     //private Map<String, Classifier> map = new HashMap<>();
     private final List<ClassifierEntry> classifiers = new ArrayList<>();
 
-    public ClassifierManager() {
+    public CompositeClassifier() {
         train();
     }
 
@@ -49,7 +49,7 @@ public class ClassifierManager {
             logger.error("Error", e);
         }
         final List<String> classes = Lists.newArrayList(
-                  "character"
+                "character"
                 , "weapon"
                 , "achievement"
                 , "item"
@@ -70,6 +70,7 @@ public class ClassifierManager {
         //classifiers.add(new ClassifierEntry("RandomForest(ngram)",    new NGramClassifier(set, classes), 1));
         //classifiers.add(new ClassifierEntry("RandomForest(puretext)", new PureTextRandomForestClassifier(set, classes), 1));
         try {
+            // TODO: factory for that
             classifiers.add(new ClassifierEntry("IBk",                    new ClassifierBuilder(new IBk()).train(set, multimap, classes), 0.3));
             classifiers.add(new ClassifierEntry("J48",                    new ClassifierBuilder(new J48()).train(set, multimap, classes), 1));
             classifiers.add(new ClassifierEntry("KStar",                  new ClassifierBuilder(new KStar()).train(set, multimap, classes), 0.3));
@@ -78,7 +79,7 @@ public class ClassifierManager {
             classifiers.add(new ClassifierEntry("NaiveBayes",             new ClassifierBuilder(new NaiveBayes()).train(set, multimap, classes), 1));
             classifiers.add(new ClassifierEntry("BayesNet",               new ClassifierBuilder(new BayesNet()).train(set, multimap, classes), 0.3));
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         //    }
         //});
@@ -98,20 +99,34 @@ public class ClassifierManager {
         return pageInfoList;
     }
 
-    public ClassificationCollection classify(InstanceSource instanceSource) {
+    public ClassificationResult classify(InstanceSource instanceSource) {
         try {
             PageServiceFactory pageServiceFactory = new PageServiceFactory();
             PageService pageService = pageServiceFactory.get(instanceSource.getWikiRoot());
             Page page;
 
             page = pageService.getPage(instanceSource.getTitle());
-            Map<String, Classification> result = new HashMap<>();
-            for (ClassifierEntry entry : classifiers) {
-                Classification classification = entry.getClassifier().classify(page);
-                classification.setWeight(entry.getWeight());
+            Map<String, ClassificationResult> result = new HashMap<>();
+            double weightSum = 0;
+            Map<String, Double> classifications = new HashMap<>();
+            for ( ClassifierEntry entry: classifiers ) {
+                ClassificationResult classification = entry.getClassifier().classify(page);
+                for( ClassRelevance relevance: classification.getClasses() ) {
+                    if( !classifications.containsKey( relevance.getClassName() ) ) {
+                        classifications.put( relevance.getClassName(), relevance.getRelevance() );
+                    } else {
+                        classifications.put(relevance.getClassName()
+                                , classifications.get(relevance.getClassName()) +  relevance.getRelevance());
+                    }
+                }
+                weightSum += entry.getWeight();
                 result.put(entry.getName(), classification);
             }
-            return new ClassificationCollection(result, getAggregatedResult(result.values()));
+            for( Map.Entry<String, Double> entry: classifications.entrySet() ) {
+                entry.setValue( entry.getValue() / weightSum );
+            }
+
+            return buildClassificationResult(classifications);
         } catch (IOException e) {
             throw new RuntimeException("Unexpected error while classification.", e);
         } catch (ClassifyException e) {
@@ -119,25 +134,21 @@ public class ClassifierManager {
         }
     }
 
-    private String getAggregatedResult(Collection<Classification> results) {
-        Map<String, Double> sums = new HashMap<>();
-        double weightSum = 0;
-        for(Classification classification: results) {
-            String className = classification.getClasses().get(0);
-            weightSum += classification.getWeight();
-            if( !sums.containsKey(className) ) {
-                sums.put(className, 0.0);
-            }
-            sums.put( className, sums.get(className) + classification.getWeight() );
+    private ClassificationResult buildClassificationResult( Map<String, Double> classifications ) {
+        // TODO: create strategy from that
+        List<ClassRelevance> classRelevanceList = new ArrayList<>();
+        for(Map.Entry<String, Double> classification: classifications.entrySet()) {
+            classRelevanceList.add(new ClassRelevance(classification.getKey(), classification.getValue()));
         }
-        String result = "??";
-        for(Map.Entry<String, Double> stringEntry: sums.entrySet()) {
-            if( stringEntry.getValue() > weightSum/2 ) {
-                result = stringEntry.getKey();
-            }
+        Collections.sort(classRelevanceList);
+        Collections.reverse(classRelevanceList);
+        String selectedClass = "other";
+        if( classRelevanceList.size() > 0 && classRelevanceList.get(0).getRelevance() > 0.2 ) {
+            if ( classRelevanceList.size() == 1
+                    || classRelevanceList.get(0).getRelevance() / classRelevanceList.get(1).getRelevance() > 1.2)
+            selectedClass = classRelevanceList.get(0).getClassName();
         }
-        if( "other".equals(result) ) return "??";
-        return result;
+        return new ClassificationResult(selectedClass, classRelevanceList);
     }
 
     static class ClassifierEntry implements Serializable {

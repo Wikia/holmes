@@ -4,7 +4,7 @@ package com.wikia.reader.filters.text;/**
  * Time: 23:02
  */
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import com.wikia.reader.filters.CollectionFilterBase;
 import com.wikia.reader.filters.Filter;
 import com.wikia.reader.input.structured.WikiPageStructure;

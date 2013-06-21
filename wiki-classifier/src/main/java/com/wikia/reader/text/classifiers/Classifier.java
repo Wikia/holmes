@@ -1,8 +1,8 @@
 package com.wikia.reader.text.classifiers;
 
 import com.wikia.api.model.PageInfo;
+import com.wikia.reader.text.classifiers.model.ClassificationResult;
 import com.wikia.reader.text.classifiers.exceptions.ClassifyException;
-import com.wikia.reader.text.service.model.Classification;
 
 /**
  * Author: Artur Dwornik
@@ -10,5 +10,5 @@ import com.wikia.reader.text.service.model.Classification;
  * Time: 11:12
  */
 public interface Classifier {
-    public Classification classify(PageInfo source) throws ClassifyException;
+    public ClassificationResult classify(PageInfo source) throws ClassifyException;
 }

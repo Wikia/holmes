@@ -5,7 +5,7 @@ package com.wikia.reader.text.classifiers;
  * Time: 02:56
  */
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.wikia.api.model.PageInfo;
 import com.wikia.reader.filters.CollectionFilter;

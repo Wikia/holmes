@@ -4,8 +4,7 @@ package com.wikia.reader.input.structured;/**
  * Time: 22:56
  */
 
-import com.beust.jcommander.internal.Lists;
-import de.fau.cs.osr.ptk.common.ast.NodeList;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

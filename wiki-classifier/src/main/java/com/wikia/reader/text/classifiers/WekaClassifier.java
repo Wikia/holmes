@@ -5,16 +5,19 @@ package com.wikia.reader.text.classifiers;
  * Time: 03:50
  */
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import com.wikia.api.model.PageInfo;
 import com.wikia.reader.filters.Filter;
 import com.wikia.reader.text.classifiers.exceptions.ClassifyException;
-import com.wikia.reader.text.service.model.Classification;
+import com.wikia.reader.text.classifiers.model.ClassRelevance;
+import com.wikia.reader.text.classifiers.model.ClassificationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import weka.core.Instances;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class WekaClassifier implements Classifier {
@@ -31,26 +34,38 @@ public class WekaClassifier implements Classifier {
     }
 
     @Override
-    public Classification classify(PageInfo source) throws ClassifyException {
+    public ClassificationResult classify(PageInfo source) throws ClassifyException {
         try {
             double[] values = classifier.distributionForInstance(filter.filter(Lists.newArrayList(source)).instance(0));
-            String clazz = getClass(values);
-            return new Classification(Lists.newArrayList(clazz), values);
+            return buildClassificationResult( values );
         } catch (Exception e) {
-            throw new ClassifyException(e);
+            throw new ClassifyException("Error while classification of page content.",e);
         }
     }
 
-    private String getClass(double[] doubles) {
-        double best = 0;
-        int bestind = 0;
-        for(int i=0; i<doubles.length; i++) {
-            if(doubles[i] > best) {
-                bestind = i;
-                best = doubles[i];
-            }
+    private ClassificationResult buildClassificationResult( double[] estimates ) {
+        if( classes.size() + 1 != estimates.length ) {
+            logger.warn(String.format("classes.size() (%d) != (%d) estimates.length"
+                    , classes.size()
+                    , estimates.length
+            ));
         }
-        if(best < 0.01 || classes.size() <= bestind) return "other";
-        return classes.get(bestind);
+        List<ClassRelevance> classRelevanceList = new ArrayList<>();
+        for(int i=0; i < Math.min(estimates.length, classes.size() + 1); i++) {
+            String className;
+            if( i < classes.size() ) {
+                className = classes.get(i);
+            } else {
+                className = "other";
+            }
+            classRelevanceList.add(new ClassRelevance(className, estimates[i]));
+        }
+        Collections.sort(classRelevanceList);
+        Collections.reverse(classRelevanceList);
+        String selectedClass = "other";
+        if( classRelevanceList.size() > 0 && classRelevanceList.get(0).getRelevance() > 0.01 ) {
+            selectedClass = classRelevanceList.get(0).toString();
+        }
+        return new ClassificationResult(selectedClass, classRelevanceList);
     }
 }

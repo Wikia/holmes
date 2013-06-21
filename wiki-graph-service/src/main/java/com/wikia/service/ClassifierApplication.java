@@ -1,4 +1,4 @@
-package com.wikia.reader.text.service;/**
+package com.wikia.service;/**
  * Author: Artur Dwornik
  * Date: 13.04.13
  * Time: 13:30

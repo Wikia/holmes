@@ -7,6 +7,7 @@
     <modules>
         <module>wiki-tools</module>
         <module>wiki-classifier</module>
+        <module>wiki-graph-service</module>
     </modules>
 
 
