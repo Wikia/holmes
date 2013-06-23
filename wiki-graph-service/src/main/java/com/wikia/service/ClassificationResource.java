@@ -6,7 +6,6 @@ package com.wikia.service;/**
 
 import com.google.common.base.Strings;
 import com.wikia.reader.text.classifiers.CompositeClassifier;
-import com.wikia.reader.text.classifiers.model.ClassificationResult;
 import com.wikia.reader.text.data.InstanceSource;
 import com.wikia.service.model.ClassificationViewModel;
 import org.slf4j.Logger;
@@ -38,15 +37,21 @@ public class ClassificationResource {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("{wikiName}/{page}")
+    @Path("{wikiName : .+}/{page}")
     public ClassificationViewModel getClassifications(@PathParam("wikiName") String wikiName,@PathParam("page")  String page) {
-        //return  new ClassificationCollection(
-        //        Lists.newArrayList(new Classification(Lists.newArrayList("class"))));
+        logger.info(String.format("getClassifications(\"%s\",\"%s\")", wikiName, page));
         if( Strings.isNullOrEmpty(wikiName) || Strings.isNullOrEmpty(page) || page.startsWith("Special:") ) {
             return null;
         }
         try {
-            InstanceSource source = new InstanceSource(new URL("http://" +  wikiName + ".wikia.com"), page, null);
+            // TODO: move this logic out as a strategy
+            URL url;
+            if( !wikiName.contains(".") ) {
+                url = new URL("http://" +  wikiName + ".wikia.com");
+            } else {
+                url = new URL(wikiName);
+            }
+            InstanceSource source = new InstanceSource(url, page, null);
             return ClassificationViewModel.fromClassificationResult(getClassifierManager().classify(source));
         } catch (MalformedURLException e) {
             logger.error("Cannot parse url", e);
