@@ -4,8 +4,8 @@ package com.wikia.api.client.response;/**
  * Time: 14:22
  */
 
-import junit.framework.Assert;
-import org.testng.annotations.Test;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
 public class AllPagesQueryContinueTest {
 

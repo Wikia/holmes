@@ -4,10 +4,8 @@ package com.wikia.api.client.response;/**
  * Time: 14:12
  */
 
-import junit.framework.Assert;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
+import org.testng.annotations.*;
+import org.testng.Assert;
 import java.util.Random;
 
 public class AllPagesPageTest {
@@ -32,7 +30,7 @@ public class AllPagesPageTest {
     @Test
     public void testSetId() throws Exception {
         freshPage.setId(randomNumber);
-        Assert.assertEquals((Long) randomNumber, freshPage.getId());
+        Assert.assertEquals(freshPage.getId(), (Long) randomNumber);
     }
 
     @Test
@@ -43,7 +41,7 @@ public class AllPagesPageTest {
     @Test
     public void testSetTitle() throws Exception {
         freshPage.setTitle("foo");
-        Assert.assertEquals("foo", freshPage.getTitle());
+        Assert.assertEquals(freshPage.getTitle(), "foo");
     }
 
     @Test
@@ -54,6 +52,6 @@ public class AllPagesPageTest {
     @Test
     public void testSetNamespace() throws Exception {
         freshPage.setNamespace(randomNumber);
-        Assert.assertEquals((Long) randomNumber, freshPage.getNamespace());
+        Assert.assertEquals(freshPage.getNamespace(), (Long) randomNumber);
     }
 }

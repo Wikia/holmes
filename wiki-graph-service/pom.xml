@@ -79,13 +79,13 @@
             <version>3.0.7.RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8.5</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- Is this really needed -->
+        <!-- Is this really needed ? -->
         <dependency>
             <groupId>org.sweble.wikitext</groupId>
             <artifactId>swc-parser-lazy</artifactId>
@@ -199,6 +199,9 @@
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
+                            <includes>
+                                <include>**/*IT.java</include>
+                            </includes>
                             <systemPropertyVariables>
                                 <service.url>http://localhost:${test.server.port}/jaxrs-service</service.url>
                             </systemPropertyVariables>
