@@ -1,4 +1,5 @@
-package com.wikia.service;/**
+package com.wikia.service;
+/**
  * Author: Artur Dwornik
  * Date: 13.04.13
  * Time: 13:30
@@ -11,6 +12,7 @@ import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
+@SuppressWarnings("unused")
 public class ClassifierApplication extends Application {
     private static Logger logger = LoggerFactory.getLogger(ClassifierApplication.class);
     public Set<Class<?>> getClasses() {

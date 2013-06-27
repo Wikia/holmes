@@ -5,15 +5,14 @@ package com.wikia.service.model;
  * Time: 15:47
  */
 
-import com.wikia.reader.text.classifiers.model.ClassRelevance;
-import com.wikia.reader.text.classifiers.model.ClassificationResult;
+import com.wikia.classifier.text.classifiers.model.ClassRelevance;
+import com.wikia.classifier.text.classifiers.model.ClassificationResult;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @XmlRootElement(name = "classification")

@@ -8,6 +8,7 @@
         <module>wiki-tools</module>
         <module>wiki-classifier</module>
         <module>wiki-graph-service</module>
+        <module>wiki-graph-matcher</module>
     </modules>
 
 

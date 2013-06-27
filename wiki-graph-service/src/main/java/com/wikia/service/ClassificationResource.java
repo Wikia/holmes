@@ -5,8 +5,8 @@ package com.wikia.service;/**
  */
 
 import com.google.common.base.Strings;
-import com.wikia.reader.text.classifiers.CompositeClassifier;
-import com.wikia.reader.text.data.InstanceSource;
+import com.wikia.classifier.text.classifiers.CompositeClassifier;
+import com.wikia.classifier.text.data.InstanceSource;
 import com.wikia.service.model.ClassificationViewModel;
 import com.wikia.service.strategy.UnkwnownWikiException;
 import com.wikia.service.strategy.WikiUrlStrategy;
