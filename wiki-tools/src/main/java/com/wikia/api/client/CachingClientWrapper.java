@@ -7,6 +7,7 @@ package com.wikia.api.client;/**
 import com.wikia.api.cache.CacheFallbackFetcher;
 import com.wikia.api.cache.CacheService;
 import com.wikia.api.client.response.AllPagesQueryResponseWrapper;
+import com.wikia.api.client.response.LinksResponseWrapper;
 import com.wikia.api.client.response.RevisionsQueryResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class CachingClientWrapper implements Client {
 
     @Override
     public RevisionsQueryResponseWrapper getRevisions(final long pageId) throws IOException {
-        return cacheService.get(buildKeyPrefix("getRevisions:") + pageId, new CacheFallbackFetcher<RevisionsQueryResponseWrapper>() {
+        return cacheService.get(String.format("%s%d", buildKeyPrefix("getRevisions:"), pageId), new CacheFallbackFetcher<RevisionsQueryResponseWrapper>() {
             @Override
             public RevisionsQueryResponseWrapper call() throws IOException {
                 return client.getRevisions(pageId);
@@ -40,7 +41,7 @@ public class CachingClientWrapper implements Client {
 
     @Override
     public RevisionsQueryResponseWrapper getRevisions(final String title) throws IOException {
-        return cacheService.get(buildKeyPrefix("getRevisions:title:") + title, new CacheFallbackFetcher<RevisionsQueryResponseWrapper>() {
+        return cacheService.get(String.format("%s%s", buildKeyPrefix("getRevisions:title:"), title), new CacheFallbackFetcher<RevisionsQueryResponseWrapper>() {
             @Override
             public RevisionsQueryResponseWrapper call() throws IOException {
                 return client.getRevisions(title);
@@ -50,10 +51,20 @@ public class CachingClientWrapper implements Client {
 
     @Override
     public AllPagesQueryResponseWrapper getAllPages(final long count, final String apFrom) throws IOException {
-        return cacheService.get(buildKeyPrefix("getAllPages:") + count + ":" + apFrom, new CacheFallbackFetcher<AllPagesQueryResponseWrapper>() {
+        return cacheService.get(String.format("%s%d:%s", buildKeyPrefix("getAllPages:"), count, apFrom), new CacheFallbackFetcher<AllPagesQueryResponseWrapper>() {
             @Override
             public AllPagesQueryResponseWrapper call() throws IOException {
                 return client.getAllPages(count, apFrom);
+            }
+        });
+    }
+
+    @Override
+    public LinksResponseWrapper getLinks(final long pageId, final String continueFrom) throws IOException {
+        return cacheService.get(String.format("%s%d%s", buildKeyPrefix("getLinks:"), pageId, continueFrom), new CacheFallbackFetcher<LinksResponseWrapper>() {
+            @Override
+            public LinksResponseWrapper call() throws IOException {
+                return client.getLinks(pageId, continueFrom);
             }
         });
     }

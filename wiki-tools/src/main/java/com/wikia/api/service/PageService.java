@@ -11,8 +11,8 @@ import java.io.IOException;
  * Time: 15:22
  */
 public interface PageService {
-    Page getPage(long pageId) throws IOException;
-    Page getPage(String title) throws IOException;
+    PageInfo getPage(long pageId) throws IOException;
+    PageInfo getPage(String title) throws IOException;
 
     Iterable<PageInfo> getPages();
 }

@@ -1,6 +1,7 @@
 package com.wikia.classifier.input.structured;
 
 import com.wikia.api.model.Page;
+import com.wikia.api.model.PageInfo;
 import com.wikia.api.service.PageServiceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ import java.net.URL;
 public class WikiStructureHelper {
     private static Logger logger = LoggerFactory.getLogger(WikiStructureHelper.class.toString());
 
-    public static WikiPageStructure parse(Page textChunk) throws FileNotFoundException, JAXBException, LinkTargetException, CompilerException {
+    public static WikiPageStructure parse(PageInfo textChunk) throws FileNotFoundException, JAXBException, LinkTargetException, CompilerException {
         return parse(textChunk.getTitle(), textChunk.getWikiText());
     }
 
@@ -42,20 +43,14 @@ public class WikiStructureHelper {
     public static WikiPageStructure parseOrNull(String title, String wikiText) {
         try {
             return parse(title, wikiText);
-        } catch (FileNotFoundException e) {
-            logger.error("Wiki parsing exception.", e);
-        } catch (JAXBException e) {
-            logger.error("Wiki parsing exception.", e);
-        } catch (LinkTargetException e) {
-            logger.error("Wiki parsing exception.", e);
-        } catch (CompilerException e) {
+        } catch (FileNotFoundException | JAXBException | LinkTargetException | CompilerException e) {
             logger.error("Wiki parsing exception.", e);
         }
         return null;
     }
 
     public static void main(String[] args) throws IOException, LinkTargetException, JAXBException, CompilerException {
-        Page chunk = new PageServiceFactory().get(new URL("http://callofduty.wikia.com")).getPage("John_Price");
+        PageInfo chunk = new PageServiceFactory().get(new URL("http://callofduty.wikia.com")).getPage("John_Price");
 
         WikiPageStructure structure = parse(chunk);
         System.out.print(structure.getPlain());

@@ -5,14 +5,19 @@ package com.wikia.api.service;/**
  */
 
 import com.google.common.base.Strings;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.wikia.api.client.Client;
 import com.wikia.api.client.ClientFactory;
 import com.wikia.api.client.ClientFactoryImpl;
+import com.wikia.api.model.builder.LazyPageBuilderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.Executors;
 
 public class PageServiceFactory {
     private static Logger logger = LoggerFactory.getLogger(PageServiceFactory.class);
@@ -39,6 +44,10 @@ public class PageServiceFactory {
                 logger.warn("Unexpected error while modifying url.", e);
             }
         }
-        return new PageServiceImpl( clientFactory.get(apiRoot) );
+        Client client = clientFactory.get(apiRoot);
+        ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(8));
+        return new PageServiceImpl( client
+                , new LazyPageBuilderImpl(client, executorService)
+                , executorService);
     }
 }

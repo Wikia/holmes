@@ -1,6 +1,7 @@
 package com.wikia.api.client;
 
 import com.wikia.api.client.response.AllPagesQueryResponseWrapper;
+import com.wikia.api.client.response.LinksResponseWrapper;
 import com.wikia.api.client.response.RevisionsQueryResponseWrapper;
 
 import java.io.IOException;
@@ -21,4 +22,6 @@ public interface Client {
 
     AllPagesQueryResponseWrapper getAllPages(long count, String apFrom) throws IOException;
 
+    // /w/api.php?action=query&prop=links&format=json&pllimit=500&titles=Albert_Einstein&redirects=
+    LinksResponseWrapper getLinks(long pageId, String continueFrom) throws IOException;
 }

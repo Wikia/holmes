@@ -8,6 +8,7 @@ package com.wikia.api.client;
 import com.wikia.api.cache.CacheFallbackFetcher;
 import com.wikia.api.cache.CacheService;
 import com.wikia.api.client.response.AllPagesQueryResponseWrapper;
+import com.wikia.api.client.response.LinksResponseWrapper;
 import com.wikia.api.client.response.RevisionsQueryResponseWrapper;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -32,15 +33,18 @@ public class CachingClientWrapperTest {
     private long magicNumber;
     private RevisionsQueryResponseWrapper revisionsResponseMock;
     private AllPagesQueryResponseWrapper allPagesMock;
+    private LinksResponseWrapper linksMock;
 
     @BeforeMethod
     public void setUp() throws Exception {
         revisionsResponseMock = mock(RevisionsQueryResponseWrapper.class);
         allPagesMock = mock(AllPagesQueryResponseWrapper.class);
+        linksMock = mock(LinksResponseWrapper.class);
         client = mock(Client.class);
         when(client.getRevisions(anyLong())).thenReturn(revisionsResponseMock);
         when(client.getRevisions(anyString())).thenReturn(revisionsResponseMock);
         when(client.getAllPages(anyLong(), anyString())).thenReturn(allPagesMock);
+        when(client.getLinks(anyLong(), anyString())).thenReturn(linksMock);
         successfulCacheService = mock(CacheService.class);
         when(successfulCacheService.get(anyString(), any(CacheFallbackFetcher.class))).thenReturn(revisionsResponseMock);
         failedCacheService = mock(CacheService.class);
@@ -114,5 +118,28 @@ public class CachingClientWrapperTest {
         Assert.assertEquals(allPages, allPagesMock);
         verify(failedCacheService).get(anyString(), any(CacheFallbackFetcher.class));
         verify(client).getAllPages(magicNumber, "asd");
+    }
+
+    @Test
+    public void testGetLinksHit() throws Exception {
+        // Override default setup
+        successfulCacheService = mock(CacheService.class);
+        when(successfulCacheService.get(anyString(), any(CacheFallbackFetcher.class))).thenReturn(linksMock);
+        successfulCachingClientWrapper = new CachingClientWrapper(client, successfulCacheService, url);
+
+        LinksResponseWrapper links = successfulCachingClientWrapper.getLinks(magicNumber, "asd");
+
+        Assert.assertEquals(links, linksMock);
+        verify(successfulCacheService).get(anyString(), any(CacheFallbackFetcher.class));
+        verify(client, never()).getLinks(magicNumber, "asd");
+    }
+
+    @Test
+    public void testGetLinksMiss() throws Exception {
+        LinksResponseWrapper links = failedCachingClientWrapper.getLinks(magicNumber, "asd");
+
+        Assert.assertEquals(links, linksMock);
+        verify(failedCacheService).get(anyString(), any(CacheFallbackFetcher.class));
+        verify(client).getLinks(magicNumber, "asd");
     }
 }

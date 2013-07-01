@@ -1,11 +1,8 @@
-package com.wikia.api.client;/**
+package com.wikia.api.service;/**
  * Author: Artur Dwornik
  * Date: 16.06.13
  * Time: 15:25
  */
-
-import com.wikia.api.service.PageService;
-import com.wikia.api.service.PageServiceFactory;
 
 import java.io.IOException;
 import java.net.URI;

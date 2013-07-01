@@ -1,13 +1,11 @@
-package com.wikia.api.client;/**
+package com.wikia.api.service;/**
  * Author: Artur Dwornik
  * Date: 06.06.13
  * Time: 10:00
  */
 
 import com.google.common.collect.Lists;
-import com.wikia.api.model.Page;
 import com.wikia.api.model.PageInfo;
-import com.wikia.api.service.PageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -22,7 +20,7 @@ abstract public class PagesServiceIntegrationTestsBase {
     @org.testng.annotations.Test
     public void testGetPageContent() throws Exception {
         PageService pageService = createPageService("http://en.wikipedia.org/w/api.php");
-        Page pageContent = pageService.getPage(736);
+        PageInfo pageContent = pageService.getPage(736);
         Assert.assertNotNull(pageContent);
         System.out.println( pageContent.getWikiText().substring(0, 50) + " ...");
     }
@@ -69,6 +67,26 @@ abstract public class PagesServiceIntegrationTestsBase {
         PageService pageService = createPageService(wikiApi);
 
         Assert.assertNull(pageService.getPage( Math.abs(new Random().nextLong()) ));
+    }
+
+    @org.testng.annotations.Test(timeOut = 50 * 1000 /* 50 seconds */)
+    public void testLinks() throws Exception {
+        String wikiApi = "http://4-pages-3-redirects.wikia.com/api.php";
+        PageService pageService = createPageService(wikiApi);
+        PageInfo page = pageService.getPage("4 Pages 3 redirects Wiki");
+        Assert.assertNotNull(page);
+        Assert.assertNotNull(page.getLinks());
+        for( PageInfo linkedPage: page.getLinks() ) {
+            System.out.print(linkedPage.getTitle());
+            System.out.print(" ");
+            System.out.print(linkedPage.getNamespace());
+            System.out.print(" ");
+            System.out.print(linkedPage.getId());
+            System.out.println();
+            Thread.sleep(10);
+        }
+        Assert.assertEquals(page.getLinks().get(0).getTitle(), "Page 2");
+        Assert.assertEquals(page.getLinks().size(), 7);
     }
 
     protected abstract PageService createPageService(String wikiApi) throws IOException;

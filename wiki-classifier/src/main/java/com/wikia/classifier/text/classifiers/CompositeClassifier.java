@@ -7,7 +7,6 @@ package com.wikia.classifier.text.classifiers;/**
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.wikia.api.model.Page;
 import com.wikia.api.model.PageInfo;
 import com.wikia.api.service.PageService;
 import com.wikia.api.service.PageServiceFactory;
@@ -92,7 +91,7 @@ public class CompositeClassifier {
         List<PageInfo> pageInfoList = new ArrayList<>();
         for(InstanceSource instanceSource: instanceSources) {
             PageService pageService = pageServiceFactory.get(instanceSource.getWikiRoot());
-            Page page = pageService.getPage(instanceSource.getTitle());
+            PageInfo page = pageService.getPage(instanceSource.getTitle());
             pageInfoList.add(page);
             multimap.putAll(page.getTitle(), instanceSource.getFeatures());
         }
@@ -103,7 +102,7 @@ public class CompositeClassifier {
         try {
             PageServiceFactory pageServiceFactory = new PageServiceFactory();
             PageService pageService = pageServiceFactory.get(instanceSource.getWikiRoot());
-            Page page;
+            PageInfo page;
 
             page = pageService.getPage(instanceSource.getTitle());
             Map<String, ClassificationResult> result = new HashMap<>();

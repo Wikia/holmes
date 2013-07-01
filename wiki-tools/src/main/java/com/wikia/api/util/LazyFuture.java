@@ -15,12 +15,15 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.*;
 
 public class LazyFuture<T> implements ListenableFuture<T> {
+    @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(LazyFuture.class);
+    @SuppressWarnings("unchecked")
+    private static final LazyFuture nullLazyFuture = LazyFuture.createNonLazy(null);
     private final Supplier<ListenableFuture<T>> listenableFutureFactory;
     private ListenableFuture<T> listenableFuture;
 
     public static <T> LazyFuture<T> create(final Callable<T> supplier, final ListeningExecutorService executorService) {
-        return new LazyFuture<T>(new Supplier<ListenableFuture<T>>() {
+        return new LazyFuture<>(new Supplier<ListenableFuture<T>>() {
             @Override
             public ListenableFuture<T> get() {
                 return executorService.submit(supplier);
@@ -35,6 +38,10 @@ public class LazyFuture<T> implements ListenableFuture<T> {
                 return value;
             }
         }, MoreExecutors.sameThreadExecutor());
+    }
+
+    public static <T> LazyFuture<T> getNullLazyFuture() {
+        return (LazyFuture<T>) nullLazyFuture;
     }
 
     public LazyFuture(Supplier<ListenableFuture<T>> listenableFutureFactory) {
