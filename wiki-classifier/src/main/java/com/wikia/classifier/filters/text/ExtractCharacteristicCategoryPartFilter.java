@@ -38,12 +38,15 @@ public class ExtractCharacteristicCategoryPartFilter extends CollectionFilterBas
                 , "playstation"
                 , "xbox"
                 , "enemies"
+                , "enemy"
                 , "weapons"
                 , "actors"
                 , "directors"
                 , "celebrities"
                 , "performers"
                 , "writers"
+                , "singers"
+                , "musicians"
                 , "crew"
                 , "cast"
                 , "movies"
@@ -52,6 +55,8 @@ public class ExtractCharacteristicCategoryPartFilter extends CollectionFilterBas
                 , "films"
                 , "books"
                 , "authors"
+                , "villains"
+                , "villain"
                 , "rifles"));
     }
 

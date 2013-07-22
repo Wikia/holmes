@@ -39,7 +39,7 @@ public class SubGraphBuilderImplIT {
         johnPrice = pageService.getPage("John_Price");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testBuild() throws Exception {
         final Object lock = new Object();
         logger.info("Start.");

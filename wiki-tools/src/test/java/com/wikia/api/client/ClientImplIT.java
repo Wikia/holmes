@@ -8,11 +8,14 @@ package com.wikia.api.client;
 import com.wikia.api.client.response.LinksResponseWrapper;
 import com.wikia.api.json.JsonClientImpl;
 import junit.framework.Assert;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.testng.annotations.Test;
 
 import java.net.URL;
 
 public class ClientImplIT {
+    private ClientConnectionManager clientConnectionManager = new PoolingClientConnectionManager();
 
     @Test
     public void testGetRevisionsById() throws Exception {
@@ -31,7 +34,7 @@ public class ClientImplIT {
 
     @Test
     public void testGetLinks() throws Exception {
-        Client client = new ClientImpl(new JsonClientImpl(), new URL("http://wikipedia.org/w/api.php"));
+        Client client = new ClientImpl(new JsonClientImpl(clientConnectionManager), new URL("http://wikipedia.org/w/api.php"));
         LinksResponseWrapper links = client.getLinks(736L, "736|0|Adolf_Hitler");
         Assert.assertNotNull(links);
         Assert.assertNotNull(links.getQueryResponse());

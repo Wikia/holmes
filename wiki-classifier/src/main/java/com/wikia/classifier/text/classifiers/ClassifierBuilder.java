@@ -15,11 +15,13 @@ import com.wikia.classifier.filters.text.*;
 import com.wikia.classifier.input.structured.WikiPageStructure;
 import com.wikia.classifier.matrix.Matrix;
 import com.wikia.classifier.matrix.SparseMatrix;
+import com.wikia.classifier.weka.ArffUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import weka.core.Instances;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -48,7 +50,11 @@ public class ClassifierBuilder {
         Matrix matrix = f.filter(pages);
         matrix = new AddClassToMatrixFilter(classes, pageFeatureMap).filter(matrix);
         Filter<Matrix, Instances> matrixInstancesFilter = matrixToInstancesFilter(matrix, classes);
-        classifier.buildClassifier(matrixInstancesFilter.filter(matrix));
+        Instances instances = matrixInstancesFilter.filter(matrix);
+        // save instances
+        ArffUtil.save(instances, classifier.getClass().getName() + Calendar.getInstance().getTime().toString() + ".arff");
+
+        classifier.buildClassifier(instances);
         Filter<Collection<PageInfo>, Instances> f2 = combine(
                 new CollectionFilter(new PageToWikiStructureFilter()),
                 buildExtractor( true ),

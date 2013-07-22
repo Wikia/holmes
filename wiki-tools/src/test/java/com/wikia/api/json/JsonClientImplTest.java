@@ -13,6 +13,8 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.testng.Assert;
@@ -24,7 +26,9 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("unchecked")
 public class JsonClientImplTest {
+    private ClientConnectionManager clientConnectionManager = new PoolingClientConnectionManager();
 
     @Test
     public void testGetJsonElement() throws Exception {
@@ -39,7 +43,7 @@ public class JsonClientImplTest {
                 return "[]";
             }
         });
-        JsonClientImpl jsonClient = spy(new JsonClientImpl());
+        JsonClientImpl jsonClient = spy(new JsonClientImpl(clientConnectionManager));
         doReturn(httpClientMock).when(jsonClient).getHttpClient();
 
         JsonElement jsonElement = jsonClient.getJsonElement(uri);
@@ -50,7 +54,7 @@ public class JsonClientImplTest {
 
     @Test
     public void testGetHttpClient() throws Exception {
-        Assert.assertNotNull(new JsonClientImpl().getHttpClient());
+        Assert.assertNotNull(new JsonClientImpl(clientConnectionManager).getHttpClient());
     }
 
     @Test
@@ -60,7 +64,7 @@ public class JsonClientImplTest {
         jsonElements.add(new JsonPrimitive("foo"));
         jsonElements.add(new JsonPrimitive("bar"));
 
-        JsonClientImpl jsonClient = spy(new JsonClientImpl());
+        JsonClientImpl jsonClient = spy(new JsonClientImpl(clientConnectionManager));
         doReturn(jsonElements).when(jsonClient).getJsonElement(uri);
 
         List<String> result = (List<String>) jsonClient.get(uri, new TypeToken<List<String>>() { }.getRawType());
@@ -69,23 +73,23 @@ public class JsonClientImplTest {
 
     @Test
     public void testParseJson() throws Exception {
-        JsonElement jsonElement = new JsonClientImpl().parseJson("[]");
+        JsonElement jsonElement = new JsonClientImpl(clientConnectionManager).parseJson("[]");
         Assert.assertTrue(jsonElement.isJsonArray());
     }
 
     @Test()
     public void testParseJsonEmptyString() throws Exception {
-        JsonElement jsonElement = new JsonClientImpl().parseJson("");
+        JsonElement jsonElement = new JsonClientImpl(clientConnectionManager).parseJson("");
         Assert.assertTrue(jsonElement.isJsonNull());
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testParseJsonThrows2() throws Exception {
-        new JsonClientImpl().parseJson(null);
+        new JsonClientImpl(clientConnectionManager).parseJson(null);
     }
 
     @Test(expectedExceptions = JsonParseException.class)
     public void testParseJsonThrows3() throws Exception {
-        new JsonClientImpl().parseJson("{");
+        new JsonClientImpl(clientConnectionManager).parseJson("{");
     }
 }

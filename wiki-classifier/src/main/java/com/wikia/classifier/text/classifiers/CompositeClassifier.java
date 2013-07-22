@@ -34,6 +34,7 @@ public class CompositeClassifier {
     private static Logger logger = LoggerFactory.getLogger(CompositeClassifier.class);
     //private Map<String, Classifier> map = new HashMap<>();
     private final List<ClassifierEntry> classifiers = new ArrayList<>();
+    private PageServiceFactory pageServiceFactory = new PageServiceFactory();
 
     public CompositeClassifier() {
         train();
@@ -54,7 +55,7 @@ public class CompositeClassifier {
                 , "item"
                 , "location"
                 , "level"
-                //, "tv_season"
+                , "tv_series"
                 , "tv_episode"
                 , "game"
                 , "person"
@@ -92,6 +93,10 @@ public class CompositeClassifier {
         for(InstanceSource instanceSource: instanceSources) {
             PageService pageService = pageServiceFactory.get(instanceSource.getWikiRoot());
             PageInfo page = pageService.getPage(instanceSource.getTitle());
+            if( page == null ) {
+                logger.warn(String.format("Cannot fetch: %s (%s)", instanceSource.getTitle(), instanceSource.getWikiRoot()));
+                continue;
+            }
             pageInfoList.add(page);
             multimap.putAll(page.getTitle(), instanceSource.getFeatures());
         }
@@ -100,7 +105,6 @@ public class CompositeClassifier {
 
     public ClassificationResult classify(InstanceSource instanceSource) {
         try {
-            PageServiceFactory pageServiceFactory = new PageServiceFactory();
             PageService pageService = pageServiceFactory.get(instanceSource.getWikiRoot());
             PageInfo page;
 
