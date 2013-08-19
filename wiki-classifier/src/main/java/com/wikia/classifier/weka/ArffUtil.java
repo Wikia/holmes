@@ -17,10 +17,15 @@ public class ArffUtil {
     private static Logger logger = LoggerFactory.getLogger(ArffUtil.class);
 
     public static void save(Instances instances, String name) throws IOException {
+        try {
         ArffSaver saver = new ArffSaver();
         String userHome = System.getProperty( "user.home" );
         saver.setFile(new File(String.valueOf(Paths.get(userHome, name))));
         saver.setInstances(instances);
         saver.writeBatch();
+        } catch (IOException e) {
+            logger.info("Cannot save Arrf file", e);
+            // FIXME
+        }
     }
 }

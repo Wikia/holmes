@@ -1,10 +1,7 @@
 package com.wikia.classifier.input.structured;
 
 import de.fau.cs.osr.ptk.common.AstVisitor;
-import de.fau.cs.osr.ptk.common.ast.AstNode;
-import de.fau.cs.osr.ptk.common.ast.ContentNode;
-import de.fau.cs.osr.ptk.common.ast.NodeList;
-import de.fau.cs.osr.ptk.common.ast.Text;
+import de.fau.cs.osr.ptk.common.ast.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sweble.wikitext.engine.Page;
@@ -22,7 +19,10 @@ import org.sweble.wikitext.lazy.preprocessor.*;
 public class WikitextReaderVisitor extends AstVisitor {
     private static Logger logger = LoggerFactory.getLogger(WikitextReaderVisitor.class.toString());
     private final StringBuilder stringBuilder = new StringBuilder();
+    private final StringBuilder abstractStringBuilder = new StringBuilder();
     private final WikiPageStructure wikiPageStructure;
+    private long templateDepth = 0;
+
 
     public WikitextReaderVisitor(String title) {
         wikiPageStructure = new WikiPageStructure(title);
@@ -41,10 +41,18 @@ public class WikitextReaderVisitor extends AstVisitor {
 
     private void emmitPlain(String plainText) {
         stringBuilder.append(plainText);
+        if( abstractStringBuilder.length() < 500 && templateDepth == 0 ) {
+            abstractStringBuilder.append(plainText);
+        }
     }
 
     public WikiPageStructure getStructure() {
         wikiPageStructure.setPlain(stringBuilder.toString());
+        String summary = abstractStringBuilder.toString();
+        if ( summary.length() > 1000 ) {
+            summary = summary.substring(0, 1000);
+        }
+        wikiPageStructure.setSummary(summary);
         return wikiPageStructure;
     }
 
@@ -125,9 +133,14 @@ public class WikitextReaderVisitor extends AstVisitor {
 
     public void visit(Template template)
     {
-        logger.debug("Template" + template.getName() + " " + template.getChildNames());
-        wikiPageStructure.getTemplates().add(new WikiPageTemplate(asPlain(template.getName()), template.getChildNames()));
-        iterate(template.getArgs());
+        try {
+            templateDepth ++;
+            logger.debug("Template" + template.getName() + " " + template.getChildNames());
+            wikiPageStructure.getTemplates().add(new WikiPageTemplate(asPlain(template.getName()), template.getChildNames()));
+            iterate(template.getArgs());
+        } finally {
+            templateDepth --;
+        }
     }
 
     public void visit(TemplateArgument templateArgument)
@@ -153,7 +166,7 @@ public class WikitextReaderVisitor extends AstVisitor {
 
     public void visit(MagicWord magicWord)
     {
-        logger.info("magic word" + magicWord.getWord());
+        //logger.info("magic word" + magicWord.getWord());
     }
 
     public void visit(InternalLink link) {
@@ -200,8 +213,8 @@ public class WikitextReaderVisitor extends AstVisitor {
     private String asPlain(NodeList content) {
         StringBuilder sb = new StringBuilder();
         for(AstNode node: content) {
-            if(node instanceof Text) {
-                sb.append(((Text) node).getContent());
+            if(node instanceof StringContentNode) {
+                sb.append(((StringContentNode) node).getContent());
             } else if(node instanceof Whitespace) {
                 sb.append(" ");
             } else if(node instanceof InternalLink) {

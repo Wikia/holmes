@@ -300,6 +300,7 @@ public class PredefinedGeneralSet {
         addSource("http://vikings.wikia.com", "Vikings", Lists.newArrayList("tv_series"));
         addSource("http://cbselementary.wikia.com", "Elementary", Lists.newArrayList("tv_series"));
 
+        set.addAll(CouchSet.getSet());
         set.addAll(PredefinedCodSet.getSet());
         set.addAll(PredefinedErrorSet.getSet());
     }

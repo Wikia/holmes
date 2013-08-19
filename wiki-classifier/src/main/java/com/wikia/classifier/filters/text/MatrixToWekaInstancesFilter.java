@@ -68,7 +68,7 @@ public class MatrixToWekaInstancesFilter extends FilterBase<Matrix, Instances> {
             }
         }
         ArrayUtils.sortBoth(indices, values);
-        return new SparseInstance(1, values, indices, i);
+        return new SparseInstance(1, values, indices, attributeNames.size() + 1);
     }
 
     private Map<String, Integer> getAttributeMap(Iterable<Attribute> attributes) {

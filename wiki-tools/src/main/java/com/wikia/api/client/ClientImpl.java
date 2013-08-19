@@ -38,6 +38,9 @@ public class ClientImpl implements Client {
 
     @Override
     public RevisionsQueryResponseWrapper getRevisions(String title) throws IOException {
+        if( title == null ) {
+            throw new IllegalArgumentException("Title argument cannot be null.");
+        }
         title = URLEncoder.encode(title, "UTF8");
         URI query = URI.create(String.format("%s?action=query&prop=revisions&format=json&rvprop=content&rvlimit=1&titles=%s&redirects=", wikiApiRoot.toString(), title));
         RevisionsQueryResponseWrapper revisionsQueryResponseWrapper = jsonClient.get(query, RevisionsQueryResponseWrapper.class);

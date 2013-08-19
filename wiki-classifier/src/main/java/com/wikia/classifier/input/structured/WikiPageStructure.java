@@ -10,9 +10,11 @@ import java.util.logging.Logger;
  * Time: 01:45
  */
 public class WikiPageStructure {
+    @SuppressWarnings("unused")
     private static Logger logger = Logger.getLogger(WikiPageStructure.class.toString());
     private String title = "";
     private String plain = "";
+    private String summary = "";
     private final List<WikiPageCategory> categories = new ArrayList<>();
     private final List<WikiPageInternalLink> internalLinks = new ArrayList<>();
     private final List<WikiPageTemplateArgument> templateArguments = new ArrayList<>();
@@ -57,5 +59,13 @@ public class WikiPageStructure {
 
     public List<WikiPageTemplate> getTemplates() {
         return templates;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getSummary() {
+        return summary;
     }
 }

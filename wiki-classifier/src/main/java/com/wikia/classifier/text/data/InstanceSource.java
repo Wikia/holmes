@@ -17,9 +17,16 @@ public class InstanceSource {
     private URL wikiRoot;
     private String title;
     private Set<String> features;
+    private Long id;
 
     public InstanceSource(URL wikiRoot, String title, Collection<String> features) {
         this(wikiRoot, title, new HashSet<>(features));
+    }
+
+    public InstanceSource(URL wikiRoot, long id, Collection<String> featuresCollection) {
+        this.wikiRoot = wikiRoot;
+        this.id = id;
+        this.features = new HashSet<>(featuresCollection);
     }
 
     public InstanceSource(URL wikiRoot, String title, Set<String> features) {
@@ -53,15 +60,23 @@ public class InstanceSource {
         this.features = features;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof InstanceSource)) return false;
 
         InstanceSource that = (InstanceSource) o;
 
-        if (!features.equals(that.features)) return false;
-        if (!title.equals(that.title)) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (!wikiRoot.equals(that.wikiRoot)) return false;
 
         return true;
@@ -70,8 +85,8 @@ public class InstanceSource {
     @Override
     public int hashCode() {
         int result = wikiRoot.hashCode();
-        result = 31 * result + title.hashCode();
-        result = 31 * result + features.hashCode();
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (id != null ? id.hashCode() : 0);
         return result;
     }
 }

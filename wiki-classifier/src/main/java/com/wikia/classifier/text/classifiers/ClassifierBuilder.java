@@ -35,6 +35,8 @@ public class ClassifierBuilder {
     private boolean extractSectionsFilter = true;
     private boolean extractCharacteristicCategoryPartFilter = true;
     private boolean extractPlainTextWordsFilter = false;
+    private boolean extractSummary1Grams = false;
+    private boolean extractSummary2Grams = false;
     private double sparseTermsThreshold = 0.005;
     private final weka.classifiers.Classifier classifier;
 
@@ -88,6 +90,12 @@ public class ClassifierBuilder {
         if( extractPlainTextWordsFilter ) {
             extractors.add(new ExtractPlainTextWordsFilter());
         }
+        if(extractSummary1Grams) {
+            extractors.add(new ExtractSummaryFilter(1));
+        }
+        if(extractSummary2Grams) {
+            extractors.add(new ExtractSummaryFilter(2));
+        }
         Filter filter = new CompositeExtractorFilter(extractors);
         if( train && sparseTermsThreshold > 0) {
             filter = filterSparseTerms( filter, sparseTermsThreshold );
@@ -140,6 +148,16 @@ public class ClassifierBuilder {
 
     public ClassifierBuilder setSparseTermsThreshold(double sparseTermsThreshold) {
         this.sparseTermsThreshold = sparseTermsThreshold;
+        return this;
+    }
+
+    public ClassifierBuilder setExtractSummary1Grams(boolean extractSummary1Grams) {
+        this.extractSummary1Grams = extractSummary1Grams;
+        return this;
+    }
+
+    public ClassifierBuilder setExtractSummary2Grams(boolean extractSummary2Grams) {
+        this.extractSummary2Grams = extractSummary2Grams;
         return this;
     }
 }

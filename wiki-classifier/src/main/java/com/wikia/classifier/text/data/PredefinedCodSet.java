@@ -15,13 +15,14 @@ import java.util.Collection;
 import java.util.List;
 
 public class PredefinedCodSet {
+    private static Logger logger = LoggerFactory.getLogger(PredefinedCodSet.class);
+    private static final List<InstanceSource> set = new ArrayList<>();
+
 
     public static List<InstanceSource> getSet() {
         return set;
     }
 
-    private static Logger logger = LoggerFactory.getLogger(PredefinedCodSet.class);
-    private static final List<InstanceSource> set = new ArrayList<>();
     static {
         addSource("http://callofduty.wikia.com/", "G11/Attachments", Lists.newArrayList("index"));
         addSource("http://callofduty.wikia.com/", "Bravo Map Pack", Lists.newArrayList("dlc"));

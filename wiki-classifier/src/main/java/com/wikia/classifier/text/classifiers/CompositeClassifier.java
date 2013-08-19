@@ -17,10 +17,9 @@ import com.wikia.classifier.text.data.InstanceSource;
 import com.wikia.classifier.text.data.PredefinedGeneralSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import weka.classifiers.bayes.BayesNet;
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.functions.SMO;
 import weka.classifiers.lazy.IBk;
-import weka.classifiers.lazy.KStar;
 import weka.classifiers.trees.J48;
 import weka.classifiers.trees.RandomForest;
 
@@ -54,12 +53,13 @@ public class CompositeClassifier {
                 , "achievement"
                 , "item"
                 , "location"
-                , "level"
+                //, "level"
                 , "tv_series"
+                , "tv_season"
                 , "tv_episode"
                 , "game"
                 , "person"
-                , "unit"
+                //, "unit"
                 //, "dlc"
                 , "organization"
                 , "book"
@@ -73,11 +73,12 @@ public class CompositeClassifier {
             // TODO: factory for that
             classifiers.add(new ClassifierEntry("IBk",                    new ClassifierBuilder(new IBk()).train(set, multimap, classes), 0.3));
             classifiers.add(new ClassifierEntry("J48",                    new ClassifierBuilder(new J48()).train(set, multimap, classes), 1));
-            classifiers.add(new ClassifierEntry("KStar",                  new ClassifierBuilder(new KStar()).train(set, multimap, classes), 0.3));
+            //classifiers.add(new ClassifierEntry("KStar",                  new ClassifierBuilder(new KStar()).train(set, multimap, classes), 0.3));
+            classifiers.add(new ClassifierEntry("SMO",                    new ClassifierBuilder(new SMO()).setExtractSummary1Grams(true).setExtractSummary2Grams(true).train(set, multimap, classes), 1));
             RandomForest randomForest = new RandomForest(); randomForest.setNumTrees(200);
             classifiers.add(new ClassifierEntry("RandomForest",           new ClassifierBuilder(randomForest).train(set, multimap, classes), 1));
             classifiers.add(new ClassifierEntry("NaiveBayes",             new ClassifierBuilder(new NaiveBayes()).train(set, multimap, classes), 1));
-            classifiers.add(new ClassifierEntry("BayesNet",               new ClassifierBuilder(new BayesNet()).train(set, multimap, classes), 0.3));
+            //classifiers.add(new ClassifierEntry("BayesNet",               new ClassifierBuilder(new BayesNet()).train(set, multimap, classes), 0.3));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -92,10 +93,19 @@ public class CompositeClassifier {
         List<PageInfo> pageInfoList = new ArrayList<>();
         for(InstanceSource instanceSource: instanceSources) {
             PageService pageService = pageServiceFactory.get(instanceSource.getWikiRoot());
-            PageInfo page = pageService.getPage(instanceSource.getTitle());
-            if( page == null ) {
-                logger.warn(String.format("Cannot fetch: %s (%s)", instanceSource.getTitle(), instanceSource.getWikiRoot()));
-                continue;
+            PageInfo page;
+            if ( instanceSource.getId() != null ) {
+                page = pageService.getPage(instanceSource.getId());
+                if( page == null ) {
+                    logger.warn(String.format("Cannot fetch: %d (%s)", instanceSource.getId(), instanceSource.getWikiRoot()));
+                    continue;
+                }
+            } else {
+                page = pageService.getPage(instanceSource.getTitle());
+                if( page == null ) {
+                    logger.warn(String.format("Cannot fetch: %s (%s)", instanceSource.getTitle(), instanceSource.getWikiRoot()));
+                    continue;
+                }
             }
             pageInfoList.add(page);
             multimap.putAll(page.getTitle(), instanceSource.getFeatures());
@@ -108,7 +118,12 @@ public class CompositeClassifier {
             PageService pageService = pageServiceFactory.get(instanceSource.getWikiRoot());
             PageInfo page;
 
-            page = pageService.getPage(instanceSource.getTitle());
+            if ( instanceSource.getId() != null ) {
+                page = pageService.getPage(instanceSource.getId());
+            } else {
+                page = pageService.getPage(instanceSource.getTitle());
+            }
+
             Map<String, ClassificationResult> result = new HashMap<>();
             double weightSum = 0;
             Map<String, Double> classifications = new HashMap<>();
