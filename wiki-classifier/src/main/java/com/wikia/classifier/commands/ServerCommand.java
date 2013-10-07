@@ -22,7 +22,7 @@ public class ServerCommand implements Command {
     private static Logger logger = LoggerFactory.getLogger(ServerCommand.class);
     private URI getBaseURI() {
         // return UriBuilder.fromUri("http://0.0.0.0/").port(9998).build();
-        throw new RuntimeException();
+        return URI.create("http://0.0.0.0:9998/");
     }
     public final URI BASE_URI = getBaseURI();
 

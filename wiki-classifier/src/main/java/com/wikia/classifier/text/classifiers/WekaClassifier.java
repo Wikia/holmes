@@ -15,12 +15,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import weka.core.Instances;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class WekaClassifier implements Classifier {
+public class WekaClassifier implements Classifier, Serializable {
+    private static final long serialVersionUID = -5062933656805193142L;
     @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(WekaClassifier.class);
     private final weka.classifiers.Classifier classifier;

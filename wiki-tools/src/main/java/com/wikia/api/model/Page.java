@@ -8,11 +8,45 @@ import java.util.List;
  * Time: 22:23
  */
 
-public class Page extends PageBase {
+public class Page implements PageInfo {
+    private Long wikiId;
+    private Long pageId;
+    private Long namespace;
+    private String title;
     private String wikiText;
-    private List<PageInfo> links;
 
-    @Override
+    public Long getWikiId() {
+        return wikiId;
+    }
+
+    public void setWikiId(Long wikiId) {
+        this.wikiId = wikiId;
+    }
+
+    public Long getPageId() {
+        return pageId;
+    }
+
+    public void setPageId(Long pageId) {
+        this.pageId = pageId;
+    }
+
+    public Long getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(Long namespace) {
+        this.namespace = namespace;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getWikiText() {
         return wikiText;
     }
@@ -21,11 +55,8 @@ public class Page extends PageBase {
         this.wikiText = wikiText;
     }
 
+    @Override
     public List<PageInfo> getLinks() {
-        return links;
-    }
-
-    public void setLinks(List<PageInfo> links) {
-        this.links = links;
+        throw new UnsupportedOperationException();
     }
 }

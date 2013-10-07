@@ -56,7 +56,7 @@ public class LazyPageTest {
 
     @Test
     public void testGetId() throws Exception {
-        Assert.assertNull(lazyPage.getId(), "Default value is null.");
+        Assert.assertNull(lazyPage.getPageId(), "Default value is null.");
     }
 
     @Test
@@ -77,7 +77,7 @@ public class LazyPageTest {
     @Test
     public void testSetId() throws Exception {
         lazyPage.setId(13L);
-        Assert.assertEquals(lazyPage.getId(), (Long) 13L);
+        Assert.assertEquals(lazyPage.getPageId(), (Long) 13L);
     }
 
     @Test

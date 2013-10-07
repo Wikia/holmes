@@ -53,7 +53,7 @@ public class SubGraphBuilderImpl implements SubGraphBuilder {
         if( page == null ) {
             throw new IllegalArgumentException("Page cannot be null.");
         }
-        Long id = page.getId();
+        Long id = page.getPageId();
         String title = page.getTitle();
         if( id == null ) {
             logger.warn(String.format("Illegal state while creating vertex. Id is null, title = %s", title)); // TODO: investigate

@@ -6,16 +6,12 @@ import com.wikia.classifier.commands.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Author: Artur Dwornik
- * Date: 30.03.13
- * Time: 17:33
- */
 public class App {
     private static Logger logger = Logger.getLogger(App.class.toString());
     private static Command[] commands = new Command[] {
             new CrawlAndClassifyCommand(),
             new ServerCommand(),
+            new TrainCommand(),
     };
 
     public static void main(String[] args) {

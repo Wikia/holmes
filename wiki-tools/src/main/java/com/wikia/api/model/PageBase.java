@@ -1,17 +1,17 @@
 package com.wikia.api.model;
 
 public abstract class PageBase implements PageInfo {
-    Long id;
+    Long pageId;
     Long namespace;
     String title;
 
     @Override
-    public Long getId() {
-        return id;
+    public Long getPageId() {
+        return pageId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPageId(Long pageId) {
+        this.pageId = pageId;
     }
 
     @Override

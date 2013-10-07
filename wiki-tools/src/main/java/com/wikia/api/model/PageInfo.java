@@ -8,7 +8,7 @@ import java.util.List;
  * Time: 23:16
  */
 public interface PageInfo {
-    Long getId();
+    Long getPageId();
     Long getNamespace();
     String getTitle();
     String getWikiText();

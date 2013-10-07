@@ -5,7 +5,10 @@ package com.wikia.service;/**
  */
 
 import com.google.common.base.Strings;
+import com.wikia.api.model.PageInfo;
+import com.wikia.api.service.PageServiceFactory;
 import com.wikia.classifier.text.classifiers.CompositeClassifier;
+import com.wikia.classifier.text.classifiers.exceptions.ClassifyException;
 import com.wikia.classifier.text.data.InstanceSource;
 import com.wikia.service.model.ClassificationViewModel;
 import com.wikia.service.strategy.UnkwnownWikiException;
@@ -18,16 +21,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.net.URL;
 
 @Path("/classifications")
 public class ClassificationResource {
     private static Logger logger = LoggerFactory.getLogger(ClassificationResource.class);
     private static CompositeClassifier classifierManager;
+    private PageServiceFactory pageServiceFactory = new PageServiceFactory();
     private WikiUrlStrategy wikiUrlStrategy;
     static {
         // todo: use injection
-        setClassifierManager(new CompositeClassifier());
+        // TODO: read classifier
+        //setClassifierManager(new CompositeClassifierOld());
     }
 
     public static CompositeClassifier getClassifierManager() {
@@ -49,13 +55,15 @@ public class ClassificationResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("{wikiName : .+}/{page}")
-    public ClassificationViewModel getClassifications(@PathParam("wikiName") String wikiName,@PathParam("page")  String page) throws UnkwnownWikiException {
+    public ClassificationViewModel getClassifications(@PathParam("wikiName") String wikiName,@PathParam("page")  String page) throws UnkwnownWikiException, IOException, ClassifyException {
         logger.debug(String.format("getClassifications(\"%s\",\"%s\")", wikiName, page));
         if( Strings.isNullOrEmpty(wikiName) || Strings.isNullOrEmpty(page) || page.startsWith("Special:") ) {
             throw new UnsupportedOperationException("Wrong url."); // TODO: make me cleaner
         }
         URL url = wikiUrlStrategy.getUrl(wikiName);
         InstanceSource source = new InstanceSource(url, page, null);
-        return ClassificationViewModel.fromClassificationResult(getClassifierManager().classify(source));
+        PageInfo pageInfo = pageServiceFactory.get(url).getPage(page);
+
+        return ClassificationViewModel.fromClassificationResult(getClassifierManager().classify(pageInfo));
     }
 }

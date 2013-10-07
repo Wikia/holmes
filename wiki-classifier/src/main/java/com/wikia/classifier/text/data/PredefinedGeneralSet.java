@@ -5,13 +5,25 @@ package com.wikia.classifier.text.data;/**
  */
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+import com.wikia.api.model.PageInfo;
+import com.wikia.api.service.PageService;
+import com.wikia.api.service.PageServiceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 public class PredefinedGeneralSet {
@@ -312,5 +324,90 @@ public class PredefinedGeneralSet {
             logger.debug("Cannot parse predefined url.", e);
         }
 
+    }
+
+
+    private static List<ClassifiedPage> getInstanceSources() throws IOException {
+        List<InstanceSource> instanceSources = PredefinedGeneralSet.getSet();
+        PageServiceFactory pageServiceFactory = new PageServiceFactory();
+        List<ClassifiedPage> pageInfoList = new ArrayList<>();
+        for(InstanceSource instanceSource: instanceSources) {
+            PageService pageService = pageServiceFactory.get(instanceSource.getWikiRoot());
+            PageInfo page;
+            if ( instanceSource.getId() != null ) {
+                page = pageService.getPage(instanceSource.getId());
+                if( page == null ) {
+                    logger.warn(String.format("Cannot fetch: %d (%s)", instanceSource.getId(), instanceSource.getWikiRoot()));
+                    continue;
+                }
+            } else {
+                page = pageService.getPage(instanceSource.getTitle());
+                if( page == null ) {
+                    logger.warn(String.format("Cannot fetch: %s (%s)", instanceSource.getTitle(), instanceSource.getWikiRoot()));
+                    continue;
+                }
+            }
+            pageInfoList.add(new ClassifiedPage(page, instanceSource));
+        }
+        return pageInfoList;
+    }
+
+    public static void main(String[] args) throws IOException {
+        List<ClassifiedPage> pages = getInstanceSources();
+        JsonArray jsonArray = new JsonArray();
+        HashSet<String> recognisedTypes = Sets.newHashSet(
+                "character"
+                , "weapon"
+                , "achievement"
+                , "item"
+                , "location"
+                , "mini_game"
+                , "flash_game"
+                , "video_game"
+                , "comic_book"
+                , "music_recording"
+                , "tv_series"
+                , "tv_season"
+                , "tv_episode"
+                , "game"
+                , "person"
+                , "organization"
+                , "book"
+                , "movie");
+        for( ClassifiedPage page: pages ) {
+            String type = "other";
+            for( String sourceType: page.instanceSource.getFeatures()) {
+                if (recognisedTypes.contains(sourceType)) {
+                    type = sourceType;
+                }
+            }
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("wikiUrl", page.instanceSource.getWikiRoot().toString());
+            jsonObject.addProperty("pageId", page.page.getPageId());
+            jsonObject.addProperty("namespace", page.page.getNamespace());
+            jsonObject.addProperty("wikiText", page.page.getWikiText());
+            jsonObject.addProperty("title", page.page.getTitle());
+            jsonObject.addProperty("type", type);
+            jsonArray.add(jsonObject);
+        }
+        PrintWriter writer = new PrintWriter("hardcoded.json", "UTF-8");
+        try {
+            JsonWriter jsonWriter = new JsonWriter(writer);
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(jsonArray, jsonWriter);
+            jsonWriter.close();
+        } finally {
+            writer.close();
+        }
+    }
+
+    static class ClassifiedPage {
+        PageInfo page;
+        InstanceSource instanceSource;
+
+        ClassifiedPage(PageInfo page, InstanceSource instanceSource) {
+            this.page = page;
+            this.instanceSource = instanceSource;
+        }
     }
 }

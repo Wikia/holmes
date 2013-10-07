@@ -32,7 +32,7 @@ abstract public class PagesServiceIntegrationTestsBase {
         for(PageInfo pageContent: pageService.getPages()) {
             if( countDown -- <= 0 ) break;
             Assert.assertNotNull(pageContent);
-            Assert.assertNotNull(pageContent.getId());
+            Assert.assertNotNull(pageContent.getPageId());
             Assert.assertNotNull(pageContent.getNamespace());
             Assert.assertNotNull(pageContent.getTitle());
             Assert.assertNotNull(pageContent.getWikiText());
@@ -81,7 +81,7 @@ abstract public class PagesServiceIntegrationTestsBase {
             System.out.print(" ");
             System.out.print(linkedPage.getNamespace());
             System.out.print(" ");
-            System.out.print(linkedPage.getId());
+            System.out.print(linkedPage.getPageId());
             System.out.println();
             Thread.sleep(10);
         }

@@ -137,7 +137,7 @@ public class LazyPageBuilderContextImpl implements LazyPageBuilderContext {
             page.setFutureLinks(LazyFuture.create(new Callable<List<PageInfo>>() {
                 @Override
                 public List<PageInfo> call() throws Exception {
-                    LinksResponseWrapper linksResponse = client.getLinks(page.getId(), null);
+                    LinksResponseWrapper linksResponse = client.getLinks(page.getPageId(), null);
                     List<LinksLink> links = linksResponse.getQueryResponse().getPages().entrySet().iterator().next().getValue().getLinks();
                     List<PageInfo> linkedPages = new ArrayList<>();
                     for( LinksLink link: links ) {

@@ -5,8 +5,7 @@ package com.wikia.classifier.text.classifiers;
  * Time: 02:56
  */
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.*;
 import com.wikia.api.model.PageInfo;
 import com.wikia.classifier.filters.CollectionFilter;
 import com.wikia.classifier.filters.Filter;
@@ -20,10 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import weka.core.Instances;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class ClassifierBuilder {
@@ -44,13 +40,31 @@ public class ClassifierBuilder {
         this.classifier = classifier;
     }
 
-    public Classifier train(List<PageInfo> pages, Multimap<String, String> pageFeatureMap, List<String> classes) throws Exception {
+    private List<String> getTypes( List<PageWithType> pages ) {
+        Set<String> types = new HashSet<>();
+        for ( PageWithType page: pages ) {
+            types.add( page.getType() );
+        }
+        return new ArrayList(types);
+    }
+
+    private Multimap<String,String> getTypeMap( List<PageWithType> pages ) {
+        Multimap<String,String> typeMap = HashMultimap.create();
+        for ( PageWithType page: pages ) {
+            typeMap.put(page.getTitle(), page.getType());
+        }
+        return typeMap;
+    }
+
+    public Classifier train(List<PageWithType> pages) throws Exception {
         Filter<Collection<PageInfo>, Matrix> f = combine(
                 new CollectionFilter(new PageToWikiStructureFilter()),
                 buildExtractor( true )
         );
-        Matrix matrix = f.filter(pages);
-        matrix = new AddClassToMatrixFilter(classes, pageFeatureMap).filter(matrix);
+        List<String> classes = getTypes(pages);
+        Multimap<String, String> pageTypeMap = getTypeMap(pages);
+        Matrix matrix = f.filter((List<PageInfo>) (List) pages);
+        matrix = new AddClassToMatrixFilter(classes, pageTypeMap).filter(matrix);
         Filter<Matrix, Instances> matrixInstancesFilter = matrixToInstancesFilter(matrix, classes);
         Instances instances = matrixInstancesFilter.filter(matrix);
         // save instances
@@ -115,7 +129,6 @@ public class ClassifierBuilder {
         List<String> cols = Lists.newArrayList(matrix.getColumnNames());
         FilterChain chain = new FilterChain();
         List<String> cls = new ArrayList<>(classes);
-        cls.add("other");
         chain.getChain().add(new MatrixToWekaInstancesFilter("__CLASS__", cls, cols));
 
         return chain;

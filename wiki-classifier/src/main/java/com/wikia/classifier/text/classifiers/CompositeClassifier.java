@@ -1,155 +1,48 @@
-package com.wikia.classifier.text.classifiers;/**
- * Author: Artur Dwornik
- * Date: 14.04.13
- * Time: 16:05
- */
+package com.wikia.classifier.text.classifiers;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.wikia.api.model.PageInfo;
-import com.wikia.api.service.PageService;
-import com.wikia.api.service.PageServiceFactory;
 import com.wikia.classifier.text.classifiers.exceptions.ClassifyException;
 import com.wikia.classifier.text.classifiers.model.ClassRelevance;
 import com.wikia.classifier.text.classifiers.model.ClassificationResult;
-import com.wikia.classifier.text.data.InstanceSource;
-import com.wikia.classifier.text.data.PredefinedGeneralSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import weka.classifiers.bayes.NaiveBayes;
-import weka.classifiers.functions.SMO;
-import weka.classifiers.lazy.IBk;
-import weka.classifiers.trees.J48;
-import weka.classifiers.trees.RandomForest;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
-
-// TODO: unhardcode me
-public class CompositeClassifier {
+public class CompositeClassifier implements Classifier, Serializable {
+    private static final long serialVersionUID = -1387740774182989079L;
     private static Logger logger = LoggerFactory.getLogger(CompositeClassifier.class);
-    //private Map<String, Classifier> map = new HashMap<>();
-    private final List<ClassifierEntry> classifiers = new ArrayList<>();
-    private PageServiceFactory pageServiceFactory = new PageServiceFactory();
+    private final List<ClassifierEntry> classifiers;
 
-    public CompositeClassifier() {
-        train();
+    public CompositeClassifier(List<ClassifierEntry> classifiers) {
+        this.classifiers = classifiers;
     }
 
-    private void train() {
-        List<PageInfo> set = null;
-        Multimap<String, String> multimap = HashMultimap.create();
-        try {
-            set = getInstanceSources(multimap);
-        } catch (IOException e) {
-            logger.error("Error", e);
-        }
-        final List<String> classes = Lists.newArrayList(
-                "character"
-                , "weapon"
-                , "achievement"
-                , "item"
-                , "location"
-                //, "level"
-                , "tv_series"
-                , "tv_season"
-                , "tv_episode"
-                , "game"
-                , "person"
-                //, "unit"
-                //, "dlc"
-                , "organization"
-                , "book"
-                , "movie");
-        //ThreadPools.get().submit(new Runnable() {
-        //    @Override
-        //    public void run() {
-        //classifiers.add(new ClassifierEntry("RandomForest(ngram)",    new NGramClassifier(set, classes), 1));
-        //classifiers.add(new ClassifierEntry("RandomForest(puretext)", new PureTextRandomForestClassifier(set, classes), 1));
-        try {
-            // TODO: factory for that
-            classifiers.add(new ClassifierEntry("IBk",                    new ClassifierBuilder(new IBk()).train(set, multimap, classes), 0.3));
-            classifiers.add(new ClassifierEntry("J48",                    new ClassifierBuilder(new J48()).train(set, multimap, classes), 1));
-            //classifiers.add(new ClassifierEntry("KStar",                  new ClassifierBuilder(new KStar()).train(set, multimap, classes), 0.3));
-            classifiers.add(new ClassifierEntry("SMO",                    new ClassifierBuilder(new SMO()).setExtractSummary1Grams(true).setExtractSummary2Grams(true).train(set, multimap, classes), 1));
-            RandomForest randomForest = new RandomForest(); randomForest.setNumTrees(200);
-            classifiers.add(new ClassifierEntry("RandomForest",           new ClassifierBuilder(randomForest).train(set, multimap, classes), 1));
-            classifiers.add(new ClassifierEntry("NaiveBayes",             new ClassifierBuilder(new NaiveBayes()).train(set, multimap, classes), 1));
-            //classifiers.add(new ClassifierEntry("BayesNet",               new ClassifierBuilder(new BayesNet()).train(set, multimap, classes), 0.3));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        //    }
-        //});
-
-    }
-
-    private List<PageInfo> getInstanceSources(Multimap<String, String> multimap) throws IOException {
-        List<InstanceSource> instanceSources = PredefinedGeneralSet.getSet();
-        PageServiceFactory pageServiceFactory = new PageServiceFactory();
-        List<PageInfo> pageInfoList = new ArrayList<>();
-        for(InstanceSource instanceSource: instanceSources) {
-            PageService pageService = pageServiceFactory.get(instanceSource.getWikiRoot());
-            PageInfo page;
-            if ( instanceSource.getId() != null ) {
-                page = pageService.getPage(instanceSource.getId());
-                if( page == null ) {
-                    logger.warn(String.format("Cannot fetch: %d (%s)", instanceSource.getId(), instanceSource.getWikiRoot()));
-                    continue;
-                }
-            } else {
-                page = pageService.getPage(instanceSource.getTitle());
-                if( page == null ) {
-                    logger.warn(String.format("Cannot fetch: %s (%s)", instanceSource.getTitle(), instanceSource.getWikiRoot()));
-                    continue;
+    @Override
+    public ClassificationResult classify(PageInfo page) throws ClassifyException {
+        Map<String, ClassificationResult> result = new HashMap<>();
+        double weightSum = 0;
+        Map<String, Double> classifications = new HashMap<>();
+        for ( ClassifierEntry entry: classifiers ) {
+            ClassificationResult classification = entry.getClassifier().classify(page);
+            for( ClassRelevance relevance: classification.getClasses() ) {
+                if( !classifications.containsKey( relevance.getClassName() ) ) {
+                    classifications.put( relevance.getClassName(), relevance.getRelevance() );
+                } else {
+                    classifications.put(relevance.getClassName()
+                            , classifications.get(relevance.getClassName()) +  relevance.getRelevance());
                 }
             }
-            pageInfoList.add(page);
-            multimap.putAll(page.getTitle(), instanceSource.getFeatures());
+            weightSum += entry.getWeight();
+            result.put(entry.getName(), classification);
         }
-        return pageInfoList;
-    }
-
-    public ClassificationResult classify(InstanceSource instanceSource) {
-        try {
-            PageService pageService = pageServiceFactory.get(instanceSource.getWikiRoot());
-            PageInfo page;
-
-            if ( instanceSource.getId() != null ) {
-                page = pageService.getPage(instanceSource.getId());
-            } else {
-                page = pageService.getPage(instanceSource.getTitle());
-            }
-
-            Map<String, ClassificationResult> result = new HashMap<>();
-            double weightSum = 0;
-            Map<String, Double> classifications = new HashMap<>();
-            for ( ClassifierEntry entry: classifiers ) {
-                ClassificationResult classification = entry.getClassifier().classify(page);
-                for( ClassRelevance relevance: classification.getClasses() ) {
-                    if( !classifications.containsKey( relevance.getClassName() ) ) {
-                        classifications.put( relevance.getClassName(), relevance.getRelevance() );
-                    } else {
-                        classifications.put(relevance.getClassName()
-                                , classifications.get(relevance.getClassName()) +  relevance.getRelevance());
-                    }
-                }
-                weightSum += entry.getWeight();
-                result.put(entry.getName(), classification);
-            }
-            for( Map.Entry<String, Double> entry: classifications.entrySet() ) {
-                entry.setValue( entry.getValue() / weightSum );
-            }
-
-            return buildClassificationResult(classifications);
-        } catch (IOException e) {
-            throw new RuntimeException("Unexpected error while classification.", e);
-        } catch (ClassifyException e) {
-            throw new RuntimeException("Runtime error while classification.",e);
+        for( Map.Entry<String, Double> entry: classifications.entrySet() ) {
+            entry.setValue( entry.getValue() / weightSum );
         }
+
+        return buildClassificationResult(classifications);
     }
 
     private ClassificationResult buildClassificationResult( Map<String, Double> classifications ) {
@@ -164,7 +57,7 @@ public class CompositeClassifier {
         if( classRelevanceList.size() > 0 && classRelevanceList.get(0).getRelevance() > 0.2 ) {
             if ( classRelevanceList.size() == 1
                     || classRelevanceList.get(0).getRelevance() / classRelevanceList.get(1).getRelevance() > 1.2)
-            selectedClass = classRelevanceList.get(0).getClassName();
+                selectedClass = classRelevanceList.get(0).getClassName();
         }
         return new ClassificationResult(selectedClass, classRelevanceList);
     }

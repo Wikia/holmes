@@ -35,7 +35,7 @@ public class LazyPage implements PageInfo {
     }
 
     @Override
-    public Long getId() {
+    public Long getPageId() {
         return getFutureId().falselySafeGet();
     }
 

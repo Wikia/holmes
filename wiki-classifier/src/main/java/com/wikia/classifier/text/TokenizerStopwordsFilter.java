@@ -1,42 +1,32 @@
-package com.wikia.classifier.text;/**
- * Author: Artur Dwornik
- * Date: 06.04.13
- * Time: 18:45
- */
+package com.wikia.classifier.text;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import weka.core.Stopwords;
+import com.wikia.classifier.util.StopWordsHelper;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
 
-public class TokenizerStopwordsFilter implements Tokenizer {
-    private static Logger logger = LoggerFactory.getLogger(TokenizerStopwordsFilter.class);
+public class TokenizerStopwordsFilter implements Tokenizer, Serializable {
+    private static final long serialVersionUID = -1217328004971373166L;
     private final Tokenizer tokenizer;
-    private final Stopwords stopwords = new Stopwords();
+    private final Set<String> stopwords;
     private int minLength = 2;
 
     public TokenizerStopwordsFilter(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
+        stopwords = new HashSet<>(StopWordsHelper.defaultStopWords());
     }
 
     public TokenizerStopwordsFilter(Tokenizer tokenizer, Collection<String> stopWords, int minLength) {
         this.tokenizer = tokenizer;
         this.minLength = minLength;
-        stopwords.clear();
-        for(String word: stopWords) {
-            stopwords.add(word);
-        }
+        stopwords = new HashSet<>(stopWords);
     }
 
     @Override
     public List<String> tokenize(String input) {
-        List<String> tokens = tokenizer.tokenize(input);
         List<String> filteredTokens = new ArrayList<>();
         for(String token: tokenizer.tokenize(input)) {
-            if( token.length() >= minLength && !stopwords.is(token) ) {
+            if( token.length() >= minLength && !stopwords.contains(token.toLowerCase()) ) {
                 filteredTokens.add(token);
             }
         }
