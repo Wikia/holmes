@@ -39,7 +39,7 @@ end
 
 out = []
 
-for doc in getDocs()
+for doc in getDocs().reject { |x| x["lang"] != "en" }
   begin
     rev = getCurrentRevision( doc["domain"], doc["articleId"] )
   rescue Exception => err
@@ -58,4 +58,4 @@ for doc in getDocs()
   end
 end
 
-puts out.to_json
+puts JSON.pretty_generate( out )

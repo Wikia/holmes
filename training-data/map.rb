@@ -5,7 +5,10 @@ require "set"
 
 typeMap = {
   "game" => "video_game",
-  "tv_story" => "tv_episode"
+  "tv_story" => "tv_episode",
+  "game_expansion" => "video_game",
+  "game_show" => "tv_show",
+  "flash_game" => "mini_game",
 }
 
 outDocs = []
@@ -24,15 +27,14 @@ for file in ARGV[0..-1]
     end
     outDocs << doc
   end
-  goodTypes = outDocs.group_by { |x| x["type"] }.reject { |type, x| x.length < 50 }.map { |type, x| x[0]['type'] }
+  goodTypes = outDocs.group_by { |x| x["type"] }.reject { |type, x| x.length < 40 }.map { |type, x| x[0]['type'] }
   STDERR.write( "types left: #{goodTypes}\n" )
   typeSet = Set.new goodTypes
-  for doc in docs
+  for doc in outDocs
     if not typeSet.include? doc['type']
       doc["type"] = 'other'
       countOthers += 1
     end
-    outDocs << doc
   end
 
 end

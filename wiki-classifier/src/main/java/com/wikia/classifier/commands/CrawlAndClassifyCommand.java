@@ -6,7 +6,7 @@ import com.wikia.api.model.PageInfo;
 import com.wikia.api.service.PageServiceFactory;
 import com.wikia.classifier.text.classifiers.Classifier;
 import com.wikia.classifier.text.classifiers.DefaultClassifierFactory;
-import com.wikia.classifier.text.classifiers.PageWithType;
+import com.wikia.classifier.text.classifiers.model.PageWithType;
 import com.wikia.classifier.text.classifiers.model.ClassificationResult;
 
 import java.net.URL;

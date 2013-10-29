@@ -16,5 +16,7 @@ for file in ARGV[0..-1]
   end
 end
 out = map.values.map { |list| if list[0]["type"] != "other" then list.shuffle[0..3] else list.shuffle[0..10] end  }.flatten
+out.reject! { |doc| doc["wikiText"].length < 100 }
+out.reject! { |doc| not doc["wikiId"] }
 STDERR.write("write #{out.length}\n")
 puts JSON.pretty_generate(out)

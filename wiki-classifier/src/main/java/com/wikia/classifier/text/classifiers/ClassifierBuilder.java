@@ -1,9 +1,4 @@
 package com.wikia.classifier.text.classifiers;
-/**
- * Author: Artur Dwornik
- * Date: 18.06.13
- * Time: 02:56
- */
 
 import com.google.common.collect.*;
 import com.wikia.api.model.PageInfo;
@@ -14,6 +9,7 @@ import com.wikia.classifier.filters.text.*;
 import com.wikia.classifier.input.structured.WikiPageStructure;
 import com.wikia.classifier.matrix.Matrix;
 import com.wikia.classifier.matrix.SparseMatrix;
+import com.wikia.classifier.text.classifiers.model.PageWithType;
 import com.wikia.classifier.weka.ArffUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +29,9 @@ public class ClassifierBuilder {
     private boolean extractPlainTextWordsFilter = false;
     private boolean extractSummary1Grams = false;
     private boolean extractSummary2Grams = false;
-    private double sparseTermsThreshold = 0.005;
+    private boolean extractSummary3Grams = false;
+    private boolean extractTitle = true;
+    private double sparseTermsThreshold = 0.005d;
     private final weka.classifiers.Classifier classifier;
 
     public ClassifierBuilder(weka.classifiers.Classifier classifier) {
@@ -68,7 +66,8 @@ public class ClassifierBuilder {
         Filter<Matrix, Instances> matrixInstancesFilter = matrixToInstancesFilter(matrix, classes);
         Instances instances = matrixInstancesFilter.filter(matrix);
         // save instances
-        ArffUtil.save(instances, classifier.getClass().getName() + Calendar.getInstance().getTime().toString() + ".arff");
+        // TODO: removeMe
+        // ArffUtil.save(instances, classifier.getClass().getName() + Calendar.getInstance().getTime().toString() + ".arff");
 
         classifier.buildClassifier(instances);
         Filter<Collection<PageInfo>, Instances> f2 = combine(
@@ -110,11 +109,25 @@ public class ClassifierBuilder {
         if(extractSummary2Grams) {
             extractors.add(new ExtractSummaryFilter(2));
         }
+        if(extractSummary3Grams) {
+            extractors.add(new ExtractSummaryFilter(3));
+        }
+        if(extractTitle) {
+            extractors.add(new TitleNGramFilter(1));
+        }
         Filter filter = new CompositeExtractorFilter(extractors);
         if( train && sparseTermsThreshold > 0) {
             filter = filterSparseTerms( filter, sparseTermsThreshold );
         }
+        filter = makeNormalizedFilter(filter);
         return filter;
+    }
+
+    protected Filter makeNormalizedFilter( Filter filter ) {
+        FilterChain chain = new FilterChain();
+        chain.getChain().add(filter);
+        chain.getChain().add(new NormalizeMatrixFilter());
+        return chain;
     }
 
     protected Filter filterSparseTerms( Filter filter, double filterSparseTerms ) {
@@ -171,6 +184,16 @@ public class ClassifierBuilder {
 
     public ClassifierBuilder setExtractSummary2Grams(boolean extractSummary2Grams) {
         this.extractSummary2Grams = extractSummary2Grams;
+        return this;
+    }
+
+    public ClassifierBuilder setExtractSummary3Grams(boolean extractSummary2Grams) {
+        this.extractSummary2Grams = extractSummary2Grams;
+        return this;
+    }
+
+    public ClassifierBuilder setExtractTitle( boolean extractTitle ) {
+        this.extractTitle = extractTitle;
         return this;
     }
 }

@@ -19,17 +19,21 @@ import java.util.List;
 
 public abstract class NGramFilterBase extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
     private static final long serialVersionUID = 325680535186348073L;
-    private Tokenizer sentenceTokenizer;
-    private Tokenizer wordTokenizer;
-    private String gramSeparator = "+";
-    private String prefix = "";
-    private int n;
+    private final Tokenizer sentenceTokenizer;
+    private final Tokenizer wordTokenizer;
+    private final String gramSeparator = "+";
+    private final String prefix;
+    private final int n;
 
     public NGramFilterBase(int n, String prefix) {
+        this(n, prefix, new TokenizerStopwordsFilter(new TokenizerImpl(" \r\n\t.,;:'\"()?!<>[]{}|")));
+    }
+
+    public NGramFilterBase(int n, String prefix, Tokenizer wordTokenizer) {
         super(WikiPageStructure.class, SparseMatrix.class);
         this.prefix = prefix;
-        sentenceTokenizer = new TokenizerImpl("\r\n.");
-        wordTokenizer = new TokenizerStopwordsFilter(new TokenizerImpl(" \r\n\t.,;:'\"()?!<>[]{}|"));
+        this.sentenceTokenizer = new TokenizerImpl("\r\n.");
+        this.wordTokenizer = wordTokenizer;
         this.n = n;
     }
 
@@ -71,31 +75,15 @@ public abstract class NGramFilterBase extends CollectionFilterBase<WikiPageStruc
         return sentenceTokenizer;
     }
 
-    public void setSentenceTokenizer(Tokenizer sentenceTokenizer) {
-        this.sentenceTokenizer = sentenceTokenizer;
-    }
-
     public Tokenizer getWordTokenizer() {
         return wordTokenizer;
-    }
-
-    public void setWordTokenizer(Tokenizer wordTokenizer) {
-        this.wordTokenizer = wordTokenizer;
     }
 
     public String getGramSeparator() {
         return gramSeparator;
     }
 
-    public void setGramSeparator(String gramSeparator) {
-        this.gramSeparator = gramSeparator;
-    }
-
     public int getN() {
         return n;
-    }
-
-    public void setN(int n) {
-        this.n = n;
     }
 }

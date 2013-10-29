@@ -46,7 +46,7 @@ public class WekaClassifier implements Classifier, Serializable {
     }
 
     private ClassificationResult buildClassificationResult( double[] estimates ) {
-        if( classes.size() + 1 != estimates.length ) {
+        if( classes.size() != estimates.length ) {
             logger.warn(String.format("classes.size() (%d) != (%d) estimates.length"
                     , classes.size()
                     , estimates.length

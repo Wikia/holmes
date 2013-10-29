@@ -9,12 +9,6 @@ import org.sweble.wikitext.lazy.encval.IllegalCodePoint;
 import org.sweble.wikitext.lazy.parser.*;
 import org.sweble.wikitext.lazy.preprocessor.*;
 
-
-/**
- * Author: Artur Dwornik
- * Date: 05.04.13
- * Time: 20:08
- */
 @SuppressWarnings("unused")
 public class WikitextReaderVisitor extends AstVisitor {
     private static Logger logger = LoggerFactory.getLogger(WikitextReaderVisitor.class.toString());

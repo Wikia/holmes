@@ -1,8 +1,4 @@
-package com.wikia.classifier.filters.text;/**
- * Author: Artur Dwornik
- * Date: 07.04.13
- * Time: 22:52
- */
+package com.wikia.classifier.filters.text;
 
 import com.wikia.classifier.filters.CollectionFilterBase;
 import com.wikia.classifier.input.structured.WikiPageStructure;
@@ -20,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class ExtractTemplatePropertiesFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+    private static final long serialVersionUID = 4313041391716712506L;
     @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(ExtractTemplatePropertiesFilter.class);
     private boolean extractTemplateName = true;
