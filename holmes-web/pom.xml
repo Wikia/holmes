@@ -9,8 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>holmes-web</artifactId>
     <packaging>war</packaging>
-    <name>Holmes Web Endpoint</name>
-    <description>Web API for holmes</description>
+    <description>Holmes web api</description>
     <version>${holmes.version}</version>
     <properties>
         <jackson.version>1.9.2</jackson.version>
@@ -42,7 +41,7 @@
 
         <dependency>
             <groupId>${pom.groupId}</groupId>
-            <artifactId>wiki-classifier</artifactId>
+            <artifactId>holmes-classifier</artifactId>
             <version>${holmes.version}</version>
         </dependency>
 

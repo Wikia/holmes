@@ -10,9 +10,8 @@
     </properties>
     <modules>
         <module>wiki-tools</module>
-        <module>wiki-classifier</module>
+        <module>holmes-classifier</module>
         <module>holmes-web</module>
-        <module>wiki-graph-matcher</module>
         <module>holmes-cli</module>
     </modules>
 
