@@ -1,15 +1,10 @@
-package com.wikia.service;/**
- * Author: Artur Dwornik
- * Date: 13.04.13
- * Time: 11:05
- */
+package com.wikia.service;
 
 import com.google.common.base.Strings;
 import com.wikia.api.model.PageInfo;
 import com.wikia.api.service.PageServiceFactory;
 import com.wikia.classifier.text.classifiers.CompositeClassifier;
 import com.wikia.classifier.text.classifiers.exceptions.ClassifyException;
-import com.wikia.classifier.text.data.InstanceSource;
 import com.wikia.service.model.ClassificationViewModel;
 import com.wikia.service.strategy.UnkwnownWikiException;
 import com.wikia.service.strategy.WikiUrlStrategy;
@@ -27,21 +22,16 @@ import java.net.URL;
 @Path("/classifications")
 public class ClassificationResource {
     private static Logger logger = LoggerFactory.getLogger(ClassificationResource.class);
-    private static CompositeClassifier classifierManager;
+    private CompositeClassifier classifier;
     private PageServiceFactory pageServiceFactory = new PageServiceFactory();
     private WikiUrlStrategy wikiUrlStrategy;
-    static {
-        // todo: use injection
-        // TODO: read classifier
-        //setClassifierManager(new CompositeClassifierOld());
+
+    public CompositeClassifier getClassifier() {
+        return classifier;
     }
 
-    public static CompositeClassifier getClassifierManager() {
-        return classifierManager;
-    }
-
-    public static void setClassifierManager(CompositeClassifier classifierManager) {
-        ClassificationResource.classifierManager = classifierManager;
+    public void setClassifier(CompositeClassifier classifier) {
+        this.classifier = classifier;
     }
 
     public WikiUrlStrategy getWikiUrlStrategy() {
@@ -60,10 +50,9 @@ public class ClassificationResource {
         if( Strings.isNullOrEmpty(wikiName) || Strings.isNullOrEmpty(page) || page.startsWith("Special:") ) {
             throw new UnsupportedOperationException("Wrong url."); // TODO: make me cleaner
         }
-        URL url = wikiUrlStrategy.getUrl(wikiName);
-        InstanceSource source = new InstanceSource(url, page, null);
+        URL url = getWikiUrlStrategy().getUrl(wikiName);
         PageInfo pageInfo = pageServiceFactory.get(url).getPage(page);
 
-        return ClassificationViewModel.fromClassificationResult(getClassifierManager().classify(pageInfo));
+        return ClassificationViewModel.fromClassificationResult(getClassifier().classify(pageInfo));
     }
 }

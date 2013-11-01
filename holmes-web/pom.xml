@@ -2,21 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <artifactId>wiki-graph</artifactId>
+        <artifactId>holmes</artifactId>
         <groupId>com.wikia</groupId>
-        <version>0.3.1-SNAPSHOT</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>wiki-graph-service</artifactId>
+    <artifactId>holmes-web</artifactId>
     <packaging>war</packaging>
-    <name>WikiGraph service endpoint</name>
-    <description>Entpoint for wiki graph</description>
+    <name>Holmes Web Endpoint</name>
+    <description>Web API for holmes</description>
+    <version>${holmes.version}</version>
     <properties>
         <jackson.version>1.9.2</jackson.version>
     </properties>
     <dependencies>
-
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -44,13 +43,13 @@
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>wiki-classifier</artifactId>
-            <version>${pom.parent.version}</version>
+            <version>${holmes.version}</version>
         </dependency>
 
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>wiki-tools</artifactId>
-            <version>${pom.parent.version}</version>
+            <version>${holmes.version}</version>
         </dependency>
 
         <dependency>
@@ -159,6 +158,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!--
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
@@ -215,6 +216,7 @@
                     </execution>
                 </executions>
             </plugin>
+        -->
         </plugins>
     </build>
 </project>

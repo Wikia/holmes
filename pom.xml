@@ -4,11 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
+    <properties>
+        <holmes.group>com.wikia</holmes.group>
+        <holmes.version>0.5-SNAPSHOT</holmes.version>
+    </properties>
     <modules>
         <module>wiki-tools</module>
         <module>wiki-classifier</module>
-        <module>wiki-graph-service</module>
+        <module>holmes-web</module>
         <module>wiki-graph-matcher</module>
+        <module>holmes-cli</module>
     </modules>
 
 
@@ -21,8 +26,8 @@
         </repository>
     </repositories>
 
+    <artifactId>holmes</artifactId>
     <groupId>com.wikia</groupId>
-    <artifactId>wiki-graph</artifactId>
-    <version>0.3.1-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
 
 </project>

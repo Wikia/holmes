@@ -3,9 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>wiki-graph</artifactId>
+        <artifactId>holmes</artifactId>
         <groupId>com.wikia</groupId>
-        <version>0.3.1-SNAPSHOT</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
 
@@ -33,13 +33,13 @@
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>wiki-tools</artifactId>
-            <version>${pom.parent.version}</version>
+            <version>${holmes.version}</version>
         </dependency>
 
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>wiki-classifier</artifactId>
-            <version>${pom.parent.version}</version>
+            <version>${holmes.version}</version>
         </dependency>
 
         <dependency>

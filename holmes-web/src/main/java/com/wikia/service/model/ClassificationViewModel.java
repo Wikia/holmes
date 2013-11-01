@@ -1,9 +1,4 @@
 package com.wikia.service.model;
-/**
- * Author: Artur Dwornik
- * Date: 21.06.13
- * Time: 15:47
- */
 
 import com.wikia.classifier.text.classifiers.model.ClassRelevance;
 import com.wikia.classifier.text.classifiers.model.ClassificationResult;
@@ -17,12 +12,14 @@ import java.util.Map;
 
 @XmlRootElement(name = "classification")
 public class ClassificationViewModel implements Serializable {
+    private static final long serialVersionUID = -386473795640625588L;
     @XmlAttribute(name = "class")
     @JsonProperty("class")
     private String singleClass;
     @XmlAttribute(name = "classes")
     private Map<String,Double> classes = new HashMap<>();
 
+    @SuppressWarnings("unused")
     public String getSingleClass() {
         return singleClass;
     }
@@ -35,6 +32,7 @@ public class ClassificationViewModel implements Serializable {
         return classes;
     }
 
+    @SuppressWarnings("unused")
     public void setClasses(Map<String, Double> classes) {
         this.classes = classes;
     }
