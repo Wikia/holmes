@@ -1,4 +1,4 @@
-package com.wikia.classifier.input.structured;
+package com.wikia.classifier.input;
 
 import com.wikia.api.model.PageInfo;
 import org.sweble.wikitext.engine.*;

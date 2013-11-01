@@ -1,4 +1,4 @@
-package com.wikia.classifier.input.structured;
+package com.wikia.classifier.input;
 
 public class WikiPageTemplateArgument {
     private String name;

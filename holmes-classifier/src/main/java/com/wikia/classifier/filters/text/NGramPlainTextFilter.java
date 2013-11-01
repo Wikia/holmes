@@ -1,6 +1,6 @@
 package com.wikia.classifier.filters.text;
 
-import com.wikia.classifier.input.structured.WikiPageStructure;
+import com.wikia.classifier.input.WikiPageStructure;
 
 /**
  * TODO: Use it

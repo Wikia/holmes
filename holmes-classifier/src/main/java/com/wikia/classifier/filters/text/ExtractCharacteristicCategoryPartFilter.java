@@ -2,8 +2,8 @@ package com.wikia.classifier.filters.text;
 
 import com.google.common.collect.Sets;
 import com.wikia.classifier.filters.CollectionFilterBase;
-import com.wikia.classifier.input.structured.WikiPageCategory;
-import com.wikia.classifier.input.structured.WikiPageStructure;
+import com.wikia.classifier.input.WikiPageCategory;
+import com.wikia.classifier.input.WikiPageStructure;
 import com.wikia.classifier.matrix.SparseMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.wikia.classifier.input.structured;
+package com.wikia.classifier.input;
 
 import org.apache.commons.lang.StringUtils;
 

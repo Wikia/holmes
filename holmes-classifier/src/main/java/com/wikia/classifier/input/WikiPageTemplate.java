@@ -1,4 +1,4 @@
-package com.wikia.classifier.input.structured;
+package com.wikia.classifier.input;
 
 import com.google.common.collect.Lists;
 

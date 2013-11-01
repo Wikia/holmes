@@ -3,7 +3,7 @@ package com.wikia.classifier.filters.text;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.wikia.classifier.filters.CollectionFilterBase;
-import com.wikia.classifier.input.structured.WikiPageStructure;
+import com.wikia.classifier.input.WikiPageStructure;
 import com.wikia.classifier.matrix.SparseMatrix;
 import com.wikia.classifier.text.Tokenizer;
 import com.wikia.classifier.text.TokenizerImpl;

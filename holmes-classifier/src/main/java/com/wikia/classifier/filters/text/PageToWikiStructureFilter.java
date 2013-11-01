@@ -2,8 +2,8 @@ package com.wikia.classifier.filters.text;
 
 import com.wikia.api.model.PageInfo;
 import com.wikia.classifier.filters.FilterBase;
-import com.wikia.classifier.input.structured.WikiPageStructure;
-import com.wikia.classifier.input.structured.WikiStructureHelper;
+import com.wikia.classifier.input.WikiPageStructure;
+import com.wikia.classifier.input.WikiStructureHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sweble.wikitext.engine.CompilerException;

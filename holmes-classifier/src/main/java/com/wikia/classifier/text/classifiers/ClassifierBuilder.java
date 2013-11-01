@@ -8,7 +8,7 @@ import com.wikia.classifier.filters.CollectionFilter;
 import com.wikia.classifier.filters.Filter;
 import com.wikia.classifier.filters.FilterChain;
 import com.wikia.classifier.filters.text.*;
-import com.wikia.classifier.input.structured.WikiPageStructure;
+import com.wikia.classifier.input.WikiPageStructure;
 import com.wikia.classifier.matrix.Matrix;
 import com.wikia.classifier.matrix.SparseMatrix;
 import com.wikia.classifier.text.classifiers.model.PageWithType;

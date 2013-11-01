@@ -1,9 +1,9 @@
 package com.wikia.classifier.filters.text;
 
 import com.wikia.classifier.filters.CollectionFilterBase;
-import com.wikia.classifier.input.structured.WikiPageStructure;
-import com.wikia.classifier.input.structured.WikiPageTemplate;
-import com.wikia.classifier.input.structured.WikiPageTemplateArgument;
+import com.wikia.classifier.input.WikiPageStructure;
+import com.wikia.classifier.input.WikiPageTemplate;
+import com.wikia.classifier.input.WikiPageTemplateArgument;
 import com.wikia.classifier.text.Tokenizer;
 import com.wikia.classifier.text.TokenizerImpl;
 import com.wikia.classifier.text.TokenizerStopwordsFilter;
