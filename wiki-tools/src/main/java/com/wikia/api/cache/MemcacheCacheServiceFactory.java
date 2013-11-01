@@ -1,8 +1,4 @@
-package com.wikia.api.cache;/**
- * Author: Artur Dwornik
- * Date: 16.06.13
- * Time: 00:04
- */
+package com.wikia.api.cache;
 
 import net.spy.memcached.*;
 import org.slf4j.Logger;

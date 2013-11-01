@@ -1,8 +1,4 @@
-package com.wikia.api.client.response;/**
- * Author: Artur Dwornik
- * Date: 04.06.13
- * Time: 20:54
- */
+package com.wikia.api.client.response;
 
 import com.google.gson.annotations.SerializedName;
 

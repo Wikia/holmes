@@ -3,11 +3,7 @@ package com.wikia.api.client.response;
 import java.io.Serializable;
 import java.util.Map;
 
-/**
- * Author: Artur Dwornik
- * Date: 28.06.13
- * Time: 03:00
- */
+
 
 public class LinksResponse implements Serializable {
     private static final long serialVersionUID = -4636948491531910785L;

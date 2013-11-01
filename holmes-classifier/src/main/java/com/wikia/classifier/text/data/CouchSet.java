@@ -1,9 +1,5 @@
 package com.wikia.classifier.text.data;
-/**
- * Author: Artur Dwornik
- * Date: 23.07.13
- * Time: 14:21
- */
+
 
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;

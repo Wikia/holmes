@@ -1,8 +1,4 @@
-package com.wikia.classifier.filters;/**
- * Author: Artur Dwornik
- * Date: 07.04.13
- * Time: 19:43
- */
+package com.wikia.classifier.filters;
 
 import com.google.gson.reflect.TypeToken;
 

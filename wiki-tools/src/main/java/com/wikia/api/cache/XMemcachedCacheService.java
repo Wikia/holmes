@@ -1,8 +1,4 @@
-package com.wikia.api.cache;/**
- * Author: Artur Dwornik
- * Date: 16.06.13
- * Time: 11:54
- */
+package com.wikia.api.cache;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.exception.MemcachedException;

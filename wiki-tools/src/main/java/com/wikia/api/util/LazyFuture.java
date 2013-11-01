@@ -1,9 +1,5 @@
 package com.wikia.api.util;
-/**
- * Author: Artur Dwornik
- * Date: 17.06.13
- * Time: 23:31
- */
+
 
 import com.google.common.base.Supplier;
 import com.google.common.util.concurrent.ListenableFuture;

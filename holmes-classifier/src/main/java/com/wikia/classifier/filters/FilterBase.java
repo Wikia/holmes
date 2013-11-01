@@ -1,9 +1,5 @@
 package com.wikia.classifier.filters;
-/**
- * Author: Artur Dwornik
- * Date: 07.04.13
- * Time: 15:17
- */
+
 
 /**
  * Base class for filters. Handles type checking.

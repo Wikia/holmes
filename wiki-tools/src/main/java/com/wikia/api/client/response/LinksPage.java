@@ -6,11 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Author: Artur Dwornik
- * Date: 29.06.13
- * Time: 17:33
- */
+
 
 public class LinksPage implements Serializable {
     private static final long serialVersionUID = -4343138799883949932L;

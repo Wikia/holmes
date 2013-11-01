@@ -1,9 +1,5 @@
 package com.wikia.classifier.matrix;
-/**
- * Author: Artur Dwornik
- * Date: 19.06.13
- * Time: 12:07
- */
+
 
 import com.google.common.collect.Sets;
 import org.testng.Assert;

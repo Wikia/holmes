@@ -1,9 +1,5 @@
 package com.wikia.classifier.text.classifiers.model;
-/**
- * Author: Artur Dwornik
- * Date: 21.06.13
- * Time: 00:14
- */
+
 
 import java.io.Serializable;
 

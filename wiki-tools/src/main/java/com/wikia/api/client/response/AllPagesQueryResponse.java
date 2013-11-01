@@ -5,11 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Author: Artur Dwornik
- * Date: 06.06.13
- * Time: 22:04
- */
+
 
 public class AllPagesQueryResponse  implements Serializable {
     private static final long serialVersionUID = -6876638129022603317L;

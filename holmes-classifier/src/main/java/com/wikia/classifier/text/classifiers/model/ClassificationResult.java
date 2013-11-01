@@ -1,9 +1,5 @@
 package com.wikia.classifier.text.classifiers.model;
-/**
- * Author: Artur Dwornik
- * Date: 21.06.13
- * Time: 00:11
- */
+
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;

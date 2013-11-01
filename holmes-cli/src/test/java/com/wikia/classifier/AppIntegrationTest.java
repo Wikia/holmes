@@ -1,8 +1,4 @@
-package com.wikia.classifier;/**
- * Author: Artur Dwornik
- * Date: 16.06.13
- * Time: 11:14
- */
+package com.wikia.classifier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

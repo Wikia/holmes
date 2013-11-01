@@ -1,8 +1,4 @@
-package com.wikia.api.service;/**
- * Author: Artur Dwornik
- * Date: 11.06.13
- * Time: 15:21
- */
+package com.wikia.api.service;
 
 import com.google.common.base.Strings;
 import com.google.common.util.concurrent.ListeningExecutorService;

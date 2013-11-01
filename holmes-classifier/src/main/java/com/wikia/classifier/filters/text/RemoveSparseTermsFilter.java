@@ -1,8 +1,4 @@
-package com.wikia.classifier.filters.text;/**
- * Author: Artur Dwornik
- * Date: 07.04.13
- * Time: 21:56
- */
+package com.wikia.classifier.filters.text;
 
 import com.wikia.classifier.filters.FilterBase;
 import com.wikia.classifier.matrix.Matrix;

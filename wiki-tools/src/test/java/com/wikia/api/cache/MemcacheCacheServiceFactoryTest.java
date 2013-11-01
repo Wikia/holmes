@@ -1,9 +1,5 @@
 package com.wikia.api.cache;
-/**
- * Author: Artur Dwornik
- * Date: 17.06.13
- * Time: 08:45
- */
+
 
 import net.rubyeye.xmemcached.utils.AddrUtil;
 import net.spy.memcached.MemcachedClient;

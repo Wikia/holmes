@@ -1,8 +1,4 @@
-package com.wikia.api.service;/**
- * Author: Artur Dwornik
- * Date: 16.06.13
- * Time: 15:22
- */
+package com.wikia.api.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

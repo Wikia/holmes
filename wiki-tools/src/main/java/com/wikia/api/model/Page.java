@@ -2,11 +2,7 @@ package com.wikia.api.model;
 
 import java.util.List;
 
-/**
- * Author: Artur Dwornik
- * Date: 06.06.13
- * Time: 22:23
- */
+
 
 public class Page implements PageInfo {
     private Long wikiId;

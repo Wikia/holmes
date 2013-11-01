@@ -1,8 +1,4 @@
-package com.wikia.classifier.weka;/**
- * Author: Artur Dwornik
- * Date: 14.04.13
- * Time: 16:59
- */
+package com.wikia.classifier.weka;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

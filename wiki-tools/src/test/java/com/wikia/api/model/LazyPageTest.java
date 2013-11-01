@@ -1,9 +1,5 @@
 package com.wikia.api.model;
-/**
- * Author: Artur Dwornik
- * Date: 28.06.13
- * Time: 17:18
- */
+
 
 import com.google.common.util.concurrent.MoreExecutors;
 import com.wikia.api.util.LazyFuture;

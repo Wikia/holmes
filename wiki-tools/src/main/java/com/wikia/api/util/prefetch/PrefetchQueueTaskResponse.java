@@ -3,11 +3,7 @@ package com.wikia.api.util.prefetch;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Author: Artur Dwornik
- * Date: 09.06.13
- * Time: 22:00
- */
+
 
 /**
  * Represents PrefetchingIterator task result.

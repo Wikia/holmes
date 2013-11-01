@@ -1,8 +1,4 @@
-package com.wikia.api.service;/**
- * Author: Artur Dwornik
- * Date: 06.06.13
- * Time: 10:00
- */
+package com.wikia.api.service;
 
 import com.google.common.collect.Lists;
 import com.wikia.api.model.PageInfo;

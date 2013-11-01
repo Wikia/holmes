@@ -1,8 +1,4 @@
-package com.wikia.api.client;/**
- * Author: Artur Dwornik
- * Date: 16.06.13
- * Time: 00:11
- */
+package com.wikia.api.client;
 
 import com.wikia.api.cache.CacheServiceFactory;
 import com.wikia.api.cache.MemcacheCacheServiceFactory;

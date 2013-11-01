@@ -4,11 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-/**
- * Author: Artur Dwornik
- * Date: 29.06.13
- * Time: 17:37
- */
+
 
 public class LinksLink implements Serializable {
     private static final long serialVersionUID = -3998065024988432594L;

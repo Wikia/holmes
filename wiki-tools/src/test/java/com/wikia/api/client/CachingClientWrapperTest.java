@@ -1,9 +1,5 @@
 package com.wikia.api.client;
-/**
- * Author: Artur Dwornik
- * Date: 17.06.13
- * Time: 20:01
- */
+
 
 import com.wikia.api.cache.CacheFallbackFetcher;
 import com.wikia.api.cache.CacheService;

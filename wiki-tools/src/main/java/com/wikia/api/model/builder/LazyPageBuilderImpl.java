@@ -1,9 +1,5 @@
 package com.wikia.api.model.builder;
-/**
- * Author: Artur Dwornik
- * Date: 30.06.13
- * Time: 00:04
- */
+
 
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.wikia.api.client.Client;

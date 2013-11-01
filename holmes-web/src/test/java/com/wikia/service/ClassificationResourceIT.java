@@ -1,9 +1,5 @@
 package com.wikia.service;
-/**
- * Author: Artur Dwornik
- * Date: 23.06.13
- * Time: 15:32
- */
+
 
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.jaxrs.client.WebClient;

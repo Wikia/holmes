@@ -1,9 +1,5 @@
 package com.wikia.classifier.text.classifiers.exceptions;
-/**
- * Author: Artur Dwornik
- * Date: 18.06.13
- * Time: 03:54
- */
+
 
 import java.io.Serializable;
 

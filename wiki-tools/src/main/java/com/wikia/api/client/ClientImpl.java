@@ -1,8 +1,4 @@
-package com.wikia.api.client;/**
- * Author: Artur Dwornik
- * Date: 03.06.13
- * Time: 23:39
- */
+package com.wikia.api.client;
 
 import com.wikia.api.client.response.LinksResponseWrapper;
 import com.wikia.api.json.JsonClient;

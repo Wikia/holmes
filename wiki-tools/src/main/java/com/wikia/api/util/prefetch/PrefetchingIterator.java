@@ -1,8 +1,4 @@
-package com.wikia.api.util.prefetch;/**
- * Author: Artur Dwornik
- * Date: 09.06.13
- * Time: 22:31
- */
+package com.wikia.api.util.prefetch;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;

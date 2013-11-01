@@ -1,8 +1,4 @@
-package com.wikia.api.json;/**
- * Author: Artur Dwornik
- * Date: 03.06.13
- * Time: 23:49
- */
+package com.wikia.api.json;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

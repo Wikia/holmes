@@ -1,9 +1,5 @@
 package com.wikia.service.strategy;
-/**
- * Author: Artur Dwornik
- * Date: 23.06.13
- * Time: 14:47
- */
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

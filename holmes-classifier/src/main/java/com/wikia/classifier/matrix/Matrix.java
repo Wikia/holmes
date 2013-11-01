@@ -2,11 +2,7 @@ package com.wikia.classifier.matrix;
 
 import java.util.Set;
 
-/**
- * Author: Artur Dwornik
- * Date: 07.04.13
- * Time: 13:48
- */
+
 public interface Matrix {
     double get(String row, String col);
 

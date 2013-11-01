@@ -1,9 +1,5 @@
 package com.wikia.api.cache;
-/**
- * Author: Artur Dwornik
- * Date: 17.06.13
- * Time: 02:03
- */
+
 
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.internal.OperationFuture;

@@ -1,9 +1,5 @@
 package com.wikia.classifier.text.classifiers;
-/**
- * Author: Artur Dwornik
- * Date: 18.06.13
- * Time: 03:50
- */
+
 
 import com.google.common.collect.Lists;
 import com.wikia.api.model.PageInfo;

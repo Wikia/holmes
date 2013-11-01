@@ -5,11 +5,7 @@ import com.wikia.api.model.PageInfo;
 
 import java.util.List;
 
-/**
- * Author: Artur Dwornik
- * Date: 30.06.13
- * Time: 00:06
- */
+
 public interface LazyPageBuilderContext {
     LazyPageBuilderContext setId(long id);
     LazyPageBuilderContext setTitle(String title);

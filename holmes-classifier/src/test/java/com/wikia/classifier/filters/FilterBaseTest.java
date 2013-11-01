@@ -1,9 +1,5 @@
 package com.wikia.classifier.filters;
-/**
- * Author: Artur Dwornik
- * Date: 19.06.13
- * Time: 11:36
- */
+
 
 import org.testng.Assert;
 import org.testng.annotations.Test;

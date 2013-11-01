@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-/**
- * Author: Artur Dwornik
- * Date: 06.04.13
- * Time: 01:45
- */
+
 public class WikiPageStructure {
     @SuppressWarnings("unused")
     private static Logger logger = Logger.getLogger(WikiPageStructure.class.toString());

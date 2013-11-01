@@ -1,8 +1,4 @@
-package com.wikia.classifier.filters.text;/**
- * Author: Artur Dwornik
- * Date: 12.04.13
- * Time: 10:10
- */
+package com.wikia.classifier.filters.text;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;

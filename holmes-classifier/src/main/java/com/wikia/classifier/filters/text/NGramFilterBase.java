@@ -1,8 +1,4 @@
-package com.wikia.classifier.filters.text;/**
- * Author: Artur Dwornik
- * Date: 28.04.13
- * Time: 13:57
- */
+package com.wikia.classifier.filters.text;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;

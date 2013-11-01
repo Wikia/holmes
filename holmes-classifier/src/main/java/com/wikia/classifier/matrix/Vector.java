@@ -1,9 +1,5 @@
 package com.wikia.classifier.matrix;
-/**
- * Author: Artur Dwornik
- * Date: 07.04.13
- * Time: 13:56
- */
+
 
 import java.util.Collection;
 import java.util.Map;
