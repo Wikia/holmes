@@ -5,22 +5,25 @@ import com.beust.jcommander.Parameters;
 import com.wikia.api.model.PageInfo;
 import com.wikia.api.service.PageServiceFactory;
 import com.wikia.classifier.text.classifiers.Classifier;
-import com.wikia.classifier.text.classifiers.DefaultClassifierFactory;
-import com.wikia.classifier.text.classifiers.model.PageWithType;
 import com.wikia.classifier.text.classifiers.model.ClassificationResult;
+import com.wikia.classifier.text.classifiers.serialization.GZippedClassifierFileFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 @Parameters(commandDescription = "Fetch documents into files.")
 public class CrawlAndClassifyCommand implements Command {
-    private static java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CrawlAndClassifyCommand.class.toString());
+    private static Logger logger = LoggerFactory.getLogger(CrawlAndClassifyCommand.class.toString());
 
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") // it's updated
     @Parameter(required = true)
     private List<String> urls = new ArrayList<>();
+
+    @Parameter( names = {"-c", "--classifier"}, required = true, description = "Serialized classifier file name.")
+    private String classifierFilePath;
 
     @Override
     public String getName() {
@@ -30,18 +33,22 @@ public class CrawlAndClassifyCommand implements Command {
     @Override
     public void execute(AppParams params) {
         try {
-            Classifier classifierManager = new DefaultClassifierFactory()
-                    .build(new ArrayList<PageWithType>()); // TODO: get actual training set
+            Classifier classifierManager = getClassifier();
             for(String url: urls) {
                 for (PageInfo page : new PageServiceFactory().get(new URL(url)).getPages()) {
                     ClassificationResult classification = classifierManager.classify(page);
                     System.out.print(
-                            String.format("\"%s\", \"%s\"\n", page.getTitle(), classification.getSingleClass())
+                            String.format("%d,\"%s\",\"%s\"\n", page.getPageId(), page.getTitle(), classification.getSingleClass())
                     );
                 }
             }
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Unexpected exception.", ex);
+            logger.error("Unexpected exception.", ex);
         }
+    }
+
+    private Classifier getClassifier() throws IOException {
+        GZippedClassifierFileFormat gZippedClassifierFileFormat = new GZippedClassifierFileFormat();
+        return gZippedClassifierFileFormat.read(classifierFilePath);
     }
 }

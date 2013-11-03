@@ -87,6 +87,7 @@ public class PrefetchingIterator<T> implements Iterator<T> {
     @Override
     public synchronized boolean hasNext() {
         if( interrupted ) { return false; }
+        logger.debug("hasNext?");
         while( (resultsQueue.isEmpty() && (submittedTasks != 0 || !taskQueue.isEmpty())) ) {
             try {
                 wait();
@@ -96,6 +97,7 @@ public class PrefetchingIterator<T> implements Iterator<T> {
                 return false;
             }
         }
+        logger.debug("hasNext:" + !resultsQueue.isEmpty());
         return !resultsQueue.isEmpty();
     }
 
