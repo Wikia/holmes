@@ -1,5 +1,11 @@
-target
+# project artifacts
 .idea
 dependency-reduced-pom.xml
+pom.xml.versionsBackup
+
+# build artifacts
+target
+
+# program output files
 *.out
 out
