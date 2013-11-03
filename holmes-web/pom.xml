@@ -120,6 +120,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
                     <configuration>
                         <source>1.7</source>
                         <target>1.7</target>
@@ -157,8 +158,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!--
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
@@ -171,8 +170,12 @@
                         <phase>pre-integration-test</phase>
                         <configuration>
                             <port>${test.server.port}</port>
-                            <path>/jaxrs-service</path>
+                            <path>/holmes-service</path>
                             <fork>true</fork>
+                            <systemProperties>
+                                <useExampleClassifier>true</useExampleClassifier>
+                                <classifierFile>n/a</classifierFile>
+                            </systemProperties>
                             <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
                         </configuration>
                     </execution>
@@ -183,7 +186,7 @@
                         </goals>
                         <phase>post-integration-test</phase>
                         <configuration>
-                            <path>/jaxrs-service</path>
+                            <path>/holmes-service</path>
                         </configuration>
                     </execution>
                 </executions>
@@ -203,7 +206,7 @@
                                 <include>**/*IT.java</include>
                             </includes>
                             <systemPropertyVariables>
-                                <service.url>http://localhost:${test.server.port}/jaxrs-service</service.url>
+                                <service.url>http://localhost:${test.server.port}/holmes-service</service.url>
                             </systemPropertyVariables>
                         </configuration>
                     </execution>
@@ -215,7 +218,6 @@
                     </execution>
                 </executions>
             </plugin>
-        -->
         </plugins>
     </build>
 </project>

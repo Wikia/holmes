@@ -17,11 +17,12 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
   <bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer"/>
   <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer"/>
   <bean name="wikiUrlStrategy" class="com.wikia.service.strategy.WikiUrlStrategyImpl"/>
-  <bean name="classifierReader"
-        class="com.wikia.classifier.classifiers.serialization.GZippedClassifierFileFormat" />
-  <bean name="classifier" factory-bean="classifierReader" factory-method="read">
-      <constructor-arg name="filename" value="${classifierFile}" />
+  <bean name="classifierFactoryBean"
+        class="com.wikia.service.ClassifierFactoryBean">
+      <property name="pathToClassifier" value="${classifierFile}" />
+      <property name="useExampleClassifier" value="${useExampleClassifier:false}" />
   </bean>
+  <bean name="classifier" factory-bean="classifierFactoryBean" factory-method="getClassifier" />
 
    <jaxrs:server id="services" address="/">
     <jaxrs:serviceBeans>
