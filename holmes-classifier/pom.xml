@@ -5,13 +5,13 @@
     <parent>
         <artifactId>holmes</artifactId>
         <groupId>com.wikia</groupId>
-        <version>0.5-SNAPSHOT</version>
+        <version>0.6-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>${holmes.group}</groupId>
-    <version>${holmes.version}</version>
+    <groupId>com.wikia</groupId>
+    <version>0.6-SNAPSHOT</version>
     <artifactId>holmes-classifier</artifactId>
     <description>Holmes wiki page classifier.</description>
 

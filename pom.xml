@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <properties>
         <holmes.group>com.wikia</holmes.group>
-        <holmes.version>0.5-SNAPSHOT</holmes.version>
+        <holmes.version>0.6-SNAPSHOT</holmes.version>
     </properties>
     <modules>
         <module>wiki-tools</module>
@@ -27,6 +27,6 @@
 
     <artifactId>holmes</artifactId>
     <groupId>com.wikia</groupId>
-    <version>0.5-SNAPSHOT</version>
+    <version>0.6-SNAPSHOT</version>
 
 </project>
