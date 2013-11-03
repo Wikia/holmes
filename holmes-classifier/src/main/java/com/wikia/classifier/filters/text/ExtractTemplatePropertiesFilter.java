@@ -1,13 +1,13 @@
 package com.wikia.classifier.filters.text;
 
 import com.wikia.classifier.filters.CollectionFilterBase;
-import com.wikia.classifier.input.WikiPageStructure;
-import com.wikia.classifier.input.WikiPageTemplate;
-import com.wikia.classifier.input.WikiPageTemplateArgument;
-import com.wikia.classifier.text.Tokenizer;
-import com.wikia.classifier.text.TokenizerImpl;
-import com.wikia.classifier.text.TokenizerStopwordsFilter;
-import com.wikia.classifier.matrix.SparseMatrix;
+import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.wikitext.WikiPageTemplate;
+import com.wikia.classifier.wikitext.WikiPageTemplateArgument;
+import com.wikia.classifier.util.text.Tokenizer;
+import com.wikia.classifier.util.text.TokenizerImpl;
+import com.wikia.classifier.util.text.TokenizerStopwordsFilter;
+import com.wikia.classifier.util.matrix.SparseMatrix;
 import com.wikia.classifier.util.StopWordsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -18,7 +18,7 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
   <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer"/>
   <bean name="wikiUrlStrategy" class="com.wikia.service.strategy.WikiUrlStrategyImpl"/>
   <bean name="classifierReader"
-        class="com.wikia.classifier.text.classifiers.serialization.GZippedClassifierFileFormat" />
+        class="com.wikia.classifier.classifiers.serialization.GZippedClassifierFileFormat" />
   <bean name="classifier" factory-bean="classifierReader" factory-method="read">
       <constructor-arg name="filename" value="${classifierFile}" />
   </bean>

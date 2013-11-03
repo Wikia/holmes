@@ -4,9 +4,9 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.wikia.api.model.PageInfo;
 import com.wikia.api.service.PageServiceFactory;
-import com.wikia.classifier.text.classifiers.Classifier;
-import com.wikia.classifier.text.classifiers.model.ClassificationResult;
-import com.wikia.classifier.text.classifiers.serialization.GZippedClassifierFileFormat;
+import com.wikia.classifier.classifiers.Classifier;
+import com.wikia.classifier.classifiers.model.ClassificationResult;
+import com.wikia.classifier.classifiers.serialization.GZippedClassifierFileFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

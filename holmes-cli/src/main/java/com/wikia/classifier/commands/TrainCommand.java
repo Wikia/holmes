@@ -3,12 +3,12 @@ package com.wikia.classifier.commands;
 import com.beust.jcommander.Parameter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.wikia.classifier.text.classifiers.Classifier;
-import com.wikia.classifier.text.classifiers.DefaultClassifierFactory;
-import com.wikia.classifier.text.classifiers.exceptions.ClassifyException;
-import com.wikia.classifier.text.classifiers.model.ClassificationResult;
-import com.wikia.classifier.text.classifiers.model.PageWithType;
-import com.wikia.classifier.text.classifiers.serialization.GZippedClassifierFileFormat;
+import com.wikia.classifier.classifiers.Classifier;
+import com.wikia.classifier.classifiers.DefaultClassifierFactory;
+import com.wikia.classifier.classifiers.exceptions.ClassifyException;
+import com.wikia.classifier.classifiers.model.ClassificationResult;
+import com.wikia.classifier.classifiers.model.PageWithType;
+import com.wikia.classifier.classifiers.serialization.GZippedClassifierFileFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -3,7 +3,7 @@ package com.wikia.classifier.filters.text;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.wikia.classifier.filters.FilterBase;
-import com.wikia.classifier.matrix.Matrix;
+import com.wikia.classifier.util.matrix.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

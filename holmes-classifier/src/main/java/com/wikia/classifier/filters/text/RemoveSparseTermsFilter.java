@@ -1,9 +1,9 @@
 package com.wikia.classifier.filters.text;
 
 import com.wikia.classifier.filters.FilterBase;
-import com.wikia.classifier.matrix.Matrix;
-import com.wikia.classifier.matrix.SparseMatrix;
-import com.wikia.classifier.matrix.Vector;
+import com.wikia.classifier.util.matrix.Matrix;
+import com.wikia.classifier.util.matrix.SparseMatrix;
+import com.wikia.classifier.util.matrix.Vector;
 
 import java.util.HashSet;
 import java.util.Map;

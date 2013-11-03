@@ -25,11 +25,6 @@ public class ClassificationResourceIT {
 
     @Test
     public void testGetClassificationsShortUrl() throws Exception {
-//        for( int i=0; i<100; i++ ) {
-//            Thread.sleep(5000);
-//            System.out.println(endpointUrl + "/classifications/yugioh/Astral");
-//            System.out.println(i);
-//        }
         WebClient client = WebClient.create(endpointUrl + "/classifications/yugioh/Astral");
         Response r = client.accept("application/json").get();
         assertEquals(Response.Status.OK.getStatusCode(), r.getStatus());

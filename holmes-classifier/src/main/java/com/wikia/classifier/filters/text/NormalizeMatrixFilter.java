@@ -1,15 +1,12 @@
 package com.wikia.classifier.filters.text;
 
 import com.wikia.classifier.filters.FilterBase;
-import com.wikia.classifier.matrix.Matrix;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.wikia.classifier.util.matrix.Matrix;
 
 import java.util.Map;
 
 public class NormalizeMatrixFilter extends FilterBase<Matrix, Matrix> {
     private static final long serialVersionUID = 1112236278930618221L;
-    private static Logger logger = LoggerFactory.getLogger(NormalizeMatrixFilter.class);
 
     public NormalizeMatrixFilter() {
         super(Matrix.class, Matrix.class);

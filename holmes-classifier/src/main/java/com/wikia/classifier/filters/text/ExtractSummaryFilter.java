@@ -1,7 +1,7 @@
 package com.wikia.classifier.filters.text;
 
-import com.wikia.classifier.input.WikiPageStructure;
-import com.wikia.classifier.text.TokenizerImpl;
+import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.util.text.TokenizerImpl;
 
 public class ExtractSummaryFilter extends NGramFilterBase {
     private static final long serialVersionUID = -7979464314134557696L;

@@ -1,8 +1,8 @@
 package com.wikia.classifier.filters.text;
 
 import com.wikia.classifier.filters.FilterBase;
-import com.wikia.classifier.matrix.Matrix;
-import com.wikia.classifier.matrix.Vector;
+import com.wikia.classifier.util.matrix.Matrix;
+import com.wikia.classifier.util.matrix.Vector;
 import com.wikia.classifier.util.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

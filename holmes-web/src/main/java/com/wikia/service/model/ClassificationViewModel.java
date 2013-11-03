@@ -1,7 +1,7 @@
 package com.wikia.service.model;
 
-import com.wikia.classifier.text.classifiers.model.ClassRelevance;
-import com.wikia.classifier.text.classifiers.model.ClassificationResult;
+import com.wikia.classifier.classifiers.model.ClassRelevance;
+import com.wikia.classifier.classifiers.model.ClassificationResult;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import javax.xml.bind.annotation.XmlAttribute;

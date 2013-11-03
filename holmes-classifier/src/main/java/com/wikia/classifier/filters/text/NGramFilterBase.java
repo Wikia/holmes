@@ -3,11 +3,11 @@ package com.wikia.classifier.filters.text;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.wikia.classifier.filters.CollectionFilterBase;
-import com.wikia.classifier.input.WikiPageStructure;
-import com.wikia.classifier.matrix.SparseMatrix;
-import com.wikia.classifier.text.Tokenizer;
-import com.wikia.classifier.text.TokenizerImpl;
-import com.wikia.classifier.text.TokenizerStopwordsFilter;
+import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.util.matrix.SparseMatrix;
+import com.wikia.classifier.util.text.Tokenizer;
+import com.wikia.classifier.util.text.TokenizerImpl;
+import com.wikia.classifier.util.text.TokenizerStopwordsFilter;
 
 import java.util.ArrayList;
 import java.util.Collection;
