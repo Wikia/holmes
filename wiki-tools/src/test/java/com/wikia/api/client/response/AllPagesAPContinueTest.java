@@ -13,7 +13,14 @@ public class AllPagesAPContinueTest {
     @Test
     public void testSetContinueTitle() throws Exception {
         AllPagesAPContinue allPagesAPContinue = new AllPagesAPContinue();
-        allPagesAPContinue.setContinueTitle("asd");
+        allPagesAPContinue.setApContinue("asd");
+        Assert.assertEquals(allPagesAPContinue.getContinueTitle(), "asd");
+    }
+
+    @Test
+    public void testSetContinueTitle2() throws Exception {
+        AllPagesAPContinue allPagesAPContinue = new AllPagesAPContinue();
+        allPagesAPContinue.setApFrom("asd");
         Assert.assertEquals(allPagesAPContinue.getContinueTitle(), "asd");
     }
 }

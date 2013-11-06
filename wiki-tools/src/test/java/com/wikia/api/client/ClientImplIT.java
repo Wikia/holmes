@@ -1,6 +1,7 @@
 package com.wikia.api.client;
 
 
+import com.wikia.api.client.response.AllPagesQueryResponseWrapper;
 import com.wikia.api.client.response.LinksResponseWrapper;
 import com.wikia.api.json.JsonClientImpl;
 import junit.framework.Assert;
@@ -9,6 +10,8 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.testng.annotations.Test;
 
 import java.net.URL;
+
+import static org.fest.assertions.Assertions.*;
 
 public class ClientImplIT {
     private ClientConnectionManager clientConnectionManager = new PoolingClientConnectionManager();
@@ -25,7 +28,16 @@ public class ClientImplIT {
 
     @Test
     public void testGetAllPages() throws Exception {
-        // TODO
+        Client client = new ClientImpl(new JsonClientImpl(clientConnectionManager), new URL("http://wikipedia.org/w/api.php"));
+        AllPagesQueryResponseWrapper allPages = client.getAllPages(3, null);
+
+        assertThat(allPages.getQueryContinue()).isNotNull();
+        assertThat(allPages.getQueryContinue().getAllPages()).isNotNull();
+        assertThat(allPages.getQueryContinue().getAllPages().getContinueTitle()).isNotNull();
+
+        assertThat(allPages.getQueryResponse()).isNotNull();
+        assertThat(allPages.getQueryResponse().getPages()).isNotNull();
+        assertThat(allPages.getQueryResponse().getPages()).hasSize(3);
     }
 
     @Test

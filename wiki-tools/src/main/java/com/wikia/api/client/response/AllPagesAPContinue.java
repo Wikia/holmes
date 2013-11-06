@@ -9,13 +9,31 @@ import java.io.Serializable;
 public class AllPagesAPContinue implements Serializable {
     private static final long serialVersionUID = 6142999253998257754L;
     @SerializedName("apfrom")
-    private String continueTitle;
+    private String apFrom;
+    @SerializedName("apcontinue")
+    private String apContinue;
 
     public String getContinueTitle() {
-        return continueTitle;
+        if ( getApFrom() == null || getApFrom().isEmpty() ) {
+            return getApContinue();
+        } else {
+            return getApFrom();
+        }
     }
 
-    public void setContinueTitle(String continueTitle) {
-        this.continueTitle = continueTitle;
+    public String getApFrom() {
+        return apFrom;
+    }
+
+    public void setApFrom(String apFrom) {
+        this.apFrom = apFrom;
+    }
+
+    public String getApContinue() {
+        return apContinue;
+    }
+
+    public void setApContinue(String apContinue) {
+        this.apContinue = apContinue;
     }
 }
