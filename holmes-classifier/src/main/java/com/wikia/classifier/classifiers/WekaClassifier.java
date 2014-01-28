@@ -37,7 +37,7 @@ public class WekaClassifier implements Classifier, Serializable {
             double[] values = classifier.distributionForInstance(filter.filter(Lists.newArrayList(source)).instance(0));
             return buildClassificationResult( values );
         } catch (Exception e) {
-            throw new ClassifyException("Error while classification of page content.",e);
+            throw new ClassifyException("Error while classification of page content. Page title: " + source.getTitle() ,e);
         }
     }
 

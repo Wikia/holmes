@@ -11,6 +11,16 @@ public class Page implements PageInfo {
     private String title;
     private String wikiText;
 
+    public Page() { }
+
+    public Page(Page page) {
+        setWikiId(page.getWikiId());
+        setPageId(page.getPageId());
+        setNamespace(page.getNamespace());
+        setTitle(page.getTitle());
+        setWikiText(page.getWikiText());
+    }
+
     public Long getWikiId() {
         return wikiId;
     }

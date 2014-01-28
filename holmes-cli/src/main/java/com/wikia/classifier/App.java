@@ -13,6 +13,7 @@ public class App {
             new CrawlAndClassifyCommand(),
             new ServerCommand(),
             new TrainCommand(),
+            new ClassifyCommand(),
     };
 
     public static void main(String[] args) {

@@ -1,6 +1,7 @@
 package com.wikia.service;
 
 import com.google.common.base.Strings;
+import com.wikia.api.model.Page;
 import com.wikia.api.model.PageInfo;
 import com.wikia.api.service.PageServiceFactory;
 import com.wikia.classifier.classifiers.CompositeClassifier;
@@ -10,11 +11,9 @@ import com.wikia.service.strategy.UnkwnownWikiException;
 import com.wikia.service.strategy.WikiUrlStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +29,7 @@ public class ClassificationResource {
         return classifier;
     }
 
+    @SuppressWarnings("unused")
     public void setClassifier(CompositeClassifier classifier) {
         this.classifier = classifier;
     }
@@ -38,6 +38,7 @@ public class ClassificationResource {
         return wikiUrlStrategy;
     }
 
+    @SuppressWarnings("unused")
     public void setWikiUrlStrategy(WikiUrlStrategy wikiUrlStrategy) {
         this.wikiUrlStrategy = wikiUrlStrategy;
     }
@@ -54,5 +55,16 @@ public class ClassificationResource {
         PageInfo pageInfo = pageServiceFactory.get(url).getPage(page);
 
         return ClassificationViewModel.fromClassificationResult(getClassifier().classify(pageInfo));
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/")
+    public ClassificationViewModel getClassifications(@RequestBody Page page) throws UnkwnownWikiException, IOException, ClassifyException {
+        logger.debug(String.format("getClassifications(\"%s\")", page.getTitle()));
+        if( Strings.isNullOrEmpty(page.getTitle()) || Strings.isNullOrEmpty(page.getWikiText()) || page.getTitle().startsWith("Special:") ) {
+            throw new UnsupportedOperationException("Wrong url.");
+        }
+        return ClassificationViewModel.fromClassificationResult(getClassifier().classify(page));
     }
 }
