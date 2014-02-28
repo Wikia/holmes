@@ -41,15 +41,15 @@
         </dependency>
 
         <dependency>
-            <groupId>${pom.groupId}</groupId>
+            <groupId>com.wikia</groupId>
             <artifactId>holmes-classifier</artifactId>
-            <version>${holmes.version}</version>
+            <version>0.6-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>${pom.groupId}</groupId>
+            <groupId>com.wikia</groupId>
             <artifactId>wiki-tools</artifactId>
-            <version>${holmes.version}</version>
+            <version>0.6-SNAPSHOT</version>
         </dependency>
 
         <dependency>
