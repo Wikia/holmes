@@ -13,6 +13,7 @@
     <version>0.6-SNAPSHOT</version>
     <properties>
         <jackson.version>1.9.2</jackson.version>
+        <training.set>${project.basedir}/../training-data/2014.01.26.json</training.set>
     </properties>
     <dependencies>
         <dependency>
@@ -214,6 +215,22 @@
                         <id>verify</id>
                         <goals>
                             <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.wikia</groupId>
+                <artifactId>holmes-maven-plugin</artifactId>
+                <version>0.6-SNAPSHOT</version>
+                <configuration>
+                    <trainingSet>${training.set}</trainingSet>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>train</id>
+                        <goals>
+                            <goal>train</goal>
                         </goals>
                     </execution>
                 </executions>

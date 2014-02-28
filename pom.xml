@@ -9,6 +9,7 @@
         <holmes.version>0.6-SNAPSHOT</holmes.version>
     </properties>
     <modules>
+        <module>holmes-maven-plugin</module>
         <module>wiki-tools</module>
         <module>holmes-classifier</module>
         <module>holmes-web</module>

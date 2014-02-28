@@ -11,10 +11,11 @@ import weka.classifiers.trees.RandomForest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultClassifierFactory {
+public class DefaultClassifierFactory implements ClassifierFactory {
     private static Logger logger = LoggerFactory.getLogger(DefaultClassifierFactory.class);
 
-    public Classifier build( List<PageWithType> pageInfos ) {
+    @Override
+    public Classifier build(List<PageWithType> trainingSet) {
         List<CompositeClassifier.ClassifierEntry> classifiers = new ArrayList<>();
         try {
             /*
@@ -25,7 +26,7 @@ public class DefaultClassifierFactory {
 
             logger.info("train J48");
             classifiers.add(new CompositeClassifier.ClassifierEntry("J48",
-                    new ClassifierBuilder(new J48()).train(pageInfos), 1));
+                    new ClassifierBuilder(new J48()).train(trainingSet), 1));
 
             logger.info("train SMO");
             classifiers.add(new CompositeClassifier.ClassifierEntry("SMO",
@@ -33,16 +34,16 @@ public class DefaultClassifierFactory {
                             .setExtractSummary1Grams(true)
                             .setExtractSummary2Grams(true)
                             .setExtractSummary3Grams(true)
-                            .train(pageInfos), 1));
+                            .train(trainingSet), 1));
 
             logger.info("train RandomForest");
             RandomForest randomForest = new RandomForest(); randomForest.setNumTrees(200);
             classifiers.add(new CompositeClassifier.ClassifierEntry("RandomForest",
-                    new ClassifierBuilder(randomForest).train(pageInfos), 1));
+                    new ClassifierBuilder(randomForest).train(trainingSet), 1));
 
             logger.info("train NaiveBayes");
             classifiers.add(new CompositeClassifier.ClassifierEntry("NaiveBayes",
-                    new ClassifierBuilder(new NaiveBayes()).train(pageInfos), 1));
+                    new ClassifierBuilder(new NaiveBayes()).train(trainingSet), 1));
 
         } catch (Exception e) {
             throw new RuntimeException(e);

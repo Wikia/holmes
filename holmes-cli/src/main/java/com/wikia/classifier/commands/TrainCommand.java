@@ -5,10 +5,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wikia.classifier.classifiers.Classifier;
 import com.wikia.classifier.classifiers.DefaultClassifierFactory;
-import com.wikia.classifier.classifiers.exceptions.ClassifyException;
-import com.wikia.classifier.classifiers.model.ClassificationResult;
 import com.wikia.classifier.classifiers.model.PageWithType;
 import com.wikia.classifier.classifiers.serialization.GZippedClassifierFileFormat;
+import com.wikia.classifier.classifiers.training.ClassifierTrainingResult;
+import com.wikia.classifier.classifiers.training.DishonestClassifierTrainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,7 @@ public class TrainCommand implements Command {
     private List<String> files = new ArrayList<>();
 
     @Parameter( names = {"-o", "--out"}, required = true, description = "Path to output file")
-    private String outFilePath;
+    private String outFilePath = null;
 
     @Override
     public String getName() {
@@ -46,26 +46,13 @@ public class TrainCommand implements Command {
             }
         }
         if( list.size() > 0 ) {
-            DefaultClassifierFactory classifierFactory = new DefaultClassifierFactory();
-            Classifier classifier = classifierFactory.build(list);
+            DishonestClassifierTrainer trainer = new DishonestClassifierTrainer(new DefaultClassifierFactory());
+            ClassifierTrainingResult trainingResult = trainer.train(list);
 
-            for ( PageWithType example: list ) {
-                try {
-                    ClassificationResult classificationResult = classifier.classify(example);
-                    if (!classificationResult.getSingleClass().equals(example.getType())) {
-                        logger.warn(String.format("Incorrect classification of %s (%d) was:%s expected %s."
-                                , example.getTitle()
-                                , example.getWikiId()
-                                , classificationResult.getSingleClass()
-                                , example.getType()));
-                    }
-                } catch (ClassifyException e) {
-                    logger.error(String.format("Classifying of %s (%d) caused error.", example.getTitle(), example.getWikiId()), e );
-                }
-            }
+            logger.info(String.format("SuccessRate: %.2f", trainingResult.getSuccessRate() * 100.0));
 
             try {
-                serialize(classifier);
+                serialize(trainingResult.getClassifier());
             } catch (IOException e) {
                 logger.error( "Error while writing to file.", e );
             }
@@ -84,3 +71,4 @@ public class TrainCommand implements Command {
         }
     }
 }
+
