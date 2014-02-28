@@ -1,26 +1,27 @@
 package com.wikia.service;
 
-import com.wikia.classifier.Resources;
 import com.wikia.classifier.classifiers.Classifier;
-import com.wikia.classifier.classifiers.DefaultClassifierFactory;
 import com.wikia.classifier.classifiers.serialization.GZippedClassifierFileFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 
+/**
+ * Locates serialized classifier in filesystem or classpath
+ */
 public class ClassifierFactoryBean {
     private static Logger logger = LoggerFactory.getLogger(ClassifierFactoryBean.class);
-    private DefaultClassifierFactory classifierFactory = new DefaultClassifierFactory();
     private String pathToClassifier = null;
-    private boolean useExampleClassifier = false;
 
     public Classifier getClassifier() throws IOException {
-        if ( isUseExampleClassifier() ) {
-            logger.info("Use example classifier");
-            return classifierFactory.build(Resources.getExampleSet());
+        logger.info("Use classifier in following path: " + getPathToClassifier());
+        if (isClassPathResource()) {
+            try (InputStream resourceStream = getClasspathResourceStream()) {
+                return new GZippedClassifierFileFormat().read(resourceStream);
+            }
         } else {
-            logger.info("Use classifier in following path: " + getPathToClassifier());
             return new GZippedClassifierFileFormat().read(getPathToClassifier());
         }
     }
@@ -33,11 +34,15 @@ public class ClassifierFactoryBean {
         this.pathToClassifier = pathToClassifier;
     }
 
-    public boolean isUseExampleClassifier() {
-        return useExampleClassifier;
+    protected boolean isClassPathResource() {
+        return getPathToClassifier() != null
+                && getPathToClassifier().trim().startsWith("classpath:");
     }
 
-    public void setUseExampleClassifier(boolean useExampleClassifier) {
-        this.useExampleClassifier = useExampleClassifier;
+    protected InputStream getClasspathResourceStream() {
+        if (!isClassPathResource()) {
+            throw new IllegalStateException("Trying to get classpath resource but path doesn't look like from classpath.");
+        }
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(getPathToClassifier().trim().substring(10));
     }
 }

@@ -13,7 +13,7 @@ public class WikiUrlStrategyImpl implements WikiUrlStrategy {
     private static final Pattern pattern = Pattern.compile("^http:/[a-z0-9]", Pattern.CASE_INSENSITIVE);
 
     @Override
-    public URL getUrl(String wikiName) throws UnkwnownWikiException {
+    public URL getUrl(String wikiName) throws UnknownWikiException {
         String originalName = wikiName;
         try {
             URL url;
@@ -35,7 +35,7 @@ public class WikiUrlStrategyImpl implements WikiUrlStrategy {
             logger.debug(String.format("Interpret %s as %s", originalName, url.toString()));
             return url;
         } catch (MalformedURLException ex) {
-            throw new UnkwnownWikiException("Cannot interpret supplied wiki name.", ex);
+            throw new UnknownWikiException("Cannot interpret supplied wiki name.", ex);
         }
     }
 }

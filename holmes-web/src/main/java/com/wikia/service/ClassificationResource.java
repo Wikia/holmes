@@ -7,7 +7,7 @@ import com.wikia.api.service.PageServiceFactory;
 import com.wikia.classifier.classifiers.CompositeClassifier;
 import com.wikia.classifier.classifiers.exceptions.ClassifyException;
 import com.wikia.service.model.ClassificationViewModel;
-import com.wikia.service.strategy.UnkwnownWikiException;
+import com.wikia.service.strategy.UnknownWikiException;
 import com.wikia.service.strategy.WikiUrlStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,7 @@ public class ClassificationResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("{wikiName : .+}/{page}")
-    public ClassificationViewModel getClassifications(@PathParam("wikiName") String wikiName,@PathParam("page")  String page) throws UnkwnownWikiException, IOException, ClassifyException {
+    public ClassificationViewModel getClassifications(@PathParam("wikiName") String wikiName,@PathParam("page")  String page) throws UnknownWikiException, IOException, ClassifyException {
         logger.debug(String.format("getClassifications(\"%s\",\"%s\")", wikiName, page));
         if( Strings.isNullOrEmpty(wikiName) || Strings.isNullOrEmpty(page) || page.startsWith("Special:") ) {
             throw new UnsupportedOperationException("Wrong url."); // TODO: make me cleaner
@@ -60,7 +60,7 @@ public class ClassificationResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/")
-    public ClassificationViewModel getClassifications(@RequestBody Page page) throws UnkwnownWikiException, IOException, ClassifyException {
+    public ClassificationViewModel getClassifications(@RequestBody Page page) throws UnknownWikiException, IOException, ClassifyException {
         logger.debug(String.format("getClassifications(\"%s\")", page.getTitle()));
         if( Strings.isNullOrEmpty(page.getTitle()) || Strings.isNullOrEmpty(page.getWikiText()) || page.getTitle().startsWith("Special:") ) {
             throw new UnsupportedOperationException("Wrong url.");

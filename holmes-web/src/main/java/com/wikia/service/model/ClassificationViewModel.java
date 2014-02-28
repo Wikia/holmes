@@ -10,6 +10,21 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Classification response model.
+ *
+ * Serialized JSON example:
+ * {
+ *   "classes":{
+ *     "mini_game":0.0027487441002302026,
+ *     "tv_episode":0.022617430793758688,
+ *     "person":0.09817658022949176,
+ *     "other":0.5444942564203317,
+ *     "video_game":0.022427865727909266
+ *   },
+ *   "class":"other"
+ * }
+ */
 @XmlRootElement(name = "classification")
 public class ClassificationViewModel implements Serializable {
     private static final long serialVersionUID = -386473795640625588L;

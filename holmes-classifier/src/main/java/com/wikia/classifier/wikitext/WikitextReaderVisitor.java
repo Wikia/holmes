@@ -81,14 +81,14 @@ public class WikitextReaderVisitor extends AstVisitor {
 
     public void visit(Paragraph p)
     {
-        logger.debug("Paragraph: ");
+        //logger.debug("Paragraph: ");
         iterate(p.getContent());
         emmitPlain("\n");
     }
 
     public void visit(Text text)
     {
-        logger.debug("Text: " + text.getContent().length());
+        //logger.debug("Text: " + text.getContent().length());
         emmitPlain(text.getContent());
     }
 
@@ -99,7 +99,7 @@ public class WikitextReaderVisitor extends AstVisitor {
 
     public void visit(XmlElement e)
     {
-        logger.debug("XmlElement: " + e.getNodeTypeName());
+        //logger.debug("XmlElement: " + e.getNodeTypeName());
         iterate(e.getBody());
     }
 
@@ -129,7 +129,7 @@ public class WikitextReaderVisitor extends AstVisitor {
     {
         try {
             templateDepth ++;
-            logger.debug("Template" + template.getName() + " " + template.getChildNames());
+            //logger.debug("Template" + template.getName() + " " + template.getChildNames());
             wikiPageStructure.getTemplates().add(new WikiPageTemplate(asPlain(template.getName()), template.getChildNames()));
             iterate(template.getArgs());
         } finally {
@@ -142,7 +142,7 @@ public class WikitextReaderVisitor extends AstVisitor {
         String name = asPlain(templateArgument.getName());
         String value = asPlain(templateArgument.getValue());
         wikiPageStructure.getTemplateArguments().add(new WikiPageTemplateArgument(name, value));
-        logger.debug("Template argument" + templateArgument.getName() + " = " + templateArgument.getValue());
+        //logger.debug("Template argument" + templateArgument.getName() + " = " + templateArgument.getValue());
         iterate(templateArgument.getName());
         emmitPlain(":\n");
         iterate(templateArgument.getValue());
@@ -151,7 +151,7 @@ public class WikitextReaderVisitor extends AstVisitor {
 
     public void visit(TemplateParameter templateParameter)
     {
-        logger.info("Template parameter" + templateParameter.getName() + " = " + templateParameter.getDefaultValue());
+        //logger.info("Template parameter" + templateParameter.getName() + " = " + templateParameter.getDefaultValue());
     }
 
     public void visit(TagExtension n)
@@ -167,7 +167,7 @@ public class WikitextReaderVisitor extends AstVisitor {
         if(link.getTarget().startsWith("Category:")) {
             visitCategory(link);
         } else {
-            logger.debug("Internal Link: " + link.getTitle().getNodeName() + " " + link.getTarget());
+            //logger.debug("Internal Link: " + link.getTitle().getNodeName() + " " + link.getTarget());
             wikiPageStructure.getInternalLinks().add(
                     new WikiPageInternalLink(asPlain(link.getTitle().getContent()), link.getTarget()));
             iterate(link.getTitle().getContent());
@@ -183,8 +183,8 @@ public class WikitextReaderVisitor extends AstVisitor {
     }
 
     public void visit(ExternalLink link) {
-        logger.debug("External Link: " + link.getTitle().getNodeName() + " " + link.getTarget());
-        logger.debug("             : " + link.getTitle());
+        //logger.debug("External Link: " + link.getTitle().getNodeName() + " " + link.getTarget());
+        //logger.debug("             : " + link.getTitle());
         iterate(link.getTitle());
     }
 

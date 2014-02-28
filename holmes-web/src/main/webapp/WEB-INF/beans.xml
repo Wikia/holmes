@@ -19,8 +19,7 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
   <bean name="wikiUrlStrategy" class="com.wikia.service.strategy.WikiUrlStrategyImpl"/>
   <bean name="classifierFactoryBean"
         class="com.wikia.service.ClassifierFactoryBean">
-      <property name="pathToClassifier" value="${classifierFile}" />
-      <property name="useExampleClassifier" value="${useExampleClassifier:false}" />
+      <property name="pathToClassifier" value="classpath:classifier.out" />
   </bean>
   <bean name="classifier" factory-bean="classifierFactoryBean" factory-method="getClassifier" />
 

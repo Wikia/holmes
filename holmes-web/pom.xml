@@ -13,7 +13,7 @@
     <version>0.6-SNAPSHOT</version>
     <properties>
         <jackson.version>1.9.2</jackson.version>
-        <training.set>${project.basedir}/../training-data/2014.01.26.json</training.set>
+        <training.set>${project.basedir}/../holmes-classifier/src/main/resources/example-set.json</training.set>
     </properties>
     <dependencies>
         <dependency>

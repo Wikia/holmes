@@ -4,5 +4,5 @@ import java.net.URL;
 
 
 public interface WikiUrlStrategy {
-    URL getUrl(String wikiName) throws UnkwnownWikiException;
+    URL getUrl(String wikiName) throws UnknownWikiException;
 }
