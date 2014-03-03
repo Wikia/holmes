@@ -4,11 +4,11 @@ import com.beust.jcommander.Parameter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wikia.classifier.classifiers.Classifier;
-import com.wikia.classifier.classifiers.DefaultClassifierFactory;
 import com.wikia.classifier.classifiers.model.PageWithType;
 import com.wikia.classifier.classifiers.serialization.GZippedClassifierFileFormat;
+import com.wikia.classifier.classifiers.training.ClassifierTrainer;
+import com.wikia.classifier.classifiers.training.ClassifierTrainerFactory;
 import com.wikia.classifier.classifiers.training.ClassifierTrainingResult;
-import com.wikia.classifier.classifiers.training.DishonestClassifierTrainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +46,7 @@ public class TrainCommand implements Command {
             }
         }
         if( list.size() > 0 ) {
-            DishonestClassifierTrainer trainer = new DishonestClassifierTrainer(new DefaultClassifierFactory());
+            ClassifierTrainer trainer = new ClassifierTrainerFactory().create();
             ClassifierTrainingResult trainingResult = trainer.train(list);
 
             logger.info(String.format("SuccessRate: %.2f", trainingResult.getSuccessRate() * 100.0));

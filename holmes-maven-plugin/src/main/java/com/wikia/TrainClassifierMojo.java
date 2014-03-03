@@ -3,11 +3,11 @@ package com.wikia;
 import com.beust.jcommander.internal.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.wikia.classifier.classifiers.DefaultClassifierFactory;
 import com.wikia.classifier.classifiers.model.PageWithType;
 import com.wikia.classifier.classifiers.serialization.GZippedClassifierFileFormat;
+import com.wikia.classifier.classifiers.training.ClassifierTrainer;
+import com.wikia.classifier.classifiers.training.ClassifierTrainerFactory;
 import com.wikia.classifier.classifiers.training.ClassifierTrainingResult;
-import com.wikia.classifier.classifiers.training.DishonestClassifierTrainer;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
@@ -52,7 +52,7 @@ public class TrainClassifierMojo extends AbstractMojo {
             throw new MojoExecutionException(String.format("Cannot read training set file. (file:%s)", trainingSet), e);
         }
 
-        DishonestClassifierTrainer trainer = new DishonestClassifierTrainer(new DefaultClassifierFactory());
+        ClassifierTrainer trainer = new ClassifierTrainerFactory().create();
         ClassifierTrainingResult trainingResult = trainer.train(inputSet);
 
         getLog().info(String.format("SuccessRate: %.2f", trainingResult.getSuccessRate() * 100.0));
