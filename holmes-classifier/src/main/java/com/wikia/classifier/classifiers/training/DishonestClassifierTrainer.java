@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Trains and verifies model using same input set.
+ * Results of such verification are not reliable.
  */
 public class DishonestClassifierTrainer implements ClassifierTrainer {
     private final ClassifierFactory classifierFactory;
