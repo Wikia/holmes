@@ -1,19 +1,30 @@
-wiki-graph
-==========
-
-Tool for identifying and mapping wiki content
+Holmes
+======
+Tool for identifying types of wikitext articles.
 
 Example usage
 ---
 build
+
+holmes-classifier
+===============
+Implementation of classifier essentials: Extracting signals from wikitext, training/verification process and serialization/deserialization.
+
+holmes-web
+==========
+Web endpoint for holmes classifier. Build process for holmes-web includes training classifier. To specify training set use training.set parameter:
+
+Example:
 ```bash
-mvn package
+mvn install -Dtraining.set=./training-data/2014.01.26.json
 ```
 
-```bash
-java -jar wiki-classifier.jar Server
-```
+See holmes-maven-plugin for more information about training.
 
-```bash
-java -jar wiki-classifier.jar CrawlAndClassify http://en.wikipedia.org/w/api.php
-```
+holmes-cli
+==========
+Command line tools for holmes.
+
+wiki-tools
+==========
+Client tools for wiki api.
