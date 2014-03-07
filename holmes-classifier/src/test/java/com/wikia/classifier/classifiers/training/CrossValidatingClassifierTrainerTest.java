@@ -7,11 +7,9 @@ import com.wikia.classifier.classifiers.exceptions.ClassifyException;
 import com.wikia.classifier.classifiers.model.ClassRelevance;
 import com.wikia.classifier.classifiers.model.ClassificationResult;
 import com.wikia.classifier.classifiers.model.PageWithType;
-import junit.framework.Assert;
 import org.apache.commons.lang.NullArgumentException;
 import org.fest.assertions.Delta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;

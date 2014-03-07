@@ -5,9 +5,11 @@ import com.wikia.classifier.classifiers.model.PageWithType;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class FoldingStrategyImpl implements FoldingStrategy {
     private final int totalFolds;
+    private int seed = 1;
 
     public FoldingStrategyImpl(int totalFolds) {
         if (totalFolds < 2) {
@@ -19,7 +21,7 @@ public class FoldingStrategyImpl implements FoldingStrategy {
     @Override
     public List<Fold> fold(List<PageWithType> originalSet) {
         List<PageWithType> randomizedSet = Lists.newArrayList(originalSet);
-        Collections.shuffle(randomizedSet);
+        Collections.shuffle(randomizedSet, new Random(getSeed()));
 
         List<Fold> folds = Lists.newArrayListWithCapacity(totalFolds);
         int minFoldSize = originalSet.size() / totalFolds;
@@ -34,11 +36,20 @@ public class FoldingStrategyImpl implements FoldingStrategy {
             trainingSet.addAll(trainingSetPrefix);
             trainingSet.addAll(trainingSetSuffix);
             folds.add(new Fold(trainingSet, verificationSet));
+            startingPosition += verificationSetSize;
         }
         return folds;
     }
 
     public int getTotalFolds() {
         return totalFolds;
+    }
+
+    public int getSeed() {
+        return seed;
+    }
+
+    public void setSeed(int seed) {
+        this.seed = seed;
     }
 }

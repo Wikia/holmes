@@ -5,7 +5,7 @@ import com.wikia.classifier.classifiers.Classifier;
 import com.wikia.classifier.classifiers.model.ClassRelevance;
 import com.wikia.classifier.classifiers.model.ClassificationResult;
 import com.wikia.classifier.classifiers.model.PageWithType;
-import junit.framework.Assert;
+import org.testng.Assert;
 import org.apache.commons.lang.NullArgumentException;
 import org.fest.assertions.Delta;
 import org.testng.annotations.Test;
