@@ -20,14 +20,16 @@ public class ExtractSectionsFilter extends CollectionFilterBase<WikiPageStructur
     @Override
     protected SparseMatrix doFilter(Collection<WikiPageStructure> pages) {
         SparseMatrix matrix = new SparseMatrix();
+        int i = 0;
         for(WikiPageStructure structure:pages) {
             for(WikiPageSection section: structure.getSections()) {
                 String name = section.getTitle();
                 name = name.trim().toLowerCase();
                 String key = "sec:"+name;
                 logger.debug(key);
-                matrix.put(structure.getTitle(), key, 1);
+                matrix.put(String.valueOf(i), key, 1);
             }
+            i++;
         }
         return matrix;
     }

@@ -33,31 +33,33 @@ public class ExtractTemplatePropertiesFilter extends CollectionFilterBase<WikiPa
     @Override
     protected SparseMatrix doFilter(Collection<WikiPageStructure> params) {
         SparseMatrix matrix = new SparseMatrix();
+        int i = 0;
         for(WikiPageStructure wikiPageStructure: params) {
             for(WikiPageTemplateArgument argument: wikiPageStructure.getTemplateArguments()) {
                 String argName = argument.getName();
                 argName = argName.trim().toLowerCase();
                 if( argName.length() > 2 ) {
-                    matrix.put(wikiPageStructure.getTitle(), "arg:" + argName, 1);
+                    matrix.put(String.valueOf(i), "arg:" + argName, 1);
                 }
                 if(extractArgval) {
                     for(String token: tokenizer.tokenize(argument.getStringValue())) {
-                        matrix.put(wikiPageStructure.getTitle(), "argval:" + token.toLowerCase(), 0.01);
+                        matrix.put(String.valueOf(i), "argval:" + token.toLowerCase(), 0.01);
                     }
                 }
             }
             if(isExtractTemplateName()) {
                 for(WikiPageTemplate template: wikiPageStructure.getTemplates()) {
                     for(String token: tokenizer.tokenize(template.getName())) {
-                        matrix.put(wikiPageStructure.getTitle(), "template:" + token.toLowerCase(), 1);
+                        matrix.put(String.valueOf(i), "template:" + token.toLowerCase(), 1);
                     }
                     for(String subName: template.getChildNames()) {
                         for(String token: tokenizer.tokenize(subName)) {
-                            matrix.put(wikiPageStructure.getTitle(), "template:" + token.toLowerCase(), 1);
+                            matrix.put(String.valueOf(i), "template:" + token.toLowerCase(), 1);
                         }
                     }
                 }
             }
+            i++;
         }
         return matrix;
     }

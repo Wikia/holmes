@@ -64,6 +64,7 @@ public class ExtractCharacteristicCategoryPartFilter extends CollectionFilterBas
     @Override
     protected SparseMatrix doFilter(Collection<WikiPageStructure> params) {
         SparseMatrix matrix = new SparseMatrix();
+        int i = 0;
         for(WikiPageStructure wikiPageStructure: params) {
             for(String part: characteristicParts) {
                 int count = 0;
@@ -72,8 +73,9 @@ public class ExtractCharacteristicCategoryPartFilter extends CollectionFilterBas
                     name = name.trim().toLowerCase();
                     if (name.contains(part)) count++;
                 }
-                matrix.put(wikiPageStructure.getTitle(), "special:"+part, count);
+                matrix.put(String.valueOf(i), "special:"+part, count);
             }
+            i++;
         }
         return matrix;
     }

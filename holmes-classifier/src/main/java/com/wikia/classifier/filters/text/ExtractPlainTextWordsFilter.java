@@ -33,14 +33,16 @@ public class ExtractPlainTextWordsFilter extends CollectionFilterBase<WikiPageSt
         SparseMatrix matrix = new SparseMatrix();
         Tokenizer tokenizer = new TokenizerImpl(delimiters);
         tokenizer = new TokenizerStopwordsFilter(tokenizer, stopWords, 3);
+        int i = 0;
         for(WikiPageStructure wikiPageStructure: params) {
             Multiset<String> multiset = HashMultiset.create();
             for(String token: tokenizer.tokenize(wikiPageStructure.getPlain())) {
                 multiset.add(token);
             }
             for(Multiset.Entry<String> stringEntry: multiset.entrySet()) {
-                matrix.put(wikiPageStructure.getTitle(), stringEntry.getElement(), stringEntry.getCount());
+                matrix.put(String.valueOf(i), stringEntry.getElement(), stringEntry.getCount());
             }
+            i++;
         }
         return matrix;
     }

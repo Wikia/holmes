@@ -49,8 +49,9 @@ public class ClassifierBuilder {
 
     private Multimap<String,String> getTypeMap( List<PageWithType> pages ) {
         Multimap<String,String> typeMap = HashMultimap.create();
+        int i = 0;
         for ( PageWithType page: pages ) {
-            typeMap.put(page.getTitle(), page.getType());
+            typeMap.put(String.valueOf(i++), page.getType());
         }
         return typeMap;
     }

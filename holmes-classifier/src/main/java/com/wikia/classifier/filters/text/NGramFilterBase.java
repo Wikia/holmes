@@ -36,6 +36,7 @@ public abstract class NGramFilterBase extends CollectionFilterBase<WikiPageStruc
     @Override
     protected SparseMatrix doFilter(Collection<WikiPageStructure> params) {
         SparseMatrix matrix = new SparseMatrix();
+        int i = 0;
         for(WikiPageStructure wikiPageStructure: params) {
             Multiset<String> multiset = HashMultiset.create();
             for(String sentence: sentenceTokenizer.tokenize(getTextSource(wikiPageStructure))) {
@@ -43,8 +44,9 @@ public abstract class NGramFilterBase extends CollectionFilterBase<WikiPageStruc
                 multiset.addAll( nGrams );
             }
             for(Multiset.Entry<String> stringEntry: multiset.entrySet()) {
-                matrix.put(wikiPageStructure.getTitle(), stringEntry.getElement(), stringEntry.getCount());
+                matrix.put(String.valueOf(i), stringEntry.getElement(), stringEntry.getCount());
             }
+            i++;
         }
         return matrix;
     }

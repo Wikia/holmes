@@ -19,16 +19,17 @@ public class ExtractCategoriesFilter extends CollectionFilterBase<WikiPageStruct
 
     @Override
     protected SparseMatrix doFilter(Collection<WikiPageStructure> params) {
-
         SparseMatrix matrix = new SparseMatrix();
+        int i = 0;
         for(WikiPageStructure wikiPageStructure: params) {
             for(WikiPageCategory category: wikiPageStructure.getCategories()) {
                 String name = category.getTitle();
                 name = name.trim().toLowerCase();
                 String key = "cat:"+name;
                 logger.debug(key);
-                matrix.put(wikiPageStructure.getTitle(), key, 1);
+                matrix.put(String.valueOf(i), key, 1);
             }
+            i++;
         }
         return matrix;
     }
