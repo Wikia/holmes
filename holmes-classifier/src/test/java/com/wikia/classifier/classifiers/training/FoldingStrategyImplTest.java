@@ -1,8 +1,8 @@
 package com.wikia.classifier.classifiers.training;
 
-import com.beust.jcommander.internal.Lists;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.wikia.classifier.classifiers.model.PageWithType;
 import org.testng.Assert;
 import org.testng.annotations.Test;

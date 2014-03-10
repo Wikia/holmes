@@ -1,6 +1,6 @@
 package com.wikia;
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Goal which touches a timestamp file.
+ * Trains and verifies classifier.
  */
 @SuppressWarnings("unused")
 @Mojo(name="train", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)

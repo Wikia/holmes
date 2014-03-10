@@ -1,6 +1,6 @@
 package com.wikia.classifier.classifiers.training;
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import com.wikia.classifier.classifiers.Classifier;
 import com.wikia.classifier.classifiers.ClassifierFactory;
 import com.wikia.classifier.classifiers.exceptions.ClassifyException;
