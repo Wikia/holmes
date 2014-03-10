@@ -29,6 +29,7 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
           <property name="wikiUrlStrategy" ref="wikiUrlStrategy" />
           <property name="classifier" ref="classifier" />
       </bean>
+      <bean class="com.wikia.service.HealthResource" />
     </jaxrs:serviceBeans>
     <jaxrs:providers>
         <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
