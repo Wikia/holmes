@@ -43,12 +43,15 @@ public class TrainClassifierMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException {
         if ( trainingSet == null || trainingSet.isEmpty() ) {
-            new MojoExecutionException("No training file specified.");
+            throw new MojoExecutionException("No training file specified.");
         }
 
         ClassifierTrainingResult trainingResult = train(trainingSet);
 
-        getLog().info(String.format("SuccessRate: %.2f", trainingResult.getSuccessRate() * 100.0));
+        getLog().info(String.format("Success Rate: %.2f", trainingResult.getSuccessRate() * 100.0));
+        getLog().info(String.format("False Negatives: %.2f", trainingResult.getFalseNegativeErrorRate() * 100.0));
+        getLog().info(String.format("False Positives: %.2f", trainingResult.getFalsePositiveErrorRate() * 100.0));
+        getLog().info(String.format("Wrong Type: %.2f", trainingResult.getWrongTypeErrorRate() * 100.0));
 
         if (outputPath.exists() || outputPath.mkdirs()) {
             try {

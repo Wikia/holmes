@@ -7,7 +7,6 @@ import com.wikia.classifier.classifiers.exceptions.ClassifyException;
 import com.wikia.classifier.classifiers.model.ClassificationResult;
 import com.wikia.classifier.classifiers.model.PageWithType;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -19,8 +18,40 @@ public class ClassifierTrainingResult {
      */
     private static final Predicate<ClassificationResultPair> successfullyClassifiedPredicate = new Predicate<ClassificationResultPair>() {
         @Override
-        public boolean apply(@Nullable ClassificationResultPair input) {
+        public boolean apply(ClassificationResultPair input) {
             return input.isSuccess();
+        }
+    };
+
+    /**
+     * True if input represents negative error: Expected some type but got "other".
+     */
+    private static final Predicate<ClassificationResultPair> falseNegativeErrorPredicate = new Predicate<ClassificationResultPair>() {
+        @Override
+        public boolean apply(ClassificationResultPair input) {
+            return !input.isSuccess() && input.getResult().getSingleClass().equals("other");
+        }
+    };
+
+    /**
+     * True if input represents positive error: Expected "other" but got some type.
+     */
+    private static final Predicate<ClassificationResultPair> falsePositiveErrorPredicate = new Predicate<ClassificationResultPair>() {
+        @Override
+        public boolean apply(ClassificationResultPair input) {
+            return !input.isSuccess() && input.getPage().getType().equals("other");
+        }
+    };
+
+    /**
+     * True if input represents wrong type error. Got different type than expected.
+     */
+    private static final Predicate<ClassificationResultPair> wrongTypeErrorPredicate = new Predicate<ClassificationResultPair>() {
+        @Override
+        public boolean apply(ClassificationResultPair input) {
+            return !input.isSuccess()
+                    && !input.getPage().getType().equals("other")
+                    && !input.getResult().getSingleClass().equals("other");
         }
     };
 
@@ -64,6 +95,33 @@ public class ClassifierTrainingResult {
      */
     public double getSuccessRate() {
         return (double) Iterables.size(Iterables.filter(classificationResultPairList, successfullyClassifiedPredicate)) /
+                (double) Iterables.size(classificationResultPairList);
+    }
+
+    /**
+     * Computes Ratio errors where assigned type was "other", but expected was different
+     * @return Floating point value in range [0,1].
+     */
+    public double getFalseNegativeErrorRate() {
+        return (double) Iterables.size(Iterables.filter(classificationResultPairList, falseNegativeErrorPredicate)) /
+                (double) Iterables.size(classificationResultPairList);
+    }
+
+    /**
+     * Computes Ratio errors where assigned type was "other", but expected was different
+     * @return Floating point value in range [0,1].
+     */
+    public double getFalsePositiveErrorRate() {
+        return (double) Iterables.size(Iterables.filter(classificationResultPairList, falsePositiveErrorPredicate)) /
+                (double) Iterables.size(classificationResultPairList);
+    }
+
+    /**
+     * Computes Ratio errors where assigned type was "other", but expected was different
+     * @return Floating point value in range [0,1].
+     */
+    public double getWrongTypeErrorRate() {
+        return (double) Iterables.size(Iterables.filter(classificationResultPairList, wrongTypeErrorPredicate)) /
                 (double) Iterables.size(classificationResultPairList);
     }
 
