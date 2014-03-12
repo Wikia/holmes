@@ -11,7 +11,7 @@ import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 
 
-public class WikiStructureHelper {
+public class WikiTextFeaturesHelper {
     // configuration is not thread safe but can be cached, so we're using thread local.
     private static ThreadLocal<WikiConfigurationInterface> threadLocalConfig = new ThreadLocal<WikiConfigurationInterface>() {
         @Override
@@ -24,11 +24,11 @@ public class WikiStructureHelper {
         }
     };
 
-    public static WikiPageStructure parse(PageInfo textChunk) throws FileNotFoundException, JAXBException, LinkTargetException, CompilerException {
+    public static WikiPageFeatures parse(PageInfo textChunk) throws FileNotFoundException, JAXBException, LinkTargetException, CompilerException {
         return parse(textChunk.getTitle(), textChunk.getWikiText());
     }
 
-    public static WikiPageStructure parse(String title, String wikiText) throws FileNotFoundException, JAXBException, LinkTargetException, CompilerException {
+    public static WikiPageFeatures parse(String title, String wikiText) throws FileNotFoundException, JAXBException, LinkTargetException, CompilerException {
         WikiConfigurationInterface configuration = threadLocalConfig.get();
         if ( configuration == null ) {
             throw new IllegalStateException("Cannot parse wikitext. WikiConfiguration not loaded.");

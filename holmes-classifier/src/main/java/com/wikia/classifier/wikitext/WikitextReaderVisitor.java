@@ -14,12 +14,12 @@ public class WikitextReaderVisitor extends AstVisitor {
     private static Logger logger = LoggerFactory.getLogger(WikitextReaderVisitor.class.toString());
     private final StringBuilder stringBuilder = new StringBuilder();
     private final StringBuilder abstractStringBuilder = new StringBuilder();
-    private final WikiPageStructure wikiPageStructure;
+    private final WikiPageFeatures wikiPageFeatures;
     private long templateDepth = 0;
 
 
     public WikitextReaderVisitor(String title) {
-        wikiPageStructure = new WikiPageStructure(title);
+        wikiPageFeatures = new WikiPageFeatures(title);
         stringBuilder.append(title).append("\n\n");
     }
 
@@ -40,14 +40,14 @@ public class WikitextReaderVisitor extends AstVisitor {
         }
     }
 
-    public WikiPageStructure getStructure() {
-        wikiPageStructure.setPlain(stringBuilder.toString());
+    public WikiPageFeatures getStructure() {
+        wikiPageFeatures.setPlain(stringBuilder.toString());
         String summary = abstractStringBuilder.toString();
         if ( summary.length() > 1000 ) {
             summary = summary.substring(0, 1000);
         }
-        wikiPageStructure.setSummary(summary);
-        return wikiPageStructure;
+        wikiPageFeatures.setSummary(summary);
+        return wikiPageFeatures;
     }
 
     /// VISITORS
@@ -59,7 +59,8 @@ public class WikitextReaderVisitor extends AstVisitor {
     public void visit(Section section) {
         //logger.info("Section: " + section.getTitle());
 
-        wikiPageStructure.getSections().add(new WikiPageSection(asPlain(section.getTitle())));
+        wikiPageFeatures.getSections().add(new WikiPageSection(asPlain(section.getTitle()).trim()));
+        emmitPlain("\n");
         iterate(section.getTitle());
         /*
         for(AstNode node: section.getTitle()) {
@@ -130,7 +131,7 @@ public class WikitextReaderVisitor extends AstVisitor {
         try {
             templateDepth ++;
             //logger.debug("Template" + template.getName() + " " + template.getChildNames());
-            wikiPageStructure.getTemplates().add(new WikiPageTemplate(asPlain(template.getName()), template.getChildNames()));
+            wikiPageFeatures.getTemplates().add(new WikiPageTemplate(asPlain(template.getName()), template.getChildNames()));
             iterate(template.getArgs());
         } finally {
             templateDepth --;
@@ -141,7 +142,7 @@ public class WikitextReaderVisitor extends AstVisitor {
     {
         String name = asPlain(templateArgument.getName());
         String value = asPlain(templateArgument.getValue());
-        wikiPageStructure.getTemplateArguments().add(new WikiPageTemplateArgument(name, value));
+        wikiPageFeatures.getTemplateArguments().add(new WikiPageTemplateArgument(name, value));
         //logger.debug("Template argument" + templateArgument.getName() + " = " + templateArgument.getValue());
         iterate(templateArgument.getName());
         emmitPlain(":\n");
@@ -158,6 +159,25 @@ public class WikitextReaderVisitor extends AstVisitor {
     {
     }
 
+
+    public void visit(Table table) {
+        emmitPlain("\n");
+        iterate(table.getBody());
+        emmitPlain("\n");
+    }
+
+    public void visit(TableHeader tableHeader) {
+        iterate(tableHeader.getBody());
+    }
+
+    public void visit(TableRow tableRow) {
+        iterate(tableRow.getBody());
+    }
+
+    public void visit(TableCell tableCell) {
+        iterate(tableCell.getBody());
+    }
+
     public void visit(MagicWord magicWord)
     {
         //logger.info("magic word" + magicWord.getWord());
@@ -168,9 +188,10 @@ public class WikitextReaderVisitor extends AstVisitor {
             visitCategory(link);
         } else {
             //logger.debug("Internal Link: " + link.getTitle().getNodeName() + " " + link.getTarget());
-            wikiPageStructure.getInternalLinks().add(
+            wikiPageFeatures.getInternalLinks().add(
                     new WikiPageInternalLink(asPlain(link.getTitle().getContent()), link.getTarget()));
             iterate(link.getTitle().getContent());
+            emmitPlain(" " + link.getTarget());
         }
     }
 
@@ -179,7 +200,7 @@ public class WikitextReaderVisitor extends AstVisitor {
         String target = categoryLink.getTarget().replaceAll("Category:", "");
         emmitPlain(target + " " + title);
         WikiPageCategory category = new WikiPageCategory(target);
-        wikiPageStructure.getCategories().add(category);
+        wikiPageFeatures.getCategories().add(category);
     }
 
     public void visit(ExternalLink link) {

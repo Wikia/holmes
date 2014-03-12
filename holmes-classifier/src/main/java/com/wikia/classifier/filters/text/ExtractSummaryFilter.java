@@ -1,6 +1,6 @@
 package com.wikia.classifier.filters.text;
 
-import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.wikitext.WikiPageFeatures;
 import com.wikia.classifier.util.text.TokenizerImpl;
 
 public class ExtractSummaryFilter extends NGramFilterBase {
@@ -11,7 +11,7 @@ public class ExtractSummaryFilter extends NGramFilterBase {
     }
 
     @Override
-    protected String getTextSource(WikiPageStructure wikiPageStructure) {
-        return wikiPageStructure.getSummary();
+    protected String getTextSource(WikiPageFeatures wikiPageFeatures) {
+        return wikiPageFeatures.getSummary();
     }
 }

@@ -3,7 +3,7 @@ package com.wikia.classifier.filters.text;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.wikia.classifier.filters.CollectionFilterBase;
-import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.wikitext.WikiPageFeatures;
 import com.wikia.classifier.util.text.Tokenizer;
 import com.wikia.classifier.util.text.TokenizerImpl;
 import com.wikia.classifier.util.text.TokenizerStopwordsFilter;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.List;
 
-public class ExtractPlainTextWordsFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+public class ExtractPlainTextWordsFilter extends CollectionFilterBase<WikiPageFeatures, SparseMatrix> {
     private static final long serialVersionUID = 3540949511501759679L;
     @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(ExtractPlainTextWordsFilter.class);
@@ -25,18 +25,18 @@ public class ExtractPlainTextWordsFilter extends CollectionFilterBase<WikiPageSt
     private int minOccurrence = 1;
 
     public ExtractPlainTextWordsFilter() {
-        super(WikiPageStructure.class, SparseMatrix.class);
+        super(WikiPageFeatures.class, SparseMatrix.class);
     }
 
     @Override
-    protected SparseMatrix doFilter(Collection<WikiPageStructure> params) {
+    protected SparseMatrix doFilter(Collection<WikiPageFeatures> params) {
         SparseMatrix matrix = new SparseMatrix();
         Tokenizer tokenizer = new TokenizerImpl(delimiters);
         tokenizer = new TokenizerStopwordsFilter(tokenizer, stopWords, 3);
         int i = 0;
-        for(WikiPageStructure wikiPageStructure: params) {
+        for(WikiPageFeatures wikiPageFeatures : params) {
             Multiset<String> multiset = HashMultiset.create();
-            for(String token: tokenizer.tokenize(wikiPageStructure.getPlain())) {
+            for(String token: tokenizer.tokenize(wikiPageFeatures.getPlain())) {
                 multiset.add(token);
             }
             for(Multiset.Entry<String> stringEntry: multiset.entrySet()) {

@@ -1,7 +1,7 @@
 package com.wikia.classifier.filters.text;
 
 import com.wikia.classifier.filters.CollectionFilterBase;
-import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.wikitext.WikiPageFeatures;
 import com.wikia.classifier.wikitext.WikiPageTemplate;
 import com.wikia.classifier.wikitext.WikiPageTemplateArgument;
 import com.wikia.classifier.util.text.Tokenizer;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.List;
 
-public class ExtractTemplatePropertiesFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+public class ExtractTemplatePropertiesFilter extends CollectionFilterBase<WikiPageFeatures, SparseMatrix> {
     private static final long serialVersionUID = 4313041391716712506L;
     @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(ExtractTemplatePropertiesFilter.class);
@@ -27,15 +27,15 @@ public class ExtractTemplatePropertiesFilter extends CollectionFilterBase<WikiPa
             new TokenizerImpl(delimiters), stopWords, 2);
 
     public ExtractTemplatePropertiesFilter() {
-        super(WikiPageStructure.class, SparseMatrix.class);
+        super(WikiPageFeatures.class, SparseMatrix.class);
     }
 
     @Override
-    protected SparseMatrix doFilter(Collection<WikiPageStructure> params) {
+    protected SparseMatrix doFilter(Collection<WikiPageFeatures> params) {
         SparseMatrix matrix = new SparseMatrix();
         int i = 0;
-        for(WikiPageStructure wikiPageStructure: params) {
-            for(WikiPageTemplateArgument argument: wikiPageStructure.getTemplateArguments()) {
+        for(WikiPageFeatures wikiPageFeatures : params) {
+            for(WikiPageTemplateArgument argument: wikiPageFeatures.getTemplateArguments()) {
                 String argName = argument.getName();
                 argName = argName.trim().toLowerCase();
                 if( argName.length() > 2 ) {
@@ -48,7 +48,7 @@ public class ExtractTemplatePropertiesFilter extends CollectionFilterBase<WikiPa
                 }
             }
             if(isExtractTemplateName()) {
-                for(WikiPageTemplate template: wikiPageStructure.getTemplates()) {
+                for(WikiPageTemplate template: wikiPageFeatures.getTemplates()) {
                     for(String token: tokenizer.tokenize(template.getName())) {
                         matrix.put(String.valueOf(i), "template:" + token.toLowerCase(), 1);
                     }

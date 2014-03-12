@@ -1,6 +1,6 @@
 package com.wikia.classifier.filters.text;
 
-import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.wikitext.WikiPageFeatures;
 
 /**
  * TODO: Use it
@@ -14,7 +14,7 @@ public class NGramPlainTextFilter extends NGramFilterBase {
     }
 
     @Override
-    protected String getTextSource(WikiPageStructure wikiPageStructure) {
-        return wikiPageStructure.getPlain();
+    protected String getTextSource(WikiPageFeatures wikiPageFeatures) {
+        return wikiPageFeatures.getPlain();
     }
 }

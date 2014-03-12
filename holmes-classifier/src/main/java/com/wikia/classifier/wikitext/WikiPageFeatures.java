@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-public class WikiPageStructure {
+public class WikiPageFeatures {
     @SuppressWarnings("unused")
-    private static Logger logger = Logger.getLogger(WikiPageStructure.class.toString());
+    private static Logger logger = Logger.getLogger(WikiPageFeatures.class.toString());
     private String title = "";
     private String plain = "";
     private String summary = "";
@@ -17,7 +17,7 @@ public class WikiPageStructure {
     private final List<WikiPageSection> sections = new ArrayList<>();
     private final List<WikiPageTemplate> templates = new ArrayList<>();
 
-    public WikiPageStructure(String title) {
+    public WikiPageFeatures(String title) {
         this.title = title;
     }
 

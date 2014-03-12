@@ -3,7 +3,7 @@ package com.wikia.classifier.filters.text;
 import com.google.common.collect.Sets;
 import com.wikia.classifier.filters.CollectionFilterBase;
 import com.wikia.classifier.wikitext.WikiPageCategory;
-import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.wikitext.WikiPageFeatures;
 import com.wikia.classifier.util.matrix.SparseMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.Set;
 
-public class ExtractCharacteristicCategoryPartFilter extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+public class ExtractCharacteristicCategoryPartFilter extends CollectionFilterBase<WikiPageFeatures, SparseMatrix> {
     private static final long serialVersionUID = 8466868566417222816L;
     @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(ExtractCharacteristicCategoryPartFilter.class);
@@ -57,18 +57,18 @@ public class ExtractCharacteristicCategoryPartFilter extends CollectionFilterBas
     }
 
     public ExtractCharacteristicCategoryPartFilter(Set<String> characteristicParts) {
-        super(WikiPageStructure.class, SparseMatrix.class);
+        super(WikiPageFeatures.class, SparseMatrix.class);
         this.characteristicParts = characteristicParts;
     }
 
     @Override
-    protected SparseMatrix doFilter(Collection<WikiPageStructure> params) {
+    protected SparseMatrix doFilter(Collection<WikiPageFeatures> params) {
         SparseMatrix matrix = new SparseMatrix();
         int i = 0;
-        for(WikiPageStructure wikiPageStructure: params) {
+        for(WikiPageFeatures wikiPageFeatures : params) {
             for(String part: characteristicParts) {
                 int count = 0;
-                for(WikiPageCategory category: wikiPageStructure.getCategories()) {
+                for(WikiPageCategory category: wikiPageFeatures.getCategories()) {
                     String name = category.getTitle();
                     name = name.trim().toLowerCase();
                     if (name.contains(part)) count++;

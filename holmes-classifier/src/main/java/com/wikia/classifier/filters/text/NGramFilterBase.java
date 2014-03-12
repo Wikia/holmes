@@ -3,7 +3,7 @@ package com.wikia.classifier.filters.text;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.wikia.classifier.filters.CollectionFilterBase;
-import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.wikitext.WikiPageFeatures;
 import com.wikia.classifier.util.matrix.SparseMatrix;
 import com.wikia.classifier.util.text.Tokenizer;
 import com.wikia.classifier.util.text.TokenizerImpl;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class NGramFilterBase extends CollectionFilterBase<WikiPageStructure, SparseMatrix> {
+public abstract class NGramFilterBase extends CollectionFilterBase<WikiPageFeatures, SparseMatrix> {
     private static final long serialVersionUID = 325680535186348073L;
     private final Tokenizer sentenceTokenizer;
     private final Tokenizer wordTokenizer;
@@ -26,7 +26,7 @@ public abstract class NGramFilterBase extends CollectionFilterBase<WikiPageStruc
     }
 
     public NGramFilterBase(int n, String prefix, Tokenizer wordTokenizer) {
-        super(WikiPageStructure.class, SparseMatrix.class);
+        super(WikiPageFeatures.class, SparseMatrix.class);
         this.prefix = prefix;
         this.sentenceTokenizer = new TokenizerImpl("\r\n.");
         this.wordTokenizer = wordTokenizer;
@@ -34,12 +34,12 @@ public abstract class NGramFilterBase extends CollectionFilterBase<WikiPageStruc
     }
 
     @Override
-    protected SparseMatrix doFilter(Collection<WikiPageStructure> params) {
+    protected SparseMatrix doFilter(Collection<WikiPageFeatures> params) {
         SparseMatrix matrix = new SparseMatrix();
         int i = 0;
-        for(WikiPageStructure wikiPageStructure: params) {
+        for(WikiPageFeatures wikiPageFeatures : params) {
             Multiset<String> multiset = HashMultiset.create();
-            for(String sentence: sentenceTokenizer.tokenize(getTextSource(wikiPageStructure))) {
+            for(String sentence: sentenceTokenizer.tokenize(getTextSource(wikiPageFeatures))) {
                 Collection<String> nGrams = getNGramsFromSentence( sentence );
                 multiset.addAll( nGrams );
             }
@@ -51,7 +51,7 @@ public abstract class NGramFilterBase extends CollectionFilterBase<WikiPageStruc
         return matrix;
     }
 
-    protected abstract String getTextSource(WikiPageStructure wikiPageStructure);
+    protected abstract String getTextSource(WikiPageFeatures wikiPageFeatures);
 
     protected Collection<String> getNGramsFromSentence(String sentence) {
         List<String> tokens = wordTokenizer.tokenize( sentence );

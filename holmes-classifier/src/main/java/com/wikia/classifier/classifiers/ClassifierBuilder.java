@@ -8,7 +8,7 @@ import com.wikia.classifier.filters.CollectionFilter;
 import com.wikia.classifier.filters.Filter;
 import com.wikia.classifier.filters.FilterChain;
 import com.wikia.classifier.filters.text.*;
-import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.wikitext.WikiPageFeatures;
 import com.wikia.classifier.util.matrix.Matrix;
 import com.wikia.classifier.util.matrix.SparseMatrix;
 import com.wikia.classifier.classifiers.model.PageWithType;
@@ -88,8 +88,8 @@ public class ClassifierBuilder {
         return filterChain;
     }
 
-    protected Filter<Collection<WikiPageStructure>, SparseMatrix> buildExtractor( boolean train ) {
-        List<Filter<Collection<WikiPageStructure>, SparseMatrix>> extractors = new ArrayList<>();
+    protected Filter<Collection<WikiPageFeatures>, SparseMatrix> buildExtractor( boolean train ) {
+        List<Filter<Collection<WikiPageFeatures>, SparseMatrix>> extractors = new ArrayList<>();
         if( extractCategoriesFilter ) {
             extractors.add(new ExtractCategoriesFilter());
         }

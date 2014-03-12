@@ -1,6 +1,6 @@
 package com.wikia.classifier.filters.text;
 
-import com.wikia.classifier.wikitext.WikiPageStructure;
+import com.wikia.classifier.wikitext.WikiPageFeatures;
 import com.wikia.classifier.util.text.Tokenizer;
 import com.wikia.classifier.util.text.TokenizerImpl;
 
@@ -16,7 +16,7 @@ public class TitleNGramFilter extends NGramFilterBase {
     }
 
     @Override
-    protected String getTextSource( WikiPageStructure wikiPageStructure ) {
-        return wikiPageStructure.getTitle();
+    protected String getTextSource( WikiPageFeatures wikiPageFeatures) {
+        return wikiPageFeatures.getTitle();
     }
 }
