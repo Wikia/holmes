@@ -26,7 +26,7 @@ public class ClassifierBuilder {
     private boolean extractCategoriesFilter = true;
     private boolean extractTemplatePropertiesFilter = true;
     private boolean extractSectionsFilter = true;
-    private boolean extractCharacteristicCategoryPartFilter = true;
+    private boolean extractCategoryNGrams = true;
     private boolean extractPlainTextWordsFilter = false;
     private boolean extractSummary1Grams = false;
     private boolean extractSummary2Grams = false;
@@ -99,8 +99,10 @@ public class ClassifierBuilder {
         if( extractSectionsFilter ) {
             extractors.add(new ExtractSectionsFilter());
         }
-        if( extractCharacteristicCategoryPartFilter ) {
-            extractors.add(new ExtractCharacteristicCategoryPartFilter());
+        if(extractCategoryNGrams) {
+            extractors.add(new ExtractCategoryNGramsFilter(1));
+            extractors.add(new ExtractCategoryNGramsFilter(2));
+            extractors.add(new ExtractCategoryNGramsFilter(3));
         }
         if( extractPlainTextWordsFilter ) {
             extractors.add(new ExtractPlainTextWordsFilter());
@@ -164,8 +166,8 @@ public class ClassifierBuilder {
         return this;
     }
 
-    public ClassifierBuilder setExtractCharacteristicCategoryPartFilter(boolean extractCharacteristicCategoryPartFilter) {
-        this.extractCharacteristicCategoryPartFilter = extractCharacteristicCategoryPartFilter;
+    public ClassifierBuilder setExtractCategoryNGrams(boolean extractCategoryNGrams) {
+        this.extractCategoryNGrams = extractCategoryNGrams;
         return this;
     }
 
