@@ -58,7 +58,7 @@ public class ClassifierBuilder {
 
     public Classifier train(List<PageWithType> pages) throws Exception {
         Filter<Collection<PageInfo>, Matrix> f = combine(
-                new CollectionFilter(new PageToWikiStructureFilter()),
+                new CollectionFilter(new PageToFeaturesFilter()),
                 buildExtractor( true )
         );
         List<String> classes = getTypes(pages);
@@ -73,7 +73,7 @@ public class ClassifierBuilder {
 
         classifier.buildClassifier(instances);
         Filter<Collection<PageInfo>, Instances> f2 = combine(
-                new CollectionFilter(new PageToWikiStructureFilter()),
+                new CollectionFilter(new PageToFeaturesFilter()),
                 buildExtractor( true ),
                 matrixInstancesFilter
         );

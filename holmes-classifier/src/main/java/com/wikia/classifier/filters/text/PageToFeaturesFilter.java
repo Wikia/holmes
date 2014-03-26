@@ -12,11 +12,11 @@ import org.sweble.wikitext.lazy.LinkTargetException;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 
-public class PageToWikiStructureFilter extends FilterBase<PageInfo, WikiPageFeatures> {
+public class PageToFeaturesFilter extends FilterBase<PageInfo, WikiPageFeatures> {
     private static final long serialVersionUID = 1478170222554444665L;
-    private static Logger logger = LoggerFactory.getLogger(PageToWikiStructureFilter.class.toString());
+    private static Logger logger = LoggerFactory.getLogger(PageToFeaturesFilter.class.toString());
 
-    public PageToWikiStructureFilter() {
+    public PageToFeaturesFilter() {
         super(PageInfo.class, WikiPageFeatures.class);
     }
 
@@ -26,7 +26,7 @@ public class PageToWikiStructureFilter extends FilterBase<PageInfo, WikiPageFeat
             return WikiTextFeaturesHelper.parse(params);
         } catch (FileNotFoundException | JAXBException | LinkTargetException | CompilerException e) {
             logger.warn("Cannot parse wikipage.", e);
-            return null;
+            return null; // throw !!
         }
     }
 }
