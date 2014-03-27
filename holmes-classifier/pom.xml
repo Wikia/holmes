@@ -4,13 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>holmes</artifactId>
-        <groupId>com.wikia</groupId>
+        <groupId>com.wikia.holmes</groupId>
         <version>0.6-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.wikia</groupId>
     <version>0.6-SNAPSHOT</version>
     <artifactId>holmes-classifier</artifactId>
     <description>Holmes wiki page classifier.</description>
@@ -56,7 +55,7 @@
             <version>14.0.1</version>
         </dependency>
         <dependency>
-            <groupId>com.wikia</groupId>
+            <groupId>com.wikia.holmes</groupId>
             <artifactId>wiki-tools</artifactId>
             <version>0.6-SNAPSHOT</version>
         </dependency>

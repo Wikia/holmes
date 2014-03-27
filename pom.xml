@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <properties>
-        <holmes.group>com.wikia</holmes.group>
+        <holmes.group>com.wikia.holmes</holmes.group>
         <holmes.version>0.6-SNAPSHOT</holmes.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -28,7 +28,7 @@
     </repositories>
 
     <artifactId>holmes</artifactId>
-    <groupId>com.wikia</groupId>
+    <groupId>com.wikia.holmes</groupId>
     <version>0.6-SNAPSHOT</version>
 
 </project>
