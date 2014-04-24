@@ -62,9 +62,15 @@ public class ClassificationResource {
     @Path("/")
     public ClassificationViewModel getClassifications(@RequestBody Page page) throws UnknownWikiException, IOException, ClassifyException {
         logger.debug(String.format("getClassifications(\"%s\")", page.getTitle()));
-        if( Strings.isNullOrEmpty(page.getTitle()) || Strings.isNullOrEmpty(page.getWikiText()) || page.getTitle().startsWith("Special:") ) {
-            throw new UnsupportedOperationException("Wrong url.");
+        if( Strings.isNullOrEmpty(page.getTitle()) ) {
+					  throw new UnsupportedOperationException("Empty page title.");
         }
+				if( Strings.isNullOrEmpty(page.getWikiText()) ) {
+					  throw new UnsupportedOperationException("Empty wikitext.");
+        }				
+				if( page.getTitle().startsWith("Special:") ) {
+					  throw new UnsupportedOperationException("Cannot index special page ".concat(page.getTitle()));
+        }					
         return ClassificationViewModel.fromClassificationResult(getClassifier().classify(page));
     }
 }

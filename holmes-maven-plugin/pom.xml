@@ -3,7 +3,7 @@
     <parent>
         <artifactId>holmes</artifactId>
         <groupId>com.wikia.holmes</groupId>
-        <version>0.6-SNAPSHOT</version>
+        <version>0.7.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <!--<groupId>com.wikia.holmes</groupId>-->
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.wikia.holmes</groupId>
             <artifactId>holmes-classifier</artifactId>
-            <version>0.6-SNAPSHOT</version>
+            <version>0.7.1</version>
         </dependency>
 
         <dependency>
