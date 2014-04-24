@@ -43,20 +43,6 @@ public class ClassificationResource {
         this.wikiUrlStrategy = wikiUrlStrategy;
     }
 
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("{wikiName : .+}/{page}")
-    public ClassificationViewModel getClassifications(@PathParam("wikiName") String wikiName,@PathParam("page")  String page) throws UnknownWikiException, IOException, ClassifyException {
-        logger.debug(String.format("getClassifications(\"%s\",\"%s\")", wikiName, page));
-        if( Strings.isNullOrEmpty(wikiName) || Strings.isNullOrEmpty(page) || page.startsWith("Special:") ) {
-            throw new UnsupportedOperationException("Wrong url."); // TODO: make me cleaner
-        }
-        URL url = getWikiUrlStrategy().getUrl(wikiName);
-        PageInfo pageInfo = pageServiceFactory.get(url).getPage(page);
-
-        return ClassificationViewModel.fromClassificationResult(getClassifier().classify(pageInfo));
-    }
-
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/")
