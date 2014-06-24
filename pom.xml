@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <properties>
         <holmes.group>com.wikia.holmes</holmes.group>
-        <holmes.version>0.6-SNAPSHOT</holmes.version>
+        <holmes.version>${project.version}</holmes.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
