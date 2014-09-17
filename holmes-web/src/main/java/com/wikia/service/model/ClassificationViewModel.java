@@ -28,6 +28,7 @@ import java.util.Map;
 @XmlRootElement(name = "classification")
 public class ClassificationViewModel implements Serializable {
     private static final long serialVersionUID = -386473795640625588L;
+    private static final String DEFAULT_FALLBACK_CLASS = "other";
     @XmlAttribute(name = "class")
     @JsonProperty("class")
     private String singleClass;
@@ -59,5 +60,14 @@ public class ClassificationViewModel implements Serializable {
             viewModel.getClasses().put(classRelevance.getClassName(), classRelevance.getRelevance());
         }
         return viewModel;
+    }
+
+    public static ClassificationViewModel getDefaultFallback() {
+        ClassificationViewModel defaultResult = new ClassificationViewModel();
+        Map<String, Double> classes = new HashMap<>();
+        classes.put(DEFAULT_FALLBACK_CLASS, 1.0);
+        defaultResult.setClasses(classes);
+        defaultResult.setSingleClass(DEFAULT_FALLBACK_CLASS);
+        return defaultResult;
     }
 }
