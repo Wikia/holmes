@@ -43,7 +43,13 @@ public class PageToFeaturesFilter extends FilterBase<PageInfo, WikiPageFeatures>
         // but from point of view of dynamic casting type safety - it is better to do following check
         if( Page.class.isInstance(params) ) {
             Page page = Page.class.cast(params);
-            return "Cannot parse wikipage. Wikia id is " + page.getWikiId() + " and article id is " + page.getPageId();
+            
+            return new StringBuilder()
+                    .append("Cannot parse wikipage. ")
+                    .append("Title is ").append(page.getTitle())
+                    .append("Wikia id is ").append(page.getWikiId())
+                    .append("Article id is ").append(page.getPageId())
+                    .toString();
         } else {
             return "Cannot parse wikipage and params is not instance of Page.class";
         }

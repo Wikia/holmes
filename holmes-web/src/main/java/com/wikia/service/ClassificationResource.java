@@ -50,17 +50,34 @@ public class ClassificationResource {
         logger.debug(String.format("getClassifications(\"%s\")", page.getTitle()));
 
         if( Strings.isNullOrEmpty(page.getTitle()) ) {
-            logger.warn("Empty page title. Wikia id is " + page.getWikiId() + " article id is " + page.getPageId());
+            logger.warn(new StringBuilder()
+                    .append("Empty page title. ")
+                    .append("Wikia id is ").append(page.getWikiId())
+                    .append("Article id is ").append(page.getPageId())
+                    .toString());
+
             return  ClassificationViewModel.getDefaultFallback();
         }
 
         if( Strings.isNullOrEmpty(page.getWikiText()) ) {
-            logger.warn("Empty wikitext. Wikia id is " + page.getWikiId() + " article id is " + page.getPageId());
+            logger.warn(new StringBuilder()
+                    .append("Empty wikitext. ")
+                    .append("Title is ").append(page.getTitle())
+                    .append("Wikia id is ").append(page.getWikiId())
+                    .append("Article id is ").append(page.getPageId())
+                    .toString());
+
             return  ClassificationViewModel.getDefaultFallback();
         }
 
         if( page.getTitle().startsWith("Special:") ) {
-            logger.warn("Cannot index special page. Wikia id is " + page.getWikiId() + " article id is " + page.getPageId());
+            logger.warn(new StringBuilder()
+                    .append("Cannot index special page. ")
+                    .append("Title is ").append(page.getTitle())
+                    .append("Wikia id is ").append(page.getWikiId())
+                    .append("Article id is ").append(page.getPageId())
+                    .toString());
+
             return  ClassificationViewModel.getDefaultFallback();
         }
 
