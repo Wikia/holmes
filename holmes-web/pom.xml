@@ -236,8 +236,8 @@
     </build>
     <distributionManagement>
         <repository>
-            <id>pkg-s1</id>
-            <url>scpexe://pkg-s1/srv/maven/releases</url>
+            <id>pkg-s2</id>
+            <url>scpexe://pkg-s2/srv/maven/releases</url>
         </repository>
     </distributionManagement>
 
