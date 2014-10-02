@@ -19,7 +19,7 @@ Example:
 mvn install -Dtraining.set=./training-data/2014.01.26.json
 ```
 
-To deploy to pkg-s1:
+To deploy to pkg-s2:
 cd holmes-web; mvn deploy -Dtraining.set=../training-data/2014.01.26.json
 
 See holmes-maven-plugin for more information about training.

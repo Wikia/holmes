@@ -48,15 +48,39 @@ public class ClassificationResource {
     @Path("/")
     public ClassificationViewModel getClassifications(@RequestBody Page page) throws UnknownWikiException, IOException, ClassifyException {
         logger.debug(String.format("getClassifications(\"%s\")", page.getTitle()));
+
         if( Strings.isNullOrEmpty(page.getTitle()) ) {
-					  throw new UnsupportedOperationException("Empty page title.");
+            logger.warn(new StringBuilder()
+                    .append("Empty page title. ")
+                    .append("Wikia id is ").append(page.getWikiId())
+                    .append("Article id is ").append(page.getPageId())
+                    .toString());
+
+            return  ClassificationViewModel.getDefaultFallback();
         }
-				if( Strings.isNullOrEmpty(page.getWikiText()) ) {
-					  throw new UnsupportedOperationException("Empty wikitext.");
-        }				
-				if( page.getTitle().startsWith("Special:") ) {
-					  throw new UnsupportedOperationException("Cannot index special page ".concat(page.getTitle()));
-        }					
+
+        if( Strings.isNullOrEmpty(page.getWikiText()) ) {
+            logger.warn(new StringBuilder()
+                    .append("Empty wikitext. ")
+                    .append("Title is ").append(page.getTitle())
+                    .append("Wikia id is ").append(page.getWikiId())
+                    .append("Article id is ").append(page.getPageId())
+                    .toString());
+
+            return  ClassificationViewModel.getDefaultFallback();
+        }
+
+        if( page.getTitle().startsWith("Special:") ) {
+            logger.warn(new StringBuilder()
+                    .append("Cannot index special page. ")
+                    .append("Title is ").append(page.getTitle())
+                    .append("Wikia id is ").append(page.getWikiId())
+                    .append("Article id is ").append(page.getPageId())
+                    .toString());
+
+            return  ClassificationViewModel.getDefaultFallback();
+        }
+
         return ClassificationViewModel.fromClassificationResult(getClassifier().classify(page));
     }
 }
