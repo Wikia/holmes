@@ -4,13 +4,13 @@
     <parent>
         <artifactId>holmes</artifactId>
         <groupId>com.wikia.holmes</groupId>
-        <version>0.7.1</version>
+        <version>0.7.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>holmes-web</artifactId>
     <packaging>war</packaging>
     <description>Holmes web api</description>
-    <version>0.7.1</version>
+    <version>0.7.2</version>
     <properties>
         <jackson.version>1.9.2</jackson.version>
         <training.set>${project.basedir}/../holmes-classifier/src/main/resources/example-set.json</training.set>
@@ -43,13 +43,13 @@
         <dependency>
             <groupId>com.wikia.holmes</groupId>
             <artifactId>holmes-classifier</artifactId>
-            <version>0.7.1</version>
+            <version>0.7.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.wikia.holmes</groupId>
             <artifactId>wiki-tools</artifactId>
-            <version>0.7.1</version>
+            <version>0.7.2</version>
         </dependency>
 
         <dependency>
@@ -210,7 +210,7 @@
             <plugin>
                 <groupId>com.wikia.holmes</groupId>
                 <artifactId>holmes-maven-plugin</artifactId>
-                <version>0.7.1</version>
+                <version>0.7.2</version>
                 <configuration>
                     <trainingSet>${training.set}</trainingSet>
                 </configuration>

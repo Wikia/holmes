@@ -5,12 +5,12 @@
     <parent>
         <artifactId>holmes</artifactId>
         <groupId>com.wikia.holmes</groupId>
-        <version>0.7.1</version>
+        <version>0.7.2</version>
     </parent>
     <packaging>jar</packaging>
 
     <modelVersion>4.0.0</modelVersion>
-    <version>0.7.1</version>
+    <version>0.7.2</version>
     <artifactId>holmes-classifier</artifactId>
     <description>Holmes wiki page classifier.</description>
 
@@ -57,7 +57,7 @@
         <dependency>
             <groupId>com.wikia.holmes</groupId>
             <artifactId>wiki-tools</artifactId>
-            <version>0.7.1</version>
+            <version>0.7.2</version>
         </dependency>
 
         <!-- Test dependencies -->
